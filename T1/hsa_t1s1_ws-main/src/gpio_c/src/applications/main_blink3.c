@@ -7,7 +7,19 @@
 
 int main (void)
 {
+    DDRC |= 0x07;
 
+    while(1){
+        PORTC &= ~(1 << PC0 | 1 << PC1 | 1 << PC2);
+        PORTC |= (1 << PC0);
+        _delay_ms(1000);
+        PORTC &= ~(1 << PC0 | 1 << PC1 | 1 << PC2);
+        PORTC |= (1 << PC1);
+        _delay_ms(1000);
+        PORTC &= ~(1 << PC0 | 1 << PC1 | 1 << PC2);
+        PORTC |= (1 << PC2);
+        _delay_ms(1000);
+    }
     // Should never be reached
     return 0;
 }
