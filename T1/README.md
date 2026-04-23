@@ -544,3 +544,63 @@ type here the answer...
 ```answer
 type here the answer...
 ```
+# Tutorial 1 - Part 2
+
+## Microcontrollers (MCUs): Serial Communication - UART
+
+In this second part of tutorial 1 we will have a look at the asynchronous serial communication interface called UART and the corresponding UART peripheral block of the AVR microcontroller. UART stands for universal asynchronous receiver-transmitter. Peripheral devices, such as MCUs, that support UART can be connected to the serial ports of computers. Thus, peripheral devices that support UART can easily establish a serial communication with computers. Nowadays, most computers no longer provide serial ports especially since USB gained popularity. However, many USB-to-serial converters are available on the market. Of these USB-to-serial converters the FTDI converters are maybe the most popular and well-known converters and are supported by almost all hardware and software systems.
+
+In this tutorial we will learn:
+
+- How to use the UART peripheral of the AVR MCU
+- How to receive information from and send information to the PC
+
+## Initial Setup (Before the Tutorial!)
+
+### Pull the updated Docker image
+
+You need to pull the updated Docker image. The docker image you pulled in tutorial session 1 part 1 is outdated.
+
+```bash
+# Pull image
+docker login"gitlab.lrz.de:5005"
+docker pull"gitlab.lrz.de:5005/hsa/students/docker/avr/avr:focal-vscode"
+docker tag"gitlab.lrz.de:5005/hsa/students/docker/avr/avr:focal-vscode/avr:focal-vscode"
+```
+
+### Clone the tutorial project
+```bash
+git clone "https://gitlab.lrz.de/hsa/students/hsa_t1s2_ws.git"
+```
+
+### Install the udev rules for the FTDI serial port device
+We need to install `udev` rules on the Ubuntu OS to use the FTDI device. Open a Terminal and make sure you are in the tutorial project folder `hsa_t1s2_ws`.
+
+```bash
+cd hsa_t1s2_ws
+# install the udev rule
+sudo cp -v udev/97-ics-fi1200.rules /etc/udev/rules.d
+# reload the rule
+sudo udevadm control --reload
+```
+
+If you have the FTDI device already connected you need to unplug and plug it.
+
+### Open the tutorial project in the Dev Container
+1. Remove any previously started Dev Containers of the project.
+```bash
+docker rm hsa_t1s2_ws_devcont
+```
+
+2. Open the tutorial project in VS Code:
+```bash
+cd hsa_t1s2_ws
+code .
+```
+
+3. Press `Ctrl+Shift+P`, type `Dev Containers: Rebuild and Reopen In Container`, and press `Enter`. The project is now opened in the Dev Container and all terminals in VS Code will be running in the container environment.
+
+4. After you built the Dev Container you can also open it later again with
+`Dev Containers: Reopen In Container` and skip the container building process.
+
+## 4 Using the UART Peripheral Block (22 points)
