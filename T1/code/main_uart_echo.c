@@ -14,6 +14,8 @@ int main (void)
 
     UBBR = 0x00;
 
+    UCSRC = 0b10000110;   // Asynchronous, no parity, 1 stop bit, 8 data bits
+    UCSRB |= 0b00011000;   // Enable receiver and transmitter
 
 
     // Should never be reached

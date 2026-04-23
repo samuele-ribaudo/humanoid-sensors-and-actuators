@@ -221,23 +221,9 @@ loop:
     cbi PORTC, 0
     rcall delay
     rjmp loop
-
-    ret                         ; exit, should never be reached
-
-delay:
-    ldi r18, 0x3F
-    ldi r24, 0x0D
-    ldi r25, 0x03
-1:  subi r18, 0x01
-    sbci r24, 0x00
-    sbci r25, 0x00
-    brne 1b ; local label backward
-    rjmp 1f ; local label forward
-1:  nop
-    ret
-
-.end
+...
 ```
+See [full code](code/main_asm_blink.S) ↗
 
 **T.3.3 (4 points)** Write an assembly program which turns the three LEDs on pins `PC0`, `PC1`, and `PC2` on and off with a delay of one second continuously in the following sequence:
     
@@ -275,24 +261,14 @@ loop:
     rjmp loop
 
     ret                         ; exit, should never be reached
-
-
-delay:
-    ldi r18, 0x3F
-    ldi r24, 0x0D
-    ldi r25, 0x03
-1:  subi r18, 0x01
-    sbci r24, 0x00
-    sbci r25, 0x00
-    brne 1b ; local label backward
-    rjmp 1f ; local label forward
-1:  nop
-    ret
-
-.end
+...
 ```
+See [full code](code/main_asm_blink3.S) ↗
+
 **T.3.4 (Bonus) (4 points)** Using your oscilloscope visualize the three signals at the same time (using three different channels).
 Submit a picture of it named `blink3_trace.png`
+
+![blink 3 trace](img/blink3_trace.png)
 
 **T.3.5 (2 points)** Your program of **T.3.3** avoids changing the bits of other pins on `PORTC`.
 
@@ -332,22 +308,9 @@ loop:
     rjmp loop
 
     ret                         ; exit, should never be reached
-
-
-delay:
-    ldi r18, 0x3F
-    ldi r24, 0x0D
-    ldi r25, 0x03
-1:  subi r18, 0x01
-    sbci r24, 0x00
-    sbci r25, 0x00
-    brne 1b ; local label backward
-    rjmp 1f ; local label forward
-1:  nop
-    ret
-
-.end
+...
 ```
+See [full code](code/main_asm_blink3_eff.S) ↗
 
 ## 3.2 Setting Pin Levels in C (6 points)
 Please use the tutorial project `hsa_t1s1_ws` as basis for the tasks introduced in this section.
@@ -365,7 +328,7 @@ You can find template files for each task in the folder `hsa_t1s1_ws/src/gpio_c/
 
 int main (void)
 {
-    DDRC |= 0x01;
+    DDRC |= (1 << PC0);
 
     while(1){
         PORTC |= (1 << PC0);
@@ -377,6 +340,7 @@ int main (void)
     return 0;
 }
 ```
+See [code](code/main_blink.c) ↗
 
 **T.3.8 (1 point)** Your program of **T.3.7** avoids changing the bits of other pins on `PORTC`.
 
@@ -391,7 +355,7 @@ int main (void)
 
 int main (void)
 {
-    DDRC |= 0x07;
+    DDRC |= (1 << PC0 | 1 << PC1 | 1 << PC2);
 
     while(1){
         PORTC &= ~(1 << PC0 | 1 << PC1 | 1 << PC2);
@@ -408,6 +372,7 @@ int main (void)
     return 0;
 }
 ```
+See [code](code/main_blink3.c) ↗
 
 **T.3.10 (1 point)** Your program of **T.3.9** avoids changing the bits of other pins on `PORTC`.
 
@@ -444,21 +409,9 @@ loop:
     rjmp loop
 
     ret                         ; exit, should never be reached
-
-delay:
-    ldi r18, 0x3F
-    ldi r24, 0x0D
-    ldi r25, 0x03
-1:  subi r18, 0x01
-    sbci r24, 0x00
-    sbci r25, 0x00
-    brne 1b ; local label backward
-    rjmp 1f ; local label forward
-1:  nop
-    ret
-
-.end
+...
 ```
+See [full code](code/main_asm_mirror.S) ↗
 
 **T.3.12 (1 point)** Your program of **T.3.11** avoids changing the bits of other pins on `PORTC`.
 
@@ -490,6 +443,7 @@ int main (void)
     return 0;
 }
 ```
+See [code](code/main_mirror.c) ↗
 
 **T.3.14 (1 point)** Your program of **T.3.13** avoids changing the bits of other pins on `PORTC`.
 
@@ -612,7 +566,7 @@ cd hsa_t1s2_ws
 cd hex
 # flash the program uart_hello_world.hex
 avrdude -c avrispmkII -P usb B10 -p atmega32 -U flash:w:uart_hello_world.hex
-````
+```
 
 Connect the FTDI device to the UART port of the microcontroller. Check the schematic provided in tutorial 1 part 1.
 
@@ -640,7 +594,7 @@ You can find template files for each task in the folder `hsa_t1s2_ws/src/uart/sr
 **T.4.1 (8 points)** Consult the data sheet Atmega32.pdf (`hsa_t1s2_ws/docs/`) of the AVR Atmega32.
 Implement your own echo program in C considering the following instructions:
 - The CPU frequency is set to 1 MHz (this is the standard configuration in simulation and you should not need to change anything)
-- You don’t use the double transmission speed flag (bit U2X)
+- You don’t use the double transmission speed flag (bit `U2X`)
 - You use blocking functions for your implementation, i.e. you don’t use interrupts etc. You busy wait until the byte is received or sent
 - You use the format `8N1`, that is
   * Asynchronous communication

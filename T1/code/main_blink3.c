@@ -7,7 +7,7 @@
 
 int main (void)
 {
-    DDRC |= 0x07;
+    DDRC |= (1 << PC0 | 1 << PC1 | 1 << PC2);
 
     while(1){
         PORTC &= ~(1 << PC0 | 1 << PC1 | 1 << PC2);
