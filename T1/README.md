@@ -206,7 +206,37 @@ You submit the file `main_asm_blink.S` which contains the main function of your 
 ```
 **T.3.2 (2 points)** Your program of T.3.1 avoids changing the bits of other pins on `PORTC`.
 ```asm
-type code here...
+#include <atmega32/asm/io.h>
+
+.global main
+
+main:
+    in r18, DDRC
+    ori r18, 0x01
+    out DDRC, r18
+
+loop:
+    sbi PORTC, 0
+    rcall delay
+    cbi PORTC, 0
+    rcall delay
+    rjmp loop
+
+    ret                         ; exit, should never be reached
+
+delay:
+    ldi r18, 0x3F
+    ldi r24, 0x0D
+    ldi r25, 0x03
+1:  subi r18, 0x01
+    sbci r24, 0x00
+    sbci r25, 0x00
+    brne 1b ; local label backward
+    rjmp 1f ; local label forward
+1:  nop
+    ret
+
+.end
 ```
 
 **T.3.3 (4 points)** Write an assembly program which turns the three LEDs on pins `PC0`, `PC1`, and `PC2` on and off with a delay of one second continuously in the following sequence:
@@ -217,7 +247,49 @@ type code here...
 
 You submit the file `main_asm_blink3.S` which contains the main function of your assembly program and your solution for this task.
 ```asm
-type code here...
+#include <atmega32/asm/io.h>
+
+.global main
+
+main:
+    in r18, DDRC
+    ori r18, 0x07
+    out DDRC, r18
+
+loop:
+    sbi PORTC, 0
+    cbi PORTC, 1
+    cbi PORTC, 2
+    rcall delay
+
+    cbi PORTC, 0
+    sbi PORTC, 1
+    cbi PORTC, 2
+    rcall delay
+
+    cbi PORTC, 0
+    cbi PORTC, 1
+    sbi PORTC, 2
+    rcall delay
+
+    rjmp loop
+
+    ret                         ; exit, should never be reached
+
+
+delay:
+    ldi r18, 0x3F
+    ldi r24, 0x0D
+    ldi r25, 0x03
+1:  subi r18, 0x01
+    sbci r24, 0x00
+    sbci r25, 0x00
+    brne 1b ; local label backward
+    rjmp 1f ; local label forward
+1:  nop
+    ret
+
+.end
 ```
 **T.3.4 (Bonus) (4 points)** Using your oscilloscope visualize the three signals at the same time (using three different channels).
 Submit a picture of it named `blink3_trace.png`
@@ -226,10 +298,55 @@ Submit a picture of it named `blink3_trace.png`
 
 **T.3.6 (4 points)** Find the most efficient set of assembly instructions such that changing the pin levels in each step of T.3.3 only takes in sum 4 CPU cycles.
 You will get only points if your set of instructions does not manipulate the bits of other pins on `PORTC`.
-You submit the file `main_asm_blink3eff.S` which contains the main function of your assembly program and your solution for this task.
+You submit the file `main_asm_blink3_eff.S` which contains the main function of your assembly program and your solution for this task.
 Please add comments to your code why you believe that your set of instructions only takes 4 CPU cycles.
 ```asm
-type code here...
+#include <atmega32/asm/io.h>
+
+.global main
+
+main:
+    in r18, DDRC
+    ori r18, 0x07
+    out DDRC, r18
+
+loop:
+    in r18, PORTC
+    andi r18, 0xF8
+    ori r18, 0x01
+    out PORTC, r18
+    rcall delay
+
+    in r18, PORTC
+    andi r18, 0xF8
+    ori r18, 0x02
+    out PORTC, r18
+    rcall delay
+
+    in r18, PORTC
+    andi r18, 0xF8
+    ori r18, 0x04
+    out PORTC, r18
+    rcall delay
+
+    rjmp loop
+
+    ret                         ; exit, should never be reached
+
+
+delay:
+    ldi r18, 0x3F
+    ldi r24, 0x0D
+    ldi r25, 0x03
+1:  subi r18, 0x01
+    sbci r24, 0x00
+    sbci r25, 0x00
+    brne 1b ; local label backward
+    rjmp 1f ; local label forward
+1:  nop
+    ret
+
+.end
 ```
 
 ## 3.2 Setting Pin Levels in C (6 points)
@@ -239,14 +356,57 @@ You can find template files for each task in the folder `hsa_t1s1_ws/src/gpio_c/
 
 **T.3.7 (2 points)** Implement **T.3.1** using C code. You submit the file `main_blink.c` which contains the main function of your program and your solution for this task.
 ```c
-type code here...
+// Get register definitions with auto complete
+#include <atmega32/io.h>
+
+// For delay functions: F_CPU has to be defined
+#include <util/delay.h>
+
+
+int main (void)
+{
+    DDRC |= 0x01;
+
+    while(1){
+        PORTC |= (1 << PC0);
+        _delay_ms(1000);
+        PORTC &= ~(1 << PC0);
+        _delay_ms(1000);
+    }
+    // Should never be reached
+    return 0;
+}
 ```
 
 **T.3.8 (1 point)** Your program of **T.3.7** avoids changing the bits of other pins on `PORTC`.
 
 **T.3.9 (2 points)** Implement **T.3.3** using C code. You submit the file `main_blink3.c` which contains the main function of your program and your solution for this task.
 ```c
-type code here...
+// Get register definitions with auto complete
+#include <atmega32/io.h>
+
+// For delay functions: F_CPU has to be defined
+#include <util/delay.h>
+
+
+int main (void)
+{
+    DDRC |= 0x07;
+
+    while(1){
+        PORTC &= ~(1 << PC0 | 1 << PC1 | 1 << PC2);
+        PORTC |= (1 << PC0);
+        _delay_ms(1000);
+        PORTC &= ~(1 << PC0 | 1 << PC1 | 1 << PC2);
+        PORTC |= (1 << PC1);
+        _delay_ms(1000);
+        PORTC &= ~(1 << PC0 | 1 << PC1 | 1 << PC2);
+        PORTC |= (1 << PC2);
+        _delay_ms(1000);
+    }
+    // Should never be reached
+    return 0;
+}
 ```
 
 **T.3.10 (1 point)** Your program of **T.3.9** avoids changing the bits of other pins on `PORTC`.
@@ -256,14 +416,79 @@ Please use the respective template files introduced in the previous sections as 
 
 **T.3.11 (4 points)** Write an assembly program that mirrors (copies) the input of pin `PC4` to pin `PC3`. Delay the input by one second using the delay code of `Listing 1`. You submit the file `main_asm_mirror.S` which contains the main function of your program and your solution for this task.
 ```asm
-type code here...
+#include <atmega32/asm/io.h>
+
+.global main
+
+main:
+    in r19, DDRC
+    ori r19, 0x08
+    andi r19, 0xEF
+    out DDRC, r19
+
+loop:
+    ; read on pin 4
+    in r19, PINC
+    andi r19, 0x10
+    lsr r19
+    
+    ; delay
+    rcall delay
+
+    ; mirror on pin 3
+    in r18, PORTC
+    andi r18, 0xF7
+    or r18, r19
+    out PORTC, r18
+    
+    rjmp loop
+
+    ret                         ; exit, should never be reached
+
+delay:
+    ldi r18, 0x3F
+    ldi r24, 0x0D
+    ldi r25, 0x03
+1:  subi r18, 0x01
+    sbci r24, 0x00
+    sbci r25, 0x00
+    brne 1b ; local label backward
+    rjmp 1f ; local label forward
+1:  nop
+    ret
+
+.end
 ```
 
 **T.3.12 (1 point)** Your program of **T.3.11** avoids changing the bits of other pins on `PORTC`.
 
 **T.3.13 (2 points)** Implement **T.3.11** using C code. You submit the file `main_mirror.c` which contains the main function of your program and your solution for this task.
 ```c
-type code here...
+// Get register definitions with auto complete
+#include <atmega32/io.h>
+
+// For delay functions: F_CPU has to be defined
+#include <util/delay.h>
+
+
+int main (void)
+{
+    DDRC |= (1 << PC3); 
+    DDRC &= ~(1 << PC4);
+
+    uint8_t temp;
+
+    while(1){
+        temp = (PINC >> PC4) & 1;
+        
+        _delay_ms(1000);
+        if(temp) PORTC |= (1 << PC3);
+        else PORTC &= ~(1 << PC3);
+    }
+
+    // Should never be reached
+    return 0;
+}
 ```
 
 **T.3.14 (1 point)** Your program of **T.3.13** avoids changing the bits of other pins on `PORTC`.
