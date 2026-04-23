@@ -1,8 +1,0 @@
-build
-build-*
-install
-*~
-*.txt.user
-*.pro.user
-doxy/out
-devel
