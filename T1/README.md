@@ -632,12 +632,12 @@ Now program your microcontroller with the file `uart_echo.hex`. Run the Python s
 the microcontroller reads the message and sends it back
 ```
 
-## 4.2 Sending and Receiving Information with the UART (12 points)
+### 4.2 Sending and Receiving Information with the UART (12 points)
 Please use the tutorial project `hsa_t1s2_ws` as basis for the tasks introduced in this section. 
 Please submit the code you created as specified in the tasks. 
 You can find template files for each task in the folder `hsa_t1s2_ws/src/uart/src/applications`.
 
-***T.4.1 (8 points)*** Consult the data sheet Atmega32.pdf (`hsa_t1s2_ws/docs/`) of the AVR Atmega32.
+**T.4.1 (8 points)** Consult the data sheet Atmega32.pdf (`hsa_t1s2_ws/docs/`) of the AVR Atmega32.
 Implement your own echo program in C considering the following instructions:
 - The CPU frequency is set to 1 MHz (this is the standard configuration in simulation and you should not need to change anything)
 - You don’t use the double transmission speed flag (bit U2X)
@@ -652,3 +652,37 @@ Implement your own echo program in C considering the following instructions:
 
 The echo program waits until one byte has been received and then sends the same byte back to the computer. 
 You submit the file `main_uart_echo.c` which contains the main function, other functions of your program, and your solution for this task. We will not accept copy and paste solutions taken from the Internet.
+
+```c
+type code here...
+```
+
+**T.4.2 (3 points)** Use the functions you created in T.4.1 and send the message "Hello world!" to the computer. You submit the file `main_uart_hello_world.c` which contains the main function, other functions of your program, and your solution for this task. We will not accept copy and paste solutions taken from the Internet.
+
+```c
+type code here...
+```
+
+**T.4.3 (1 point)** Update your main function of task **T.4.2** and send the message with a frequency of 1 Hz. Make sure that your updated code is included in the submission of **T.4.2**.
+
+### 4.3 Report (8 points)
+
+**R.4.1 (2 points)** Explain step by step how you calculated your value for the UBRR register for a baudrate of 62500 Baud @ 1 MHz CPU frequency. Just writing down the formula is not sufficient. How large is the baudrate error?
+```answer
+type here the answer...
+```
+
+**R.4.2 (2 points)** Explain why you cannot achieve any desired baudrate with the UART peripheral block of the Atmega32. Explicitly highlight the limiting factors (at least two) and provide at least one suggestion on how they could be mitigated/solved.
+```answer
+type here the answer...
+```
+
+**R.4.3 (2 points)** Find one reasonable example baudrate (neither zero or very high), maybe a standard baudrate, that cannot be achieved with the Atmega32 and the configurations of task **T.4.1**. Explain the issue and calculate the baudrate error for the closest possible baudrate.
+```answer
+type here the answer...
+```
+
+**R.4.4 (2 points)** How could you realize the baudrate found in **R.4.3** by changing the configurations of the Atmega32 MCU?
+```answer
+type here the answer...
+```
