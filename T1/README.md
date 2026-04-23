@@ -165,9 +165,9 @@ cd hex
 avrdude -c avrispmkII -P usb B10 -p atmega32 -U flash:w:blink.hex
 ```
 **T.2.1 (2 points)** Use the oscilloscope to measure the pin `PC0` (Remember to connect it between the LED and ground (GND)). Configure your oscilloscope to have 2V/div and 500.00ms/div. Submit a picture of it named `blink_trace.png`
-```answer
-type here the answer...
-```
+
+![blink trace](img/blink_trace.png)
+
 **R.2.1 (2 points)** Your oscilloscope has different trigger modes. What do the different trigger modes mean? What does the trigger level and source mean?
 ```answer
 type here the answer...
