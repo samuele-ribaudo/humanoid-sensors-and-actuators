@@ -604,3 +604,51 @@ code .
 `Dev Containers: Reopen In Container` and skip the container building process.
 
 ## 4 Using the UART Peripheral Block (22 points)
+
+### 4.1 Testing UART communication (2 points)
+Program your microcontroller with the file uart_hello_world.hex:
+```bash
+cd hsa_t1s2_ws
+cd hex
+# flash the program uart_hello_world.hex
+avrdude -c avrispmkII -P usb B10 -p atmega32 -U flash:w:uart_hello_world.hex
+````
+
+Connect the FTDI device to the UART port of the microcontroller. Check the schematic provided in tutorial 1 part 1.
+
+Then launch the Python script that connects to the FTDI device and observe the printout:
+
+```bash
+cd hsa_t1s2_ws
+cd src/uart
+# run the python script, you can exit it by pressing ’q’ and then ’Enter’.
+./uart.py
+```
+
+Now program your microcontroller with the file `uart_echo.hex`. Run the Python script `uart.py` and type w and press `Enter`. You can modify the Python script to send different messages.
+
+**T.4.0 (2 points)** What happens when you send a string? What is the microcontroller doing?
+```answer
+the microcontroller reads the message and sends it back
+```
+
+## 4.2 Sending and Receiving Information with the UART (12 points)
+Please use the tutorial project `hsa_t1s2_ws` as basis for the tasks introduced in this section. 
+Please submit the code you created as specified in the tasks. 
+You can find template files for each task in the folder `hsa_t1s2_ws/src/uart/src/applications`.
+
+***T.4.1 (8 points)*** Consult the data sheet Atmega32.pdf (`hsa_t1s2_ws/docs/`) of the AVR Atmega32.
+Implement your own echo program in C considering the following instructions:
+- The CPU frequency is set to 1 MHz (this is the standard configuration in simulation and you should not need to change anything)
+- You don’t use the double transmission speed flag (bit U2X)
+- You use blocking functions for your implementation, i.e. you don’t use interrupts etc. You busy wait until the byte is received or sent
+- You use the format `8N1`, that is
+  * Asynchronous communication
+  * 1 start bit
+  * 8 data bits
+  * No parity bit
+  * 1 stop bit
+- You calculate the 16-bit value for the UBRR register such that you configure a baudrate of 62500 Baud
+
+The echo program waits until one byte has been received and then sends the same byte back to the computer. 
+You submit the file `main_uart_echo.c` which contains the main function, other functions of your program, and your solution for this task. We will not accept copy and paste solutions taken from the Internet.
