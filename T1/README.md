@@ -532,7 +532,11 @@ st  ->  5 CPU cycle (4 instructions, but st takes 2 cycles)
 
 **R.3.10 (4 points)** Given a peripheral register with an address `0x15`, how can you create a variable in C that allows you to read/write this register without using the device support headers? (Hint: You will need to use type conversions.)
 ```answer
-type here the answer...
+By casting the address to a volatile pointer and then dereferencing it.
+#define MYPORT *(volatile uint8_t *) 0x15
+int main(){
+    MYPORT = 0xFF; //how to use it
+}
 ```
 
 # Tutorial 1 - Part 2
