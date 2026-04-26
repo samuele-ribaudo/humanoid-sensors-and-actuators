@@ -719,20 +719,33 @@ See [full code](code/main_uart_hello_world.c) ↗
 
 **R.4.1 (2 points)** Explain step by step how you calculated your value for the UBRR register for a baudrate of 62500 Baud @ 1 MHz CPU frequency. Just writing down the formula is not sufficient. How large is the baudrate error?
 ```answer
-type here the answer...
+We used the formula for Asynchronous Normal Mode found in Table 60 on page 143 of the datasheet:
+UBRR = fosc / (16 * Baud) - 1
+
+Given fosc = 1000000 Hz and Baud = 62500, the calculation is:
+UBRR = 1000000 / (16 * 62,500) - 1 = 0
+
+Because the result is exactly 0, no rounding was necessary. Therefore the actual baud rate matches the target baud rate exactly, resulting in an ideal error of 0%. As discussed in Table 61 on page 155, this is well within the maximum receiver baud rate error tolerance (in our case whee D = 8).
 ```
 
 **R.4.2 (2 points)** Explain why you cannot achieve any desired baudrate with the UART peripheral block of the Atmega32. Explicitly highlight the limiting factors (at least two) and provide at least one suggestion on how they could be mitigated/solved.
 ```answer
-type here the answer...
+You can't achieve any desired baudrate primarily due to:
+- the quantization error that arises because the baudrate generator uses an integer division. If the ideal value is not a whole number, rounding introduces a percentage error that can exceed the ±2% tolerance.
+- if the system clock is only 1 MHz, the hardware physically can't pulse the line faster than a certain speed, creating an upper limit to the desired baudrate.
+These issues can be mitigated by enabling the Double Speed Mode to increase the resolution of the divisor.
 ```
 
 **R.4.3 (2 points)** Find one reasonable example baudrate (neither zero or very high), maybe a standard baudrate, that cannot be achieved with the Atmega32 and the configurations of task **T.4.1**. Explain the issue and calculate the baudrate error for the closest possible baudrate.
 ```answer
-type here the answer...
+Based on the formula for asynchronous normal mode found in table 60 on page 143 of the datasheet, the maximum baudrate is achieved by using the smallest possible UBRR value (UBRR = 0). In our case this results in:
+BAUD = 1000000 / (16 * (0 + 1)) = 62500
+If we attempt to use a higher standard baudrate, such as 115200, the hardware remains capped at a sampling capacity of 62500 Baud. This creates a significant error:
+Error = ((62500 / 115200) - 1) * 100 = -45.7% > +-2% tolerance.
 ```
 
 **R.4.4 (2 points)** How could you realize the baudrate found in **R.4.3** by changing the configurations of the Atmega32 MCU?
 ```answer
-type here the answer...
+A solution would be to enable the double speed mode by setting bit U2X to 1.
+Based on the formula found in table 60 this increases the maximum baudrate to BAUD = 1000000 / (8 * (0 + 1)) = 125000.
 ```
