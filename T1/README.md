@@ -422,14 +422,14 @@ See [full code](code/main_asm_mirror.S) ↗
 
 // For delay functions: F_CPU has to be defined
 #include <util/delay.h>
-
+#define F_CPU 1000000UL
 
 int main (void)
 {
     DDRC |= (1 << PC3); 
     DDRC &= ~(1 << PC4);
 
-    uint8_t temp;
+    unsigned char temp;
 
     while(1){
         temp = (PINC >> PC4) & 1;
@@ -649,14 +649,69 @@ The echo program waits until one byte has been received and then sends the same 
 You submit the file `main_uart_echo.c` which contains the main function, other functions of your program, and your solution for this task. We will not accept copy and paste solutions taken from the Internet.
 
 ```c
-type code here...
+...
+void USART_Init(unsigned int baud){
+    DDRD &= ~(1 << PD0);     // Set D0 (RXD) as input
+    DDRD |= (1 << PD1);      // Set D1 (TXD) as output
+
+    unsigned int val = F_CPU / (16UL * baud) - 1; // page 143 - table 60 -> asynchronous normal mode
+
+    UBRRH = (unsigned char) val >> 8;
+    UBRRL = (unsigned char) val;
+    
+    // Enable receiver and transmitter
+    UCSRB |= (1 << RXEN)|(1 << TXEN);
+    
+    // Page 163 - asynchronous (UMSEL=0), no parity (UPM1:0=0), 1 stop bit (USBS=0), 8-bit (UCSZ1:0=3)
+    UCSRC = (1 << URSEL)|(3 << UCSZ0); // UCSRC = 0b10000110; 
+}
+
+
+unsigned char USART_Receive(void){
+    // Wait for data to be received
+    while (!(UCSRA & (1 << RXC)));  // page 159 and 160
+    // Get and return received data from buffer
+    return UDR;
+}
+
+
+void USART_Transmit(unsigned char data){
+    // Wait for empty transmit buffer
+    while (!(UCSRA & (1 << UDRE))); // page 159 and 160
+    // Put data into buffer, sends the data
+    UDR = data;
+}
+...
 ```
+See [full code](code/main_uart_echo.c) ↗
 
 **T.4.2 (3 points)** Use the functions you created in T.4.1 and send the message "Hello world!" to the computer. You submit the file `main_uart_hello_world.c` which contains the main function, other functions of your program, and your solution for this task. We will not accept copy and paste solutions taken from the Internet.
 
 ```c
-type code here...
+...
+void USART_SendMessage(char* message){
+    int i = 0;
+    while(message[i] != '\0'){
+        USART_Transmit(message[i]);
+        i++;
+    }
+}
+
+
+int main (void){
+
+    USART_Init(62500);
+    // USART_SendMessage("Hello World!\n");
+    while(1){
+        USART_SendMessage("Hello World!\n");
+        _delay_ms(1000);
+    }
+    // Should never be reached
+    return 0;
+}
+...
 ```
+See [full code](code/main_uart_hello_world.c) ↗
 
 **T.4.3 (1 point)** Update your main function of task **T.4.2** and send the message with a frequency of 1 Hz. Make sure that your updated code is included in the submission of **T.4.2**.
 

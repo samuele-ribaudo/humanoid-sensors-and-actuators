@@ -3,6 +3,8 @@
 
 // For delay functions: F_CPU has to be defined
 #include <util/delay.h>
+#define F_CPU 1000000UL
+
 
 
 int main (void)
@@ -10,7 +12,7 @@ int main (void)
     DDRC |= (1 << PC3); 
     DDRC &= ~(1 << PC4);
 
-    uint8_t temp;
+    unsigned char temp;
 
     while(1){
         temp = (PINC >> PC4) & 1;
