@@ -803,11 +803,17 @@ Note: At first glance this task seems to be rather complicated to implement. How
 Your implementation will be evaluated in the following way:
 
 **T.5.1 (4 points)** You are only using the registers the callee is allowed to modify. If you need more registers, you save them on the stack before you use them.
+
 **T.5.2 (2 points)** The 512-bit arguments a and b are correctly loaded from the SRAM.
+
 **T.5.3 (2 points)** The carry bit of the addition is propagated correctly.
+
 **T.5.4 (2 points)** The for-loop is correctly implemented and updating the loop counter does not influence the addition algorithm.
+
 **T.5.5 (2 points)** The number of iterations realized by the for-loop is correct.
+
 **T.5.6 (2 points)** The 512-bit result argument c = a + b is correctly stored in the SRAM.
+
 You submit the following files containing your solution for tasks **T.5.1** to **T.5.6**:
 - `add512.S`
 - `main_uart_512bit_adder.c`
