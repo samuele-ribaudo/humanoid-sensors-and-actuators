@@ -892,10 +892,43 @@ You must use assembly for hardware-level tasks that C can't perform, like execut
 2) the code is really easy to understand and debug thaks to its high level abstraction.
 ```
 **R.5.8 (8 points)** How would you implement an unsigned 512 bit multiplier using the divide and conquer principle? Elaborate and explain the algorithm you derived in pseudo code.
+
 ```answer
-type here the answer...
+The concept is based on a Divide and Conquer approach similar to the Karatsuba algorithm. This algorithm splits large numbers into halves to break a complex multiplication into smaller, manageable sub-problems. For example, if we have two n-digit numbers X and Y split into halves (a,b) and (c,d), they can be represented as (a*10^n+b) and (c*10^n+d). If we compute this multiplication we obtain:  ac*10^2n + (ad + bc)*10^n + bd .
+Altough the Karatsuba algorithm reduces this to three multiplications using the formula (a+b)(c+d)−ac−bd, implementing the partial sums and subtractions for varying byte sizes adds significant complexity to the logic. Therefore, this implementation uses a recursive approach calculating four partial products (ac,bd,ad,bc). This process is applied recursively until the base case of 1 byte is reached, which the atmega32 hardware can multiply directly.
+
+A pseudocode example would be the following:
+
+function mul512(p1, p2, n){   // p1 and p2 pointers to the arrays, n number of bytes
+    if (n == 1) return *p1 * *p2  // if the numbers can be multiplied by the atmega32 (1 byte) return their product
+    
+    m = n / 2
+    p1_high = p1 + m      // Point to the upper half
+    p1_low = p1           // Point to the lower half
+    p2_high = p2 + m
+    p2_low = p2
+
+    // recursive calls (divide)
+    ac = mul512(p1_high, p2_high, m)
+    bd = mul512(p1_low, p2_low, m)
+    ad = mul512(p1_hig, p2_low, m)
+    cb = mul512(p1_low, p2_high, m)
+
+    // combine results (conquer)
+    // shifts represent the positional value (8 bits per byte)
+    return (ac << (8 * n)) + (ad+bc << (8 * m)) + bd
+}
+
+sources:
+https://en.wikipedia.org/wiki/Karatsuba_algorithm
+https://www.youtube.com/watch?v=LCY4dnm88oI
+https://www.youtube.com/watch?v=yWI2K4jOjFQ
 ```
 **R.5.9 (4 points)** How many 8 bit multiplications would you need for **R.5.8**? Explain your calculations.
 ```answer
-type here the answer...
+Each of the two numbers have 64 bytes. Since the algorythm for each pair of touples computes all the possible permutation multiplication, the number of multiplicaiton is 64*64 = 4096.
+The algorithm divides the 64 byte problem into 4 sub-problems of 32 bytes. 
+This are then split recursively until the base case of 1 byte is reached.
+The number of recursive levels is log2(64)=6.
+Since each level branches into 4 new multiplications, the total number of 8 bit multiplications should be 4^6 = 4096.
 ```
