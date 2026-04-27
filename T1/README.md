@@ -926,7 +926,6 @@ https://www.youtube.com/watch?v=yWI2K4jOjFQ
 ```
 **R.5.9 (4 points)** How many 8 bit multiplications would you need for **R.5.8**? Explain your calculations.
 ```answer
-Each of the two numbers have 64 bytes. Since the algorythm for each pair of touples computes all the possible permutation multiplication, the number of multiplicaiton is 64*64 = 4096.
 The algorithm divides the 64 byte problem into 4 sub-problems of 32 bytes. 
 This are then split recursively until the base case of 1 byte is reached.
 The number of recursive levels is log2(64)=6.
