@@ -749,3 +749,114 @@ Error = ((62500 / 115200) - 1) * 100 = -45.7% > +-2% tolerance.
 A solution would be to enable the double speed mode by setting bit U2X to 1.
 Based on the formula found in table 60 this increases the maximum baudrate to BAUD = 1000000 / (8 * (0 + 1)) = 125000.
 ```
+
+
+# Tutorial 1 - Part 3
+
+## Microcontrollers (MCUs): Combining C and Assembly Code
+In this third part of tutorial 1 we will have a look at coding programs that use C and assembly code at the same time. The higher level tasks are usually implemented in C, while specific tasks that are platform dependent and optimized for speed are implemented in assembly. Thus, the main function is usually coded in C while specific tasks may be coded in assembly.
+In this tutorial we will learn:
+
+- How to combine C code with assembly code
+- How to call an assembly function in C code
+- How to program a 512 bit adder in assembly
+- Advanced assembly coding
+- Function calling conventions
+
+## 5 Adding 512 Bit Numbers in Assembly (48 points)
+### 5.1 Testing the AVR UART 512 Bit Adder program (4 points)
+1. Program your microcontroller with the file `uart_512bit_adder.hex`. This program receives
+two unsigned 512 bit numbers (`uint512_t`) *a* and *b* via `UART` and calculates the unsigned 512
+bit result *c = a + b*.
+
+```bash
+cd hsa_t1s2_ws
+cd hex
+# flash the program uart_hello_world.hex
+avrdude -c avrispmkII -P usb B10 -p atmega32 -U flash:w:uart_512bit_adder.hex
+```
+
+2. Then launch the Python script that connects to the FTDI device and observe the printout:
+
+```bash
+cd hsa_t1s2_ws
+cd src/uart_512bit_adder
+# run the python script
+./uart.py
+```
+
+***R.5.0 (4 points)*** What is the format that the Python script is sending to the microcontroller? How can you check that the addition with carry works? Find an example for a and b where the carry bit has to walk through all bytes of the addition up to the most significant byte.
+```answer
+type here the answer...
+```
+
+### 5.2 Adding 512 Bit Numbers (14 points)
+Please use the tutorial project `hsa_t1s2_ws` as basis for the tasks introduced in this section. Please submit the code you created as specified in the tasks. You can find template files for each task in the folder `hsa_t1s2_ws/src/uart_512bit_adder/src/applications`. Implement now your 512 bit adder by adding assembly code to the function:
+
+```c
+void add512(uint8_t* c, const uint8_t* a, const uint8_t* b);
+```
+
+You can find the body of that function in the assembly code file `add512.S`.
+Note: At first glance this task seems to be rather complicated to implement. However, you will only need around 20 assembly instructions to realize it. Divide the complex problem into small subproblems that repeat. Remember how you do an addition of big numbers by hand. This will provide you with the insights you need to solve this task.
+
+Your implementation will be evaluated in the following way:
+
+**T.5.1 (4 points)** You are only using the registers the callee is allowed to modify. If you need more registers, you save them on the stack before you use them.
+**T.5.2 (2 points)** The 512-bit arguments a and b are correctly loaded from the SRAM.
+**T.5.3 (2 points)** The carry bit of the addition is propagated correctly.
+**T.5.4 (2 points)** The for-loop is correctly implemented and updating the loop counter does not influence the addition algorithm.
+**T.5.5 (2 points)** The number of iterations realized by the for-loop is correct.
+**T.5.6 (2 points)** The 512-bit result argument c = a + b is correctly stored in the SRAM.
+You submit the following files containing your solution for tasks **T.5.1** to **T.5.6**:
+- `add512.S`
+- `main_uart_512bit_adder.c`
+- `uart_512bit_adder.hex`
+
+```asm
+type here the code...
+```
+See [full code](code/add512.S) ↗
+
+```c
+type here the code...
+```
+See [full code](code/main_uart_512bit_adder.c) ↗
+
+### 5.3 Report (28 points)
+**R.5.1 (2 points)** How do you save the status register `SREG`?
+```answer
+type here the answer...
+```
+**R.5.2 (2 points)** When do you need to save the status register `SREG`?
+```answer
+type here the answer...
+```
+**R.5.3 (4 points)** Do you need to save the status register `SREG` in your implementation of the 512 bit adder? If so, please explain why.
+```answer
+type here the answer...
+```
+**R.5.4 (2 points)** Why is it important to understand the assembly code when creating programs for a specific platform? Explain at least one important case.
+```answer
+type here the answer...
+```
+**R.5.5 (2 points)** In which cases do you have to use assembly code? When is it preferable to use assembly code?
+```answer
+type here the answer...
+```
+**R.5.6 (2 points)** What are the drawbacks of using assembly code in projects? Name at least two.
+```answer
+type here the answer...
+```
+**R.5.7 (2 points)** What are the advantages of C code when implementing solutions for more general tasks? Name at least two.
+```answer
+type here the answer...
+```
+**R.5.8 (8 points)** How would you implement an unsigned 512 bit multiplier using the divide and conquer principle? Elaborate and explain the algorithm you derived in pseudo code.
+```answer
+type here the answer...
+```
+**R.5.9 (4 points)** How many 8 bit multiplications would you need for **R.5.8**? Explain your calculations.
+```answer
+type here the answer...
+```
