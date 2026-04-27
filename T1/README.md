@@ -860,31 +860,36 @@ See [code](code/add512.S) ↗
 ### 5.3 Report (28 points)
 **R.5.1 (2 points)** How do you save the status register `SREG`?
 ```answer
-type here the answer...
+Since SREG is not a general purpose register it can't be pushed on the stack. First its value needs to be copied inside a general purpose registr (eg. r18) and then the value of r18 can be pushed on the stack.
+
+in r18, SREG
+push r18
 ```
 **R.5.2 (2 points)** When do you need to save the status register `SREG`?
 ```answer
-type here the answer...
+according to atmega32 manual (pag. 10) "The Status Register is not automatically stored when entering an interrupt routine and restored when returning from an interrupt. This must be handled by software."
 ```
 **R.5.3 (4 points)** Do you need to save the status register `SREG` in your implementation of the 512 bit adder? If so, please explain why.
 ```answer
-type here the answer...
+No, according to the AVR calling convention, the status register is not required to be preserved by subroutines. Inside the loop in the code SREG is modified by two instructions: acd and dec. Since the latter preserve the c value it is not needed to save the status register.
 ```
 **R.5.4 (2 points)** Why is it important to understand the assembly code when creating programs for a specific platform? Explain at least one important case.
 ```answer
-type here the answer...
+It is important because assembly code is not compiled and speaks directly to the hardware. A compiler may change the code to improve its efficiency. The problem is that without seeing the assembly the programmer can't determine the exact number of clock cycles a routine takes. This is essential for cases like implementing a timer with busy waiting, where a specific delay is required.
 ```
 **R.5.5 (2 points)** In which cases do you have to use assembly code? When is it preferable to use assembly code?
 ```answer
-type here the answer...
+You must use assembly for hardware-level tasks that C can't perform, like executing special CPU instructions (SLEEP, WDR) or writing initial startup code. It is preferable to use assembly when you need to maximize the code's efficiency (fast execution speed and small binary size).
 ```
 **R.5.6 (2 points)** What are the drawbacks of using assembly code in projects? Name at least two.
 ```answer
-type here the answer...
+1) the code is not portable, if it was written for atmega32 can't be re-used on other different architectures;
+2) the code is really hard to understand and debug because it requires a lot of instructions even to carry out simple tasks.
 ```
 **R.5.7 (2 points)** What are the advantages of C code when implementing solutions for more general tasks? Name at least two.
 ```answer
-type here the answer...
+1) the code is more portable, it can be compiled for various hardware platforms;
+2) the code is really easy to understand and debug thaks to its high level abstraction.
 ```
 **R.5.8 (8 points)** How would you implement an unsigned 512 bit multiplier using the divide and conquer principle? Elaborate and explain the algorithm you derived in pseudo code.
 ```answer
