@@ -785,7 +785,7 @@ cd src/uart_512bit_adder
 ./uart.py
 ```
 
-***R.5.0 (4 points)*** What is the format that the Python script is sending to the microcontroller? How can you check that the addition with carry works? Find an example for a and b where the carry bit has to walk through all bytes of the addition up to the most significant byte.
+**R.5.0 (4 points)** What is the format that the Python script is sending to the microcontroller? How can you check that the addition with carry works? Find an example for a and b where the carry bit has to walk through all bytes of the addition up to the most significant byte.
 ```answer
 type here the answer...
 ```
@@ -820,14 +820,42 @@ You submit the following files containing your solution for tasks **T.5.1** to *
 - `uart_512bit_adder.hex`
 
 ```asm
-type here the code...
-```
-See [full code](code/add512.S) ↗
+#include <atmega32/asm/io.h>
 
-```c
-type here the code...
+.global add512
+
+add512:
+
+// ptr to a is in R23:R22
+// ptr to b is in R21:R20
+// ptr to c is in R25:R24
+
+        push r28        ; L1 slide 43 call saved rgister
+        push r29
+
+        movw r26, r22   ; move a into X -> r26:r27
+        movw r28, r20   ; move b into Y -> r28:r29
+        movw r30, r24   ; move c into Z -> r30:r31
+
+        clc             ; set carry to 0
+        ldi r18, 64     ; counter value (512bit / 8bit)
+
+loop:   ld r19, X+
+        ld r20, Y+
+        adc r19, r20
+        st Z+, r19
+
+        dec r18         ; affects only Z,N,V and not C
+        brne loop
+    
+        pop r29
+        pop r28
+
+        ret
+
+.end
 ```
-See [full code](code/main_uart_512bit_adder.c) ↗
+See [code](code/add512.S) ↗
 
 ### 5.3 Report (28 points)
 **R.5.1 (2 points)** How do you save the status register `SREG`?
