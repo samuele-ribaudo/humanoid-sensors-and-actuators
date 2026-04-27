@@ -87,15 +87,17 @@ In this first part of tutorial 1 we will learn:
 
 **R.1.1(2 points)** What are decoupling capacitors? Please explain in detail why they are needed in circuits with MCUs.
 ```answer
-type here the answer...
+Decoupling capacitors act as local energy reservoirs placed between $V_{CC}$ and $GND$. They are needed in MCU circuits to provide the immediate, high-frequency current bursts required when internal transistors switch, preventing voltage sags and filtering out digital switching noise that could cause system instability.
 ```
 **R.1.2 (2 points)** What properties are important for good decoupling capacitors? Name at least two and explain.
 ```answer
-type here the answer...
+Low ESL (Equivalent Series Inductance): This allows the capacitor to respond instantly to high-frequency transients; high inductance would block the rapid flow of current.
+
+Low ESR (Equivalent Series Resistance): This ensures the capacitor can deliver high peak currents efficiently without significant internal power loss or heat generation.
 ```
 **R.1.3 (2 points)** Where would you place decoupling capacitors in a PCB layout. Explain why you would place them there.
 ```answer
-type here the answer...
+They must be placed as physically close as possible to the MCU’s power pins. This proximity is critical to minimize trace inductance ($L$), even a tiny amount of trace length can cause a significant voltage drop during the rapid current changes typical of high-speed MCUs.
 ```
 ## 2 Programming the microcontroller: (9 points)
 
