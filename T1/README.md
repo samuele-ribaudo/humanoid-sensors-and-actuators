@@ -4,7 +4,7 @@
 |------|---------------|-------|
 | Samuele Ribaudo | 03821248 | samuele.ribaudo@tum.de  |
 | Hong Yan Jun  | 03813507 | go75kes@mytum.de  |
-| insert name  | insert matriculation # | insert mail  |
+| Alessandro Canalicchio | 03796273 | go73xix@mytum.de  |
 | Niklas Peter | 03812287 | n.peter@tum.de  |
 | insert name  | insert matriculation # | insert mail  |
 
@@ -790,7 +790,12 @@ cd src/uart_512bit_adder
 
 **R.5.0 (4 points)** What is the format that the Python script is sending to the microcontroller? How can you check that the addition with carry works? Find an example for a and b where the carry bit has to walk through all bytes of the addition up to the most significant byte.
 ```answer
-type here the answer...
+The python script is sending the values to the micro controller using the little endian format.
+An example where the carry bit has to walkl trough all bytes is the following:
+a = 0x7FFFFF...FF -> FF ... FF FF 7F
+b = 0x000000...01 -> 01 ... 00 00 00
+c = 0x800000...00 -> 00 ... 00 00 80
+
 ```
 
 ### 5.2 Adding 512 Bit Numbers (14 points)
