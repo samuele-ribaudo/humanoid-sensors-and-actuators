@@ -5,7 +5,7 @@
 | Samuele Ribaudo | 03821248 | samuele.ribaudo@tum.de  |
 | insert name  | insert matriculation # | insert mail  |
 | insert name  | insert matriculation # | insert mail  |
-| insert name  | insert matriculation # | insert mail  |
+| Niklas Peter | 03812287 | n.peter@tum.de  |
 | insert name  | insert matriculation # | insert mail  |
 
 # Tutorial 1 - Part 1
@@ -181,15 +181,25 @@ avrdude -c avrispmkII -P usb B10 -p atmega32 -U flash:w:blink.hex
 
 **R.2.1 (2 points)** Your oscilloscope has different trigger modes. What do the different trigger modes mean? What does the trigger level and source mean?
 ```answer
-type here the answer...
+- Edge Trigger: The most common mode, triggering on rising or falling edges. 
+- Slope Trigger: Allows triggering on signals with rise or fall time intervals. 
+- Pulse Width Trigger: Capture pulses that meet specific widths. 
+- Video Trigger: Supports NTSC, PAL, and SECAM broadcasting systems for line or field frequency synchronization. 
+- Alternate Trigger: Enables independent control of vertical amplitude and triggering levels for both channels, useful for signals with different frequencies. 
 ```
 **R.2.2 (2 points)** Your oscilloscope has also different sweep types. Explain the different sweep types and their use cases.
 ```answer
-type here the answer...
+- Auto: Continuously updates the display even without a trigger. 
+- Normal: Displays a trace only when the trigger condition is satisfied. 
+- Single: Captures a single wave and holds it. 
 ```
 **R.2.3 (3 points)** What happens when you change the trigger mode in your reading from T2.1? When do you change the slope type? When do you change the sweep type? What is the best trigger configuration for this reading? Explain why.
 ```answer
-type here the answer...
+- Changing the trigger mode changes what condition the oscilloscope waits for before displaying the signal.
+- You change the slope type when the waveform is not stable or when you need to trigger on the opposite edge of the signal.
+- You change the sweep type when you want the oscilloscope to capture the signal differently, such as once for a single event or continuously for a repeating signal.
+
+The best trigger configuration for this reading is Edge Trigger with Normal Sweep, using the slope that matches the signal’s starting edge, because it keeps the waveform stable and makes the reading easier to measure accurately.
 ```
 ## 3 Using the GPIO Peripherial Block (60 points)
 
