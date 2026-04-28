@@ -3,7 +3,7 @@
 | Name | Matr. # | Email |
 |------|---------------|-------|
 | Samuele Ribaudo | 03821248 | samuele.ribaudo@tum.de  |
-| insert name  | insert matriculation # | insert mail  |
+| Hong Yan Jun  | 03813507 | go75kes@mytum.de  |
 | insert name  | insert matriculation # | insert mail  |
 | Niklas Peter | 03812287 | n.peter@tum.de  |
 | insert name  | insert matriculation # | insert mail  |
