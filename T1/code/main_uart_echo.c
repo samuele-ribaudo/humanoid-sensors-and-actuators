@@ -2,8 +2,8 @@
 #include <atmega32/io.h>
 
 // For delay functions: F_CPU has to be defined
-#include <util/delay.h>
 #define F_CPU 1000000UL
+#include <util/delay.h>
 
 
 void USART_Init(unsigned int baud){

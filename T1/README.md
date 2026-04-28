@@ -321,13 +321,7 @@ You can find template files for each task in the folder `hsa_t1s1_ws/src/gpio_c/
 
 **T.3.7 (2 points)** Implement **T.3.1** using C code. You submit the file `main_blink.c` which contains the main function of your program and your solution for this task.
 ```c
-// Get register definitions with auto complete
-#include <atmega32/io.h>
-
-// For delay functions: F_CPU has to be defined
-#include <util/delay.h>
-
-
+...
 int main (void)
 {
     DDRC |= (1 << PC0);
@@ -342,19 +336,13 @@ int main (void)
     return 0;
 }
 ```
-See [code](code/main_blink.c) ↗
+See [full code](code/main_blink.c) ↗
 
 **T.3.8 (1 point)** Your program of **T.3.7** avoids changing the bits of other pins on `PORTC`.
 
 **T.3.9 (2 points)** Implement **T.3.3** using C code. You submit the file `main_blink3.c` which contains the main function of your program and your solution for this task.
 ```c
-// Get register definitions with auto complete
-#include <atmega32/io.h>
-
-// For delay functions: F_CPU has to be defined
-#include <util/delay.h>
-
-
+...
 int main (void)
 {
     DDRC |= (1 << PC0 | 1 << PC1 | 1 << PC2);
@@ -374,7 +362,7 @@ int main (void)
     return 0;
 }
 ```
-See [code](code/main_blink3.c) ↗
+See [full code](code/main_blink3.c) ↗
 
 **T.3.10 (1 point)** Your program of **T.3.9** avoids changing the bits of other pins on `PORTC`.
 
@@ -419,13 +407,7 @@ See [full code](code/main_asm_mirror.S) ↗
 
 **T.3.13 (2 points)** Implement **T.3.11** using C code. You submit the file `main_mirror.c` which contains the main function of your program and your solution for this task.
 ```c
-// Get register definitions with auto complete
-#include <atmega32/io.h>
-
-// For delay functions: F_CPU has to be defined
-#include <util/delay.h>
-#define F_CPU 1000000UL
-
+...
 int main (void)
 {
     DDRC |= (1 << PC3); 
@@ -445,7 +427,7 @@ int main (void)
     return 0;
 }
 ```
-See [code](code/main_mirror.c) ↗
+See [full code](code/main_mirror.c) ↗
 
 **T.3.14 (1 point)** Your program of **T.3.13** avoids changing the bits of other pins on `PORTC`.
 

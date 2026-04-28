@@ -2,6 +2,7 @@
 #include <atmega32/io.h>
 
 // for delay functions: F_CPU has to be defined
+#define F_CPU 1000000UL
 #include <util/delay.h>
 
 // uart library
