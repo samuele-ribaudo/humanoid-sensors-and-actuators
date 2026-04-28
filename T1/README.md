@@ -1,4 +1,13 @@
-# Humanoid Sensors and Actuators  
+# Humanoid Sensors and Actuators
+## Group 5
+| Name | Matr. # | Email |
+|------|---------------|-------|
+| Samuele Ribaudo | 03821248 | samuele.ribaudo@tum.de  |
+| insert name  | insert matriculation # | insert mail  |
+| insert name  | insert matriculation # | insert mail  |
+| insert name  | insert matriculation # | insert mail  |
+| insert name  | insert matriculation # | insert mail  |
+
 # Tutorial 1 - Part 1
 
 Course Instructors: Dr. Florian Bergner
