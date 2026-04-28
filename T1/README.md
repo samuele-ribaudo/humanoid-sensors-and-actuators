@@ -627,7 +627,7 @@ Now program your microcontroller with the file `uart_echo.hex`. Run the Python s
 
 **T.4.0 (2 points)** What happens when you send a string? What is the microcontroller doing?
 ```answer
-the microcontroller reads the message and sends it back
+the microcontroller recieves the message from our python program and echoes it back to the computer
 ```
 
 ### 4.2 Sending and Receiving Information with the UART (12 points)
