@@ -1,12 +1,12 @@
 # Humanoid Sensors and Actuators
 ## Group 5
 | Name | Matr. # | Email |
-|------|---------------|-------|
-| Samuele Ribaudo | 03821248 | samuele.ribaudo@tum.de  |
-| Hong Yan Jun  | 03813507 | go75kes@mytum.de  |
-| Alessandro Canalicchio | 03796273 | go73xix@mytum.de  |
-| Niklas Peter | 03812287 | n.peter@tum.de  |
-| insert name  | insert matriculation # | insert mail  |
+|------|---------|-------|
+| Samuele Ribaudo | 03821248 | samuele.ribaudo@tum.de |
+| Hong Yan Jun  | 03813507 | go75kes@mytum.de |
+| Alessandro Canalicchio | 03796273 | go73xix@mytum.de |
+| Niklas Peter | 03812287 | n.peter@tum.de |
+| Emile Gebrael | 03812968 | emile.gebrael@tum.de |
 
 # Tutorial 1 - Part 1
 
