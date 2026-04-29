@@ -561,9 +561,9 @@ You need to pull the updated Docker image. The docker image you pulled in tutori
 
 ```bash
 # Pull image
-docker login"gitlab.lrz.de:5005"
-docker pull"gitlab.lrz.de:5005/hsa/students/docker/avr/avr:focal-vscode"
-docker tag"gitlab.lrz.de:5005/hsa/students/docker/avr/avr:focal-vscode/avr:focal-vscode"
+docker login "gitlab.lrz.de:5005"
+docker pull "gitlab.lrz.de:5005/hsa/students/docker/avr/avr:focal-vscode"
+docker tag "gitlab.lrz.de:5005/hsa/students/docker/avr/avr:focal-vscode/avr:focal-vscode"
 ```
 
 ### Clone the tutorial project
