@@ -1,0 +1,64 @@
+# Humanoid Sensors and Actuators
+## Group 5
+| Name | Matr. # | Email |
+|------|---------|-------|
+| Samuele Ribaudo | 03821248 | samuele.ribaudo@tum.de |
+| Hong Yan Jun  | 03813507 | go75kes@mytum.de |
+| Alessandro Canalicchio | 03796273 | go73xix@mytum.de |
+| Niklas Peter | 03812287 | n.peter@tum.de |
+| Emile Gebrael | 03812968 | emile.gebrael@tum.de |
+
+# Tutorial 2 - Part 1
+
+
+Course Instructors: Dr. Florian Bergner
+hsa-lecture.ics@xcit.tum.de
+
+Summer Semester 2026
+
+## Initial Setup (Before the Tutorial!)
+
+### Clone the tutorial project
+Clone the project and follow the instructions in the `readme.md` file:
+```bash
+git clone "https://gitlab.lrz.de/hsa/students/hsa_t2s1_ws.git"
+```
+
+The best is to setup the Dev Container with LTSpice, but you can also directly install LTSpice in Windows or MacOS.
+You can find a short crash course on LTSpice in http://denethor.wlu.ca/ltspice/.
+
+## Electronic Basics (80 points)
+After the introduction of microcontrollers, and acquiring the skills to program them for different applications, we now have a look at basic electronic circuits that find their applications in sensing and actuation.
+
+In this tutorial we will learn:
+- How to simulate circuits with LTSpice
+- How to simulate and calculate filter circuits
+- How to simulate operational amplifier (op-amp) circuits
+
+## 2 Getting started with LTSpice (10 points)
+In this tutorial we will start simulating electronic circuits with LTSpice. LTSpice bases on the open source circuit simulator SPICE (Simulation Program with Integrated Circuit Emphasis). SPICE was developed at the Electronics Research Laboratory of the University of California, Berkeley and is nowadays still used in integrated circuit and board-level design to check circuit design and predict circuit behavior. LTSpice provides you with a GUI to minimize your effort of writing SPICE programs. Nevertheless, LTSpice still supports all the features of SPICE programs and LTSpice simulations can be combined with manually written SPICE programs.
+
+Familiarize yourself with the basic editing, simulation and evaluation capabilities of LTSpice in these first tasks:
+**T.2.1 (2 points)** Create a new schematic in LTSpice and store it in `hsa_t2s1_ws/src`. Add a 5 V
+voltage source and serially connect it to a 10 kΩ resistor and a 1 µF capacitor. Hand in the circuit
+`T2_1_RC_op.asc`.
+
+**T.2.2 (2 points)** Start a DC operation point (`.op`) simulation with the circuit of **T.2.1** and have a look at the currents and voltages. Do they make sense? Please elaborate and explain. Make sure that the circuit of **T.2.1** contains your updates.
+```answer
+type here the answer...
+```
+
+**T.2.3 (6 points)** Start a transient simulation (`.tran`) and measure the voltage and the current at the capacitor.
+- **(2 points)** Submit the circuit `T2_3_RC_tran.asc`, and the screenshot `T2_3_RC_tran.png` of the plot with the measured voltage and current.
+```answer
+type here the answer...
+```
+- **(2 points)** Compare the calculated τ = RC and the measured time constant VC(τ) = Vmax(1 − e^−1) ≈ 63.2% Vmax. Specify both time constants. Do they match? Explain your observation.
+```answer
+type here the answer...
+```
+- **(2 points)** Plot the power consumption of the circuit over time (P= UI) in LTSpice. Submit the screenshot `T2_3_RC_P.png` of the plot.
+```answer
+type here the answer...
+```
+
