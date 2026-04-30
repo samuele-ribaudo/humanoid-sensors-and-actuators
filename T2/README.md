@@ -199,7 +199,9 @@ See [file T5_4_sg.asc](ltspice/T5_4_sg.asc) ↗
 **T.5.5 (2 points)** Discuss the simulation results. What do you conclude with respect to the circuit’s applicability? Could you measure the distance changes with the ADC of the AVR microcontroller?
 
 ```answer
-Type here the answer...
+No we can't measure the distance changes with the ADC of the AVR microcontroller.
+The ATmega32 features a 10 bit ADC. With the 5V reference, the smallest detectable voltage change is the resolution of one bit and it is equal to 5V/(2^(10)) = 4.88 mV.
+The transient simulation shows that a length change of 1 um results in a differential bridge voltage VB with an amplitude of approximately 7 uV, wich is roughly 700 times smaller than the risolution of ATmega32's ADC.
 ```
 
 ### 5.2 Wheatstone Bridge with an Op-Amp (10 points)
