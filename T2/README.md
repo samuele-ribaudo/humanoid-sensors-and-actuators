@@ -206,9 +206,9 @@ Type here the answer...
 
 ### 5.2 Wheatstone Bridge with an Op-Amp (10 points)
 **T.5.6 (6 points)** Copy the circuit `T5_4_sg.asc` and rename it to `T5_6_sg_opamp.asc`. Make sure the custom model files `INA122.LIB` and `INA122.asy` for the INA122 instrumental amplifier are placed next to your circuit file. Integrate the INA122 to your circuit such that the INA122
-– **(2 points)** operates with a bias voltage of 2.5 V,
-– **(2 points)** operates with a gain of 7500, and
-– **(2 points)** is correctly connected to the Wheatstone bridge
+- **(2 points)** operates with a bias voltage of 2.5 V,
+- **(2 points)** operates with a gain of 7500, and
+- **(2 points)** is correctly connected to the Wheatstone bridge
 
 Submit your circuit file `T5_6_sg_opamp.asc`.
 
@@ -228,9 +228,9 @@ Type here the answer...
 
 ### 5.3 Power Line Noise (6 points)
 **T.5.8 (2 points)** Copy the circuit `T5_6_sg_opamp.asc` and rename it to `T5_8_pln.asc`. To simulate power line noise and high frequency noise from actuators, add the following voltage sources in series on top of the 5 V DC voltage source:
-– A sine voltage source, 200 mV amplitude, 50 Hz
-– A sine voltage source, 200 mV amplitude, 100 Hz
-– A sine voltage source, 200 mV amplitude, 1 kHz
+- A sine voltage source, 200 mV amplitude, 50 Hz
+- A sine voltage source, 200 mV amplitude, 100 Hz
+- A sine voltage source, 200 mV amplitude, 1 kHz
 Submit your circuit file `T5_8_pln.asc`.
 
 ![T5_8_pln](ltspice/png/T5_8_pln.png)
