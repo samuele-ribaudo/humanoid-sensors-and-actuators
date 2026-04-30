@@ -42,6 +42,7 @@ Familiarize yourself with the basic editing, simulation and evaluation capabilit
 **T.2.1 (2 points)** Create a new schematic in LTSpice and store it in `hsa_t2s1_ws/src`. Add a 5 V voltage source and serially connect it to a 10 kΩ resistor and a 1 µF capacitor. Hand in the circuit `T2_1_RC_op.asc`.
 
 ![T2_1_RC_op](ltspice/png/T2_1_RC_op.png)
+
 See [file](ltspice/T2_1_RC_op.asc) ↗
 
 **T.2.2 (2 points)** Start a DC operation point (`.op`) simulation with the circuit of **T.2.1** and have a look at the currents and voltages. Do they make sense? Please elaborate and explain. Make sure that the circuit of **T.2.1** contains your updates.
