@@ -224,8 +224,8 @@ See [file](ltspice/T5_6_sg_opamp.asc) ↗
 **T.5.7 (4 points)** Conduct a transient simulation `.tran 0 1 0 10u`, once for the INA122 operating with a bias voltage of 2.5 V, and once for the INA122 operating with a bias voltage of 0 V. What difference do you observe? Explain your observation and submit the screenshots `T5_7_sg_opamp_2500mV.png` and `T5_7_sg_opamp_0000mV.png` of your plots.
 
 ```answer
-For the INA122 operating with a bias voltage of 2.5 V the observe the expected behavior: we obtain a sinusoid with an amplitude of (2.440 - 2.335)/2  = 0.0525 V = 52.5 mV, which is equal to the expected amplitude of 7uV * 7500 = 52.5 mV.
-For the INA122 operating with a bias voltage of 0 V, we obtain a sinusoid with an amplitude of (468mV - 463.5mV)/2  = 2,25 mV.
+For the INA122 operating with a bias voltage of 2.5 V we observe the expected behavior: we obtain a sinusoid with an amplitude of (2.440 - 2.335)/2  = 0.0525 V = 52.5 mV, which is equal to the expected amplitude of 7uV * 7500 = 52.5 mV.
+For the INA122 operating with a bias voltage of 0 V, we obtain a sinusoid with an amplitude of (468mV - 463.5mV)/2  = 2.25 mV.
 ```
 
 ![T5_7_sg_opamp_2500mV](img/T5_7_sg_opamp_2500mV.png)
@@ -246,13 +246,15 @@ See [file](ltspice/T5_8_pln.asc) ↗
 **T.5.9 (2 points)** Which noise sources of **T.5.8** simulate power line noise and which one actuator noise? Please explain your choices.
 
 ```answer
-Type here the answer...
+The power line noise may be simulated by the 50 Hz and 100 Hz sources, sicne in Europe AC power grids operate at 50 Hz.
+The actuator noise may be simulated by the 1 kHz source, since actuators often use pulse width modulation, which generates interferences at much higher frequencies than the power grid.
+
 ```
 
 **T.5.10 (2 points)** How do these noise sources influence the output of the op-amp? Explain your observations and submit the screenshot `T5_10_pln.png` of your plot.
 
 ```answer
-Type here the answer...
+The noise sources have a minimal visual influence on the output signal. The reason the output isn't ruined too much by the noise is the Power Supply Rejection Ratio PSRR (page 6 of the INA122 datasheet). The datasheet specifies a PSRR of 10 μV/V. This means for every 1 V of noise on the power supply, only 10 uV reaches the input stage.
 ```
 
 ![T5_10_pln](img/T5_10_pln.png)
@@ -268,7 +270,7 @@ See [file](ltspice/T5_11_pln_filtered.asc) ↗
 **T.5.12 (2 points)** How does the filter influence the output of the op-amp? Explain your observations and submit the screenshot `T5_12_pln_filtered.png` of your plot.
 
 ```answer
-Type here the answer...
+The LC filter makes the output of the op-amp clean, like the result obtained in T.5.6. This is because the filter cut off the disturbancies, leaving only the steady power supply.
 ```
 
 ![T5_12_pln_filtered](img/T5_12_pln_filtered.png)
