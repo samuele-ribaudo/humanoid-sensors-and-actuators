@@ -174,6 +174,7 @@ See [file](ltspice/T5_1_sg.asc) ↗
 - Strain gauge length L = 0.32 m
 - Gauge factor k = 1.76
 - Number of sensitive tracks n = 32
+  
 Make sure that the circuit file `T5_1_sg.asc` contains your changes.
 
 **T.5.3 (2 points)** To simulate a change of length, connect a sine voltage source to the strain gauge with 1 µV amplitude and 5 Hz. Here, a length change of 1 µm corresponds to a voltage change of 1 µV. Perform a transient simulation for 1 s and a maximum time step of 10 µs and plot the bridge voltage VB. Make sure that the circuit file `T5_1_sg.asc` contains your changes. Submit the plot with the screenshot `T5_3_sg.png`.
