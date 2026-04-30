@@ -164,9 +164,7 @@ Disadvantages:
 ## 5 Wheatstone Bridge with a Strain Gauge
 ### 5.1 Wheatstone Bridge (10 points)
 **T.5.1 (2 points)** Create a new LTSpice circuit and design a Wheatstone bridge with 320Ω resistors and a 5V voltage source. Make sure the custom model files `strain-gauge.LIB` and `strain-gauge.asy` for the strain gauge are placed next to your circuit file `T5_1_sg.asc`. Replace the upper left resistor of the Wheatstone bridge with the custom strain gauge component which models the strain gauge. Setup the strain gauge model for the strain gauge symbol and add the spice directive `.lib strain-gauge.LIB` to the circuit.
-```answer
-Type here the answer...
-```
+
 ![T5_1_sg](ltspice/png/T5_1_sg.png)
 
 See [file](ltspice/T5_1_sg.asc) ↗
