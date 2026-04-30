@@ -68,6 +68,7 @@ on the plot we obtain the value of 3.16V, corresponding to 63.2% of 5V, at 10.0m
 
 ## 3 Filter Circuits - Optional Bonus (20 points)
 **T.3.1 (2 points)** Copy the circuit of **T.2.1**. Conduct a small signal AC behavior analysis (`.ac`) with an amplitude of 1 V from 0.01 Hz to 100 Hz. Submit the circuit `T3_1_RC_ac.asc` and the screenshot `T3_1_RC_ac.png` of the phase and amplitude plot.
+
 ![T3_1_RC_ac](ltspice/png/T3_1_RC_ac.png)
 
 See [file](ltspice/T3_1_RC_ac.asc) ↗
