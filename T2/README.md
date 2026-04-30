@@ -145,16 +145,21 @@ See [file](ltspice/T4_5_opamp.asc) ↗
 
 **T.4.6 (2 points)** How does the output voltage changes in comparison to the setup of **T.4.1** without the voltage follower? Explain your observations.
 ```answer
-Type here the answer...
+The output voltage is now about 2.50V, which is close to the ideal value, compared to the lower value obtained previously.
+This is because the voltage follower decouples the load from the divider, thanks to its very high input impedance and the low output impedance. Thanks to this component the load no longer affects the divider ratio.
 ```
 
 **T.4.7 (4 points)** How much can the crosscurrent of the voltage divider be reduced without affecting the desired output voltage? Explain the limits and your observations.
 ```answer
-Type here the answer...
+In theory, the cross current can be reduced arbitrarily because the op-amp has infinite input impedance. In the real world the inpunt impedance is very high, but finite, therefore the divider resistance can't be too large. If the impedance of the voltage divider is close in magnitude to the one of the op-amp, the current going trough the latter will not be negligeble and the output voltage starts to deviate.
 ```
 
 ### 4.3 Report (4 points)
 **R.4.1 (4 points)** What are the advantages and disadvantages of very small crosscurrents in voltage dividers? Explain the advantages/disadvantages you have named.
 ```answer
-Type here the answer...
+Advantage: very low power consumption, because the current through the resistors is small, so less power is dissipated (P = V^2 / R).
+Disadvantages:
+- higher sensitivity to noise and interference, since small currents are more easily disturbed;
+- slower response due to larger RC time constants (τ = R·C -> τ is proportional to R)
+- higher output impedance, so the output voltage is more affected by the load
 ```
