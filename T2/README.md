@@ -129,7 +129,7 @@ The tendency of the error is to decrease.
 
 **T.4.4 (2 points)** What is the major drawback of high divider currents?
 ```answer
-Type here the answer...
+The major drawback of high divider currents is an high power consumption. This is due to the fact that the power is inversely proportional to the resistance of the circuit (P = V^2/R), and therefore lowering the overall resistance will lead to an higher power consumpion.
 ```
 
 ### 4.2 Voltage Divider with a Resistive Output Load and a Voltage Follower (8 points)
@@ -138,6 +138,10 @@ Type here the answer...
 ```answer
 Type here the answer...
 ```
+
+![T4_5_opamp](ltspice/png/T4_5_opamp.png)
+
+See [file](ltspice/T4_5_opamp.asc) ↗
 
 **T.4.6 (2 points)** How does the output voltage changes in comparison to the setup of **T.4.1** without the voltage follower? Explain your observations.
 ```answer
