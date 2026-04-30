@@ -68,6 +68,9 @@ on the plot we obtain the value of 3.16V, corresponding to 63.2% of 5V, at 10.0m
 
 ## 3 Filter Circuits - Optional Bonus (20 points)
 **T.3.1 (2 points)** Copy the circuit of **T.2.1**. Conduct a small signal AC behavior analysis (`.ac`) with an amplitude of 1 V from 0.01 Hz to 100 Hz. Submit the circuit `T3_1_RC_ac.asc` and the screenshot `T3_1_RC_ac.png` of the phase and amplitude plot.
+![T3_1_RC_ac](ltspice/png/T3_1_RC_ac.png)
+
+See [file](ltspice/T3_1_RC_ac.asc) ↗
 
 ![ac](img/T3_1_RC_ac.png)
 
@@ -108,7 +111,7 @@ See [file](ltspice/T4_1_VD.asc) ↗
 
 **T.4.2 (1 point)** Increase the crosscurrent of the divider by lowering the divider’s resistor values. How does the load resistance influence the output voltage? Explain your observations and submit the circuit `T4_2_VD.asc`.
 ```answer
-Type here the answer...
+By lowering the divider resistors from 200kΩ to 20kΩ, the output voltage increased from 2.08V to 2.45V. Since the load is connected in parallel to the bottom resistor, with 200kΩ the load resistor significantly alters the total resistance of the bottom half because they are similar in magnitude.By lowering the divider resistors to 20kΩ the cross current of the divider increases, thus the 500kΩ resistor has a much smaller relative impact on the parallel resistance calculation.
 ```
 ![T2_1_RC_op](ltspice/png/T4_2_VD.png)
 
