@@ -69,3 +69,19 @@ on the plot we obtain the value of 3.16V, corresponding to 63.2% of 5V, at 10.0m
 
 ![ac](img/T3_1_RC_ac.png)
 
+### 3.1 Report (18 points)
+R.3.1 (4 points) Derive the complex transfer function H(jω) = Vout/Vin of the filter. Use symbolic
+expressions and explain each sub-step. You will get points for the symbolic calculations. You will
+only get one point for the correct result.
+R.3.2 (4 points) Derive the gain G(ω) = |H(jω)|of the filter. Use symbolic expressions and explain
+each sub-step. You will get points for the symbolic calculations. You will only get one point for the
+correct result.
+R.3.3 (4 points) Derive the phase shift φ(ω) = arg(x+ jy) = arctan2(y,x) ≈ arctan(y
+x) of the
+filter. Use symbolic expressions and explain each sub-step. You will get points for the symbolic
+calculations. You will only get one point for the correct result.
+R.3.4 (4 points) Derive the −3 dB cutoff frequency fc =
+ωc
+2π where the gain of the filter equals G(ω) =
+1/√2. Use symbolic expressions and explain each sub-step. You will get points for the symbolic
+calculations. You will only get one point for the correct result.
