@@ -50,16 +50,14 @@ Yes thie currents and voltages make sense to us. Since we are using a DC source,
 
 **T.2.3 (6 points)** Start a transient simulation (`.tran`) and measure the voltage and the current at the capacitor.
 - **(2 points)** Submit the circuit `T2_3_RC_tran.asc`, and the screenshot `T2_3_RC_tran.png` of the plot with the measured voltage and current.
-```answer
-type here the answer...
-```
+
+![tran](img/T2_3_RC_tran.png)
+
 - **(2 points)** Compare the calculated τ = RC and the measured time constant VC(τ) = Vmax(1 − e^−1) ≈ 63.2% Vmax. Specify both time constants. Do they match? Explain your observation.
 ```answer
 τ = RC = 10kOhm * 1uF = 0.01s = 10 ms
 on the plot we obtain the value of 3.16V, corresponding to 63.2% of 5V, at 10.0ms, wich correspond to the teoretical calculated value, giving a complete match. This is because the simulation follows exactly the exponential charging law. 
 ```
 - **(2 points)** Plot the power consumption of the circuit over time (P= UI) in LTSpice. Submit the screenshot `T2_3_RC_P.png` of the plot.
-```answer
-type here the answer...
-```
+![power](img/T2_3_RC_P.png)
 
