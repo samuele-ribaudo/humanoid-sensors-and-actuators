@@ -119,7 +119,12 @@ See [file](ltspice/T4_2_VD.asc) ↗
 
 **T.4.3 (2 points)** How does the output voltage error (in %) changes for higher divider currents? Provide two examples and describe the tendency of the error. Explain your observations.
 ```answer
-Type here the answer...
+To measure the error we used the formula Error % = |2.5 - V_measured| / 2.5 * 100.
+
+- With the 200kkΩ resistor we measured an output voltage of 2.08, leadig to an error of 16.8%
+- With the 20kΩ resistor we measured an output voltage of 2.45, leading to an error of 2.0%
+
+The tendency of the error is to decrease.
 ```
 
 **T.4.4 (2 points)** What is the major drawback of high divider currents?
