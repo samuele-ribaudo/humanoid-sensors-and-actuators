@@ -94,3 +94,49 @@ Type here the answer...
 ```answer
 Type here the answer...
 ```
+
+## 4 Operational Amplifier (Op-Amp) Circuits (18 points)
+### 4.1 Voltage Divider with a Resistive Output Load (6 points)
+
+**T.4.1 (1 point)** Create a voltage divider circuit with a 5 V voltage source in LTSpice. Set both resistor values of the voltage divider to 200 kΩ and connect a 500 kΩ load resistance on the divider’s output. Submit the circuit `T4_1_VD.asc`.
+```answer
+Type here the answer...
+```
+
+**T.4.2 (1 point)** Increase the crosscurrent of the divider by lowering the divider’s resistor values. How does the load resistance influence the output voltage? Explain your observations and submit the circuit `T4_2_VD.asc`.
+```answer
+Type here the answer...
+```
+
+**T.4.3 (2 points)** How does the output voltage error (in %) changes for higher divider currents? Provide two examples and describe the tendency of the error. Explain your observations.
+```answer
+Type here the answer...
+```
+
+**T.4.4 (2 points)** What is the major drawback of high divider currents?
+```answer
+Type here the answer...
+```
+
+### 4.2 Voltage Divider with a Resistive Output Load and a Voltage Follower (8 points)
+
+**T.4.5 (2 points)** Copy the circuit of **T.4.1** and add an op-amp based voltage follower circuit between the voltage divider and the resistive load. Include the `opamp` component library using the spice directive `.lib opamp.sub.` Both, the op-amp symbol and the component library are provided by LTSpice. Submit the circuit `T4_5_opamp.asc`.
+```answer
+Type here the answer...
+```
+
+**T.4.6 (2 points)** How does the output voltage changes in comparison to the setup of **T.4.1** without the voltage follower? Explain your observations.
+```answer
+Type here the answer...
+```
+
+**T.4.7 (4 points)** How much can the crosscurrent of the voltage divider be reduced without affecting the desired output voltage? Explain the limits and your observations.
+```answer
+Type here the answer...
+```
+
+### 4.3 Report (4 points)
+**R.4.1 (4 points)** What are the advantages and disadvantages of very small crosscurrents in voltage dividers? Explain the advantages/disadvantages you have named.
+```answer
+Type here the answer...
+```
