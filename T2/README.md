@@ -212,7 +212,7 @@ The transient simulation shows that a length change of 1 um results in a differe
 
 Submit your circuit file `T5_6_sg_opamp.asc`.
 
-https://www.ti.com/lit/ds/symlink/ina122.pdf?ts=1777506066739&ref_url=https%253A%252F%252Fwww.mouser.com%252F
+See [INA122 datasheet](https://www.ti.com/lit/ds/symlink/ina122.pdf?ts=1777506066739&ref_url=https%253A%252F%252Fwww.mouser.com%252F) ↗
 ```answer
 Based on INA122 datasheet (linked above) to obtain a gain G of 7500 we have to put a resitor RG = 200kOhm/(G - 5) = 26.68 Ohm
 ```
