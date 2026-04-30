@@ -101,14 +101,18 @@ Type here the answer...
 ### 4.1 Voltage Divider with a Resistive Output Load (6 points)
 
 **T.4.1 (1 point)** Create a voltage divider circuit with a 5 V voltage source in LTSpice. Set both resistor values of the voltage divider to 200 kΩ and connect a 500 kΩ load resistance on the divider’s output. Submit the circuit `T4_1_VD.asc`.
-```answer
-Type here the answer...
-```
+
+![T2_1_RC_op](ltspice/png/T4_1_VD.png)
+
+See [file](ltspice/T4_1_VD.asc) ↗
 
 **T.4.2 (1 point)** Increase the crosscurrent of the divider by lowering the divider’s resistor values. How does the load resistance influence the output voltage? Explain your observations and submit the circuit `T4_2_VD.asc`.
 ```answer
 Type here the answer...
 ```
+![T2_1_RC_op](ltspice/png/T4_2_VD.png)
+
+See [file](ltspice/T4_2_VD.asc) ↗
 
 **T.4.3 (2 points)** How does the output voltage error (in %) changes for higher divider currents? Provide two examples and describe the tendency of the error. Explain your observations.
 ```answer
