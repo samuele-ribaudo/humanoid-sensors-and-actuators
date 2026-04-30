@@ -224,7 +224,8 @@ See [file](ltspice/T5_6_sg_opamp.asc) ↗
 **T.5.7 (4 points)** Conduct a transient simulation `.tran 0 1 0 10u`, once for the INA122 operating with a bias voltage of 2.5 V, and once for the INA122 operating with a bias voltage of 0 V. What difference do you observe? Explain your observation and submit the screenshots `T5_7_sg_opamp_2500mV.png` and `T5_7_sg_opamp_0000mV.png` of your plots.
 
 ```answer
-Type here the answer...
+For the INA122 operating with a bias voltage of 2.5 V the observe the expected behavior: we obtain a sinusoid with an amplitude of (2.440 - 2.335)/2  = 0.0525 V = 52.5 mV, which is equal to the expected amplitude of 7uV * 7500 = 52.5 mV.
+For the INA122 operating with a bias voltage of 0 V, we obtain a sinusoid with an amplitude of (468mV - 463.5mV)/2  = 2,25 mV.
 ```
 
 ![T5_7_sg_opamp_2500mV](img/T5_7_sg_opamp_2500mV.png)
