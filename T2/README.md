@@ -186,17 +186,14 @@ Make sure that the circuit file `T5_1_sg.asc` contains your changes.
 
 **T.5.4 (2 points)** Lower the maximum simulation time step to 1 µs and compare it with a maximum time step of 20 µs. What differences do you observe? Please explain you observations and submit the screenshots `T5_4_sg_1us.png` and `T5_4_sg_20us.png` of your plots. Submit your circuit file `T5_4_sg.asc` with the maximum time step configured to 10 µs.
 
-![T5_4_sg_1us](img/T5_4_sg_1us.png)
-
-![T5_4_sg_20us](img/T5_4_sg_20us.png)
+<img src="img/T5_4_sg_1us.png" width="45%"> <img src="img/T5_4_sg_20us.png" width="45%">
 
 ```answer
-Type here the answer...
+The graph on the left (1us) took longer to generate, but it has clearly an higher resolution. On the second one you can see the straight lines connecting the fewer calculation points, while on the first one the singal appears to be a well defined sinusoid.
+The maximum timestep determines how often LTSpice calculates the circuit's state. With a 20 us step, the simulator takes fewer samples, leading to a loss of detail and a faster simulation.
 ```
 
-![T5_4_sg](ltspice/png/T5_4_sg.png)
-
-See [file](ltspice/T5_4_sg.asc) ↗
+See [file T5_4_sg.asc](ltspice/T5_4_sg.asc) ↗
 
 
 **T.5.5 (2 points)** Discuss the simulation results. What do you conclude with respect to the circuit’s applicability? Could you measure the distance changes with the ADC of the AVR microcontroller?
