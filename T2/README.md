@@ -135,9 +135,6 @@ The major drawback of high divider currents is an high power consumption. This i
 ### 4.2 Voltage Divider with a Resistive Output Load and a Voltage Follower (8 points)
 
 **T.4.5 (2 points)** Copy the circuit of **T.4.1** and add an op-amp based voltage follower circuit between the voltage divider and the resistive load. Include the `opamp` component library using the spice directive `.lib opamp.sub.` Both, the op-amp symbol and the component library are provided by LTSpice. Submit the circuit `T4_5_opamp.asc`.
-```answer
-Type here the answer...
-```
 
 ![T4_5_opamp](ltspice/png/T4_5_opamp.png)
 
@@ -163,3 +160,109 @@ Disadvantages:
 - slower response due to larger RC time constants (τ = R·C -> τ is proportional to R)
 - higher output impedance, so the output voltage is more affected by the load
 ```
+
+## 5 Wheatstone Bridge with a Strain Gauge
+### 5.1 Wheatstone Bridge (10 points)
+**T.5.1 (2 points)** Create a new LTSpice circuit and design a Wheatstone bridge with 320Ω resistors and a 5V voltage source. Make sure the custom model files `strain-gauge.LIB` and `strain-gauge.asy` for the strain gauge are placed next to your circuit file `T5_1_sg.asc`. Replace the upper left resistor of the Wheatstone bridge with the custom strain gauge component which models the strain gauge. Setup the strain gauge model for the strain gauge symbol and add the spice directive `.lib strain-gauge.LIB` to the circuit.
+```answer
+Type here the answer...
+```
+![T5_1_sg](ltspice/png/T5_1_sg.png)
+
+See [file](ltspice/T5_1_sg.asc) ↗
+
+**T.5.2 (2 points)** Set the strain gauge properties of the model to:
+– Initial resistance R = 320 Ω
+– Strain gauge length L = 0.32 m
+– Gauge factor k = 1.76
+– Number of sensitive tracks n = 32
+Make sure that the circuit file `T5_1_sg.asc` contains your changes.
+
+**T.5.3 (2 points)** To simulate a change of length, connect a sine voltage source to the strain gauge with 1 µV amplitude and 5 Hz. Here, a length change of 1 µm corresponds to a voltage change of 1 µV. Perform a transient simulation for 1 s and a maximum time step of 10 µs and plot the bridge voltage VB. Make sure that the circuit file `T5_1_sg.asc` contains your changes. Submit the plot with the screenshot `T5_3_sg.png`.
+
+![T5_1_sg](img/T5_3_sg.png)
+
+
+**T.5.4 (2 points)** Lower the maximum simulation time step to 1 µs and compare it with a maximum time step of 20 µs. What differences do you observe? Please explain you observations and submit the screenshots `T5_4_sg_1us.png` and `T5_4_sg_20us.png` of your plots. Submit your circuit file `T5_4_sg.asc` with the maximum time step configured to 10 µs.
+
+![T5_4_sg_1us](img/T5_4_sg_1us.png)
+
+![T5_4_sg_20us](img/T5_4_sg_20us.png)
+
+```answer
+Type here the answer...
+```
+
+![T5_4_sg](ltspice/png/T5_4_sg.png)
+
+See [file](ltspice/T5_4_sg.asc) ↗
+
+
+**T.5.5 (2 points)** Discuss the simulation results. What do you conclude with respect to the circuit’s applicability? Could you measure the distance changes with the ADC of the AVR microcontroller?
+
+```answer
+Type here the answer...
+```
+
+### 5.2 Wheatstone Bridge with an Op-Amp (10 points)
+**T.5.6 (6 points)** Copy the circuit `T5_4_sg.asc` and rename it to `T5_6_sg_opamp.asc`. Make sure the custom model files `INA122.LIB` and `INA122.asy` for the INA122 instrumental amplifier are placed next to your circuit file. Integrate the INA122 to your circuit such that the INA122
+– **(2 points)** operates with a bias voltage of 2.5 V,
+– **(2 points)** operates with a gain of 7500, and
+– **(2 points)** is correctly connected to the Wheatstone bridge
+
+Submit your circuit file `T5_6_sg_opamp.asc`.
+
+![T5_6_sg_opamp](ltspice/png/T5_6_sg_opamp.png)
+
+See [file](ltspice/T5_6_sg_opamp.asc) ↗
+
+**T.5.7 (4 points)** Conduct a transient simulation `.tran 0 1 0 10u`, once for the INA122 operating with a bias voltage of 2.5 V, and once for the INA122 operating with a bias voltage of 0 V. What difference do you observe? Explain your observation and submit the screenshots `T5_7_sg_opamp_2500mV.png` and `T5_7_sg_opamp_0000mV.png` of your plots.
+
+```answer
+Type here the answer...
+```
+
+![T5_7_sg_opamp_2500mV](img/T5_7_sg_opamp_2500mV.png)
+
+![T5_7_sg_opamp_0000mV](img/T5_7_sg_opamp_0000mV.png)
+
+### 5.3 Power Line Noise (6 points)
+**T.5.8 (2 points)** Copy the circuit `T5_6_sg_opamp.asc` and rename it to `T5_8_pln.asc`. To simulate power line noise and high frequency noise from actuators, add the following voltage sources in series on top of the 5 V DC voltage source:
+– A sine voltage source, 200 mV amplitude, 50 Hz
+– A sine voltage source, 200 mV amplitude, 100 Hz
+– A sine voltage source, 200 mV amplitude, 1 kHz
+Submit your circuit file `T5_8_pln.asc`.
+
+![T5_8_pln](ltspice/png/T5_8_pln.png)
+
+See [file](ltspice/T5_8_pln.asc) ↗
+
+**T.5.9 (2 points)** Which noise sources of **T.5.8** simulate power line noise and which one actuator noise? Please explain your choices.
+
+```answer
+Type here the answer...
+```
+
+**T.5.10 (2 points)** How do these noise sources influence the output of the op-amp? Explain your observations and submit the screenshot `T5_10_pln.png` of your plot.
+
+```answer
+Type here the answer...
+```
+
+![T5_10_pln](img/T5_10_pln.png)
+
+
+### 5.4 Power Line Noise Filtering (6 points)
+**T.5.11 (4 points)** Copy the circuit `T5_8_pln.asc` and rename it to `T5_11_pln_filtered.asc`. Add an LC low pass filter between the voltage sources and the circuit. Use a 10 µH inductor with an ESR of 10 Ω and a 1000 µF capacitor with an ESR of 20 mΩ. Submit your circuit file `T5_11_pln_filtered.asc`.
+
+![T5_11_pln_filtered](ltspice/png/T5_11_pln_filtered.png)
+
+See [file](ltspice/T5_11_pln_filtered.asc) ↗
+
+**T.5.12 (2 points)** How does the filter influence the output of the op-amp? Explain your observations and submit the screenshot `T5_12_pln_filtered.png` of your plot.
+
+```answer
+Type here the answer...
+```
+
+![T5_12_pln_filtered](img/T5_12_pln_filtered.png)
