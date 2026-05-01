@@ -8,6 +8,8 @@
 | Niklas Peter | 03812287 | n.peter@tum.de |
 | Emile Gebrael | 03812968 | emile.gebrael@tum.de |
 
+This tutorial can also be found [here on GitHub](https://github.com/samuele-ribaudo/humanoid-sensors-and-actuators/tree/main/T1) ↗
+
 # Tutorial 1 - Part 1
 
 Course Instructors: Dr. Florian Bergner
