@@ -319,7 +319,7 @@ docker rm hsa_t2s2_ws_devcont
 2. Open the tutorial project in VS Code:
 ```bash
 cd hsa_t2s2_ws
-code.
+code .
 ```
 
 3. Press `Ctrl+Shift+`P, type `Dev Containers: Rebuild and Reopen In Container`, and press `Enter`. The project is now opened in the Dev Container and all terminals in VS Code will be running in the container environment.
