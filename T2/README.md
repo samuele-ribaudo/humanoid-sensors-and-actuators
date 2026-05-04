@@ -345,24 +345,24 @@ cd src/adc_poti
 ```
 
 **T.6.1 (1 point)** How does a potentiometer work? What are the pinouts and how should it be connected?
-1. Connect a $100k\Omega$ potentiometer. Connect one of the outer pins to GND and the other to 5V. Connect the middle pin to ADC0 (see µC pinout of T1.1).
+1. Connect a 100 kOhm potentiometer. Connect one of the outer pins to GND and the other to 5V. Connect the middle pin to ADC0 (see µC pinout of T1.1).
 ```answer
-Type here the answer...
+A potentiometer is a resistor that can vary in length by mechanically turning  a wiper. It acts as a variable voltage divider. The two outer pins are connected to the ends of a fixed resistive element (in this case GND anc VCC). The middle pin is connected to a wiper that moves along this element. By moving the wiper, you change the ratio of resistance between the middle pin and the two outer pins.
 ```
 
 **T.6.2 (1 point)** Explain what you see in the output when you change the value of the potentiometer? What are the minimum and maximum values?
 ```answer
-Type here the answer...
+When we change the value of the potentiometer the output increases. It starts from 0 and goes up to 255.
 ```
 
 **T.6.2 (1 point)** What is this microcontroller program doing?
 ```answer
-Type here the answer...
+The program samples the analog value on pin ADC0 and converts it to a digital 8-bit value. This value is then trasmitted trough the serial port to the pc.
 ```
 
 **T.6.3 (Bonus: 5 points)** Use the `log.py` Python script as a template and write a new script that opens the serial port and plots the reading of the ADC in real-time. Submit the new script `adc_plotter.py`.
 
-```answer
+```py
 Type here the code...
 ```
 See [full code](code/adc_plotter.py) ↗
