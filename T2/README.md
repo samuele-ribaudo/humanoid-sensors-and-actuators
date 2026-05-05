@@ -534,31 +534,31 @@ One conversion takes 26 µs (26 CPU cycles at 1 MHz).
 Therefore, the sampling frequency is f_s=1/26μs≈38.5kHz.
 ```
 
-**R.6.3 (2 points)** Assuming that each iteration of your for-loop for the 1024 samples (T.6.11) takes $32 \mu s$, what is limiting your actual sampling frequency: 
-- The iteration time of the for-loop ($32 \mu s$), or 
+**R.6.3 (2 points)** Assuming that each iteration of your for-loop for the 1024 samples (T.6.11) takes 32 µs, what is limiting your actual sampling frequency: 
+- The iteration time of the for-loop 32 µs, or 
 - the sampling time of the ADC in free running mode?
 ```answer
 The iteration time of the for-loop (32 µs) is limiting the sampling frequency.
 ```
 
-**R.6.4 (2 points)** Use your results of T.6.13 and measure the $3\tau$ ($\tau=RC$) value. Remember the capacitance is not known and will be determined using the value.
+**R.6.4 (2 points)** Use your results of T.6.13 and measure the 3τ (τ=RC) value. Remember the capacitance is not known and will be determined using the value.
 ```answer
-Type here the answer...
+First we have to compute τ. Following the formula V(t) = Vmax*(1-e^(-t/τ)) and substituting t = τ we obtain that τ is reached at a tick value of V(τ) = 255*(1-e^-1) = 161.19 ≈ 161. In adc_rcsc.csv we saw that at line 736 it starts from 0 and reaches 161 at line 1070, wich means that it took 335 samples. Considering a sampling speed of 32µs/sample we obtain a value of τ = 10.7 ms, leading to 3τ ≈ 32 ms.
 ```
 
-**R.6.5 (2 points)** What ADC tick value (range: 0 to 255) did you use for measuring $3\tau$? Please explain your computations in detail.
+**R.6.5 (2 points)** What ADC tick value (range: 0 to 255) did you use for measuring 3τ? Please explain your computations in detail.
 ```answer
-Type here the answer...
+The formula of the charging capatior is V(t) = Vmax*(1-e^(-t/τ)), substituting t=3τ and Vmax = 255 we obtain V(3τ) = 242.304 ≈ 242.
 ```
 
 **R.6.6 (2 points)** What voltage level does this ADC value represent? Please explain your computations in detail.
 ```answer
-Type here the answer...
+We have to do the DAC conversion: V_analog = Vmax_analog * V_digital / 255 = 4.745V
 ```
 
-**R.6.7 Bonus (2 points)** Use the $\tau$ value you determined in R.6.4 and the given resistance $R=1k\Omega$ and calculate the capacitance C of the capacitor.
+**R.6.7 Bonus (2 points)** Use the τ value you determined in R.6.4 and the given resistance R=1kOhm and calculate the capacitance C of the capacitor.
 ```answer
-Type here the answer...
+Since τ = RC -> C = τ/R = 10.7ms / 1kOhm = 10.7 µF
 ```
 
 **R.6.8 Bonus (4 points)** We discussed the operation of the ADC in the lecture. Let's assume that the conversion logic uses a digital counter with a DAC to generate a voltage ramp. Considering the Sample&Hold time and the total conversion time of the ADC (see datasheet, R.6.1) with the settings used in T.6.4, what would be the minimal frequency of the clock that drives the digital counter generating that voltage ramp?
