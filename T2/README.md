@@ -557,32 +557,36 @@ Please submit the following files:
 2. Interrupt service routine
 3. Busy wait state
 ```answer
-Type here the answer...
+Interrupt: A hardware or software signal that temporarily halts the main program to address an immediate event.
+
+Interrupt Service Routine (ISR): A specific function that the processor automatically executes to handle the triggered interrupt.  
+
+Busy wait state: A programming loop where the CPU continuously checks a condition, actively wasting processing cycles rather than performing useful tasks.
 ```
 
 **R.7.2 (2 points)** Explain why interrupts are so appealing compared to busy wait states.
 ```answer
-Type here the answer...
+Interrupts allow the CPU to perform other tasks or enter low-power sleep modes until an event occurs, rather than wasting processing power continuously checking a condition.
 ```
 
 **R.7.3 (5 points)** What happens when an interrupt flag is raised during the execution of another interrupt routine? Justify by referring to the relevant datasheet page number(s).
 ```answer
-Type here the answer...
+When the MCU starts an ISR, the Global Interrupt Enable bit (I-bit in SREG) is automatically cleared by hardware, disabling all other interrupts. If another interrupt occurs during this time, its specific Interrupt Flag is set and remembered. Once the current ISR finishes and the RETI instruction is executed, the I-bit is restored, and the pending interrupt is serviced according to its priority. This behavior is explicitly justified on page 14 of the ATmega32 datasheet under the "Reset and Interrupt Handling" section.
 ```
 
 **R.7.4 Bonus (3 points)** Based on your answer to the previous question, discuss whether an external interrupt request, say `INT0`, can interrupt the ISR of `TIMER2 OVF`.
 ```answer
-Type here the answer...
+By default, INT0 cannot interrupt the TIMER2 OVF ISR because the global I-bit is cleared upon entering the timer's ISR. However, if the software explicitly sets the I-bit (using the sei() command) inside the timer ISR, nested interrupts become possible. In that specific case, INT0 would interrupt the timer ISR because its vector address ($002) gives it a higher priority than TIMER2 OVF ($00A).
 ```
 
 **R.7.5 (5 points)** What happens on the AVR when an ISR takes too long to execute? Is it then possible to interrupt an ISR with the same interrupt flag that triggered it in the first place? Justify.
 ```answer
-Type here the answer...
+If an ISR takes too long to execute, the system becomes unresponsive to other critical events, potentially missing time-sensitive interrupts. It is not possible for an ISR to be interrupted by the same interrupt flag that triggered it. When the ISR starts, the hardware clears that specific flag. If the event occurs again while the ISR is still running, the flag is set and remembered, but because it is a single bit, multiple occurrences are only remembered once, leading to lost events. The ISR must completely finish and execute RETI before that specific flag can trigger a new interrupt.
 ```
 
 **R.7.6 Bonus (5 points)** Knowing the clock frequency of the microcontroller and the size of the timer register, propose a new timer clock prescaler value, allowing to get as close as possible to the desired blinking frequency with the previously implemented method. Justify.
 ```answer
-Type here the answer...
+Proposed Prescaler: 1 (No prescaling).Justification: To achieve exactly a 0.5 Hz blink, the LED must toggle every 1 second, which is exactly 1,000,000 CPU cycles at 1 MHz. The previous prescaler of 64 resulted in timer overflows every 16,384 cycles. Counting 61 overflows took 999,424 cycles, leaving a 576 µs error. With a prescaler of 1, the 8-bit timer overflows every 256 CPU cycles. Dividing 1,000,000 by 256 gives 3906.25. If the software counts exactly 3906 overflows, the elapsed time is $3906 \times 256 = 999,936$ CPU cycles. This reduces the timing error to a mere 64 µs per toggle, providing a vastly more accurate 0.5 Hz frequency. 
 ```
 
 ## 8 Pulse Width Modulation (20 points)
