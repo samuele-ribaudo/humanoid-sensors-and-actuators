@@ -388,7 +388,27 @@ The program samples the analog value on pin ADC0 and converts it to a digital 8-
 **T.6.3 (Bonus: 5 points)** Use the `log.py` Python script as a template and write a new script that opens the serial port and plots the reading of the ADC in real-time. Submit the new script `adc_plotter.py`.
 
 ```py
-Type here the code...
+...
+# Matplotlib animation update function
+def update_plot(frame, line):
+    line.set_ydata(data_buffer)
+    return line,
+
+if __name__ == '__main__':
+
+    ftdiVer = ftdi_tools.getLibraryVersionString()
+    print(f"FTDI library version: {ftdiVer}")
+
+    print("Detected FTDI devices:")
+    dl = ftdi_tools.getDeviceInfoList()
+    print(json.dumps(dl, indent=4))
+
+    dev_num = None
+    for ind, d in enumerate(dl):
+        if d['description'] == "SkinCellAdapter":
+            dev_num = ind
+            break
+...
 ```
 See [full code](code/adc_plotter.py) ↗
 
@@ -446,6 +466,10 @@ void adc_readBlocking(uint8_t* b, uint8_t ch)
 ```
 See [full code](code/main_adc_poti.c) ↗
 
+![adc_poti.png](img/adc_poti.png)
+
+See [adc_poti.csv](csv/adc_poti.csv) ↗
+
 ### 6.3 Measuring the Capacitance of a Capacitor with the ADC (14 points)
 Now, we use a simple RC series circuit to measure the capacitance of a capacitor with the ADC. While we want to determine the capacitance, the resistance and the sampling frequency are known.
 Please submit the code you created as specified in the tasks. You can find template files for each task in the folder `hsa_t2s2_ws/src/adc_rcsc/src/applications`. The template files of this section use pre-compiled libraries for the UART and the ADC peripheral blocks. Please use these libraries for implementing the tasks of this section. You can implement all tasks of this section without completing the tasks of the previous sections.
@@ -453,6 +477,8 @@ Please submit the code you created as specified in the tasks. You can find templ
 **T.6.9 (2 points)** Use the pin PC1 to charge/discharge a $1 \mu F$ capacitor via a $1k\Omega$ resistor.
 
 **T.6.10 (4 points)** Visualize in the oscilloscope the charge/discharge process.
+
+![rc_scope.png](img/rc_scope.png)
 
 **T.6.11 (4 points)** Use the ADC0 pin to sample the loading curve with maximum ADC sampling frequency. To minimize any delays between samples first store 1024 samples into the SRAM.
 
@@ -462,7 +488,33 @@ void uart_writeBlocking (const uint8_t* d, uint16_t size);
 ``` 
 function.
 
+```c
+...
+    while(1){
+        _delay_ms(10);
+
+        PORTC |= (1 << PC1); // charge the capacitor
+
+        for(int i = 0; i < 1024; i++) {
+            adc_readBlocking(&samples[i], 0);
+        }
+
+        PORTC &= ~(1 << PC1); // discharge the capacitor
+
+        //uart_writeBlocking(samples, 1024); // send to the uart
+        for(int i = 0; i < 1024; i++){
+            uart_writeByteBlocking(samples[i]);
+        }
+    }
+...
+``` 
+See [main_adc_rcsc.c](code/main_adc_rcsc.c) ↗
+
 **T.6.13 (2 points)** Save the CSV file of the 1024 samples and plot it. Note: You will need this CSV file to answer some questions in your report.
+
+![adc_rcsc.png](img/adc_rcsc.png)
+
+See [adc_rcsc.csv](csv/adc_rcsc.csv) ↗
 
 Please submit the following files:
 *   `main_adc_rcsc.c`
