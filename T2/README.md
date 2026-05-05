@@ -472,8 +472,8 @@ Please submit the following files:
 
 ### 6.4 Report (14 points)
 **R.6.1 (4 points)** In T.6.4 you use the ADC with specific settings and a CPU frequency of 1 MHz. How many CPU cycles pass between the acquisitions of two ADC samples? Elaborate and explain.
-```answer
-Type here the answer...
+```
+Since one ADC conversion takes 13 ADC clock cycles and the prescaler is 2, each ADC cycle corresponds to 2 CPU cycles, resulting in 13 × 2 = 26 CPU cycles per conversion.
 ```
 
 **R.6.2 (2 points)** What is then the sampling frequency of the ADC?
