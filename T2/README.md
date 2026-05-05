@@ -78,29 +78,54 @@ See [file](ltspice/T3_1_RC_ac.asc) ↗
 
 ### 3.1 Report (18 points)
 **R.3.1 (4 points)** Derive the complex transfer function `H(jω) = Vout / Vin` of the filter. Use symbolic expressions and explain each sub-step. You will get points for the symbolic calculations. You will only get one point for the correct result.
-```answer
-Type here the answer...
-```
+
+1.  **Identify Impedances**:
+    *   Resistor: $Z_R = R$
+    *   Capacitor: $Z_C = \frac{1}{j\omega C}$
+2.  **Voltage Divider Equation**:
+    $$V_{out} = V_{in} \cdot \frac{Z_C}{Z_R + Z_C}$$
+3.  **Substitution**:
+    $$H(j\omega) = \frac{V_{out}}{V_{in}} = \frac{\frac{1}{j\omega C}}{R + \frac{1}{j\omega C}}$$
+4.  **Simplification** (multiply numerator and denominator by $j\omega C$):
+    **Result**: $$H(j\omega) = \frac{1}{1 + j\omega RC}$$
 
 **R.3.2 (4 points)** Derive the gain G(ω) = |H(jω)| of the filter. Use symbolic expressions and explaineach sub-step. You will get points for the symbolic calculations. You will only get one point for the correct result.
-```answer
-Type here the answer...
-```
+
+1.  **Magnitude Formula**:
+    $$G(\omega) = |H(j\omega)| = \left| \frac{1}{1 + j\omega RC} \right|$$
+2.  **Apply Magnitude Properties**:
+    $$G(\omega) = \frac{|1|}{|1 + j\omega RC|}$$
+3.  **Calculate Complex Denominator Magnitude**:
+    **Result**: $$G(\omega) = \frac{1}{\sqrt{1 + (\omega RC)^2}}$$
 
 **R.3.3 (4 points)** Derive the phase shift φ(ω) = arg(x+jy) = arctan2(y,x) ≈ arctan(y/x) of the filter. Use symbolic expressions and explain each sub-step. You will get points for the symbolic calculations. You will only get one point for the correct result.
-```answer
-Type here the answer...
-```
+
+1.  **Argument Property**:
+    $$\varphi(\omega) = \arg(1) - \arg(1 + j\omega RC)$$
+2.  **Evaluate Terms**:
+    *   $\arg(1) = 0$
+    *   $\arg(1 + j\omega RC) = \arctan\left(\frac{\text{Im}}{\text{Re}}\right) = \arctan(\omega RC)$
+3.  **Subtraction**:
+    **Result**: $$\varphi(\omega) = -\arctan(\omega RC)$$
 
 **R.3.4 (4 points)** Derive the −3 dB cutoff frequency fc = ωc/(2π) where the gain of the filter equals G(ω) = 1/√(2). Use symbolic expressions and explain each sub-step. You will get points for the symbolic calculations. You will only get one point for the correct result
-```answer
-Type here the answer...
-```
+
+1.  **Set Gain Equation**:
+    $$\frac{1}{\sqrt{1 + (\omega_c RC)^2}} = \frac{1}{\sqrt{2}}$$
+2.  **Solve for $\omega_c$**:
+    $$1 + (\omega_c RC)^2 = 2 \implies (\omega_c RC)^2 = 1 \implies \omega_c = \frac{1}{RC}$$
+3.  **Convert Angular Frequency to Hz**:
+    $$f_c = \frac{\omega_c}{2\pi} = \frac{1}{2\pi RC}$$
+4.  **Numerical Calculation** (using $R = 10\text{k}\Omega$ and $C = 1\mu\text{F}$):
+    *   $RC = 10,000 \cdot 10^{-6} = 0.01\text{s}$
+    *   $f_c = \frac{1}{2\pi \cdot 0.01} \approx 15.915\text{ Hz}$
+    **Result**: $f_c \approx 15.92\text{ Hz}$
 
 **R.3.5 (2 points)** Compare your results with the result of your LTSpice simulation in **T.3.1**. Elaborate and explain your observations.
-```answer
-Type here the answer...
-```
+
+*   **Amplitude**: In the LTSpice plot, the gain remains near 0 dB ($1\text{V}$) at very low frequencies and drops to roughly $-3\text{ dB}$ (approx. $0.707\text{V}$) as the frequency approaches $15.9\text{ Hz}$.
+*   **Phase**: The phase starts at $0^\circ$ and passes through $-45^\circ$ at the calculated cutoff frequency ($15.92\text{ Hz}$), eventually trending toward $-90^\circ$ at higher frequencies.
+*   **Conclusion**: The simulation confirms the behavior of a first-order low-pass filter, validating our symbolic derivations.
 
 ## 4 Operational Amplifier (Op-Amp) Circuits (18 points)
 ### 4.1 Voltage Divider with a Resistive Output Load (6 points)
