@@ -478,14 +478,15 @@ Since one ADC conversion takes 13 ADC clock cycles and the prescaler is 2, each 
 
 **R.6.2 (2 points)** What is then the sampling frequency of the ADC?
 ```answer
-Type here the answer...
+One conversion takes 26 µs (26 CPU cycles at 1 MHz).
+Therefore, the sampling frequency is f_s=1/26μs≈38.5kHz.
 ```
 
 **R.6.3 (2 points)** Assuming that each iteration of your for-loop for the 1024 samples (T.6.11) takes $32 \mu s$, what is limiting your actual sampling frequency: 
 - The iteration time of the for-loop ($32 \mu s$), or 
 - the sampling time of the ADC in free running mode?
 ```answer
-Type here the answer...
+The iteration time of the for-loop (32 µs) is limiting the sampling frequency.
 ```
 
 **R.6.4 (2 points)** Use your results of T.6.13 and measure the $3\tau$ ($\tau=RC$) value. Remember the capacitance is not known and will be determined using the value.
