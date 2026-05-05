@@ -394,6 +394,33 @@ Please submit the following files containing your solution for tasks T.6.4 to T.
 *   `adc_poti.csv` containing the sample of your potentiometer experiment
 *   A screenshot `adc_poti.png` of the plot that you created with the `adc_poti.csv`
 
+```c
+...
+void adc_init(){
+    ADMUX |= (1 << REFS0); // pag. 214 - AVCC with external capacitor at AREF pin
+    ADCSRA |= (1 << ADPS0); // pag. 216 - ADC Prescaler Select Bits
+    ADCSRA |= (1 << ADATE); // pag. 218 - If ADATE is cleared, the ADTS2:0 settings will have no effect. 
+    SFIOR &= ~((1 << ADTS0)|(1 << ADTS1)|(1 << ADTS2)); // pag. 218 - Free Running mode
+    ADMUX |= (1 << ADLAR); // pag. 214 and 217 - access conversion in ADCH
+    ADCSRA |= (1 << ADEN); // pag. 216 - ADC enable
+    ADCSRA |= (1 << ADSC); // pag. 204 - The first conversion must be started by writing a logical one to the ADSC bit in ADCSRA. 
+}
+...
+void adc_readBlocking(uint8_t* b, uint8_t ch)
+{
+    *b = 0x00;
+    ADMUX &= 0xE0; // pag. 215 - clear MUX4:0 bits
+    ADMUX |= (ch & 0x1F); // pag. 215 - MUX4:0 bits
+
+    while(!(ADCSRA & (1 << ADIF))); // pag. 216 - wait for conversion to complete
+    ADCSRA |= (1 << ADIF); // pag. 216 - ADIF is cleared by writing a logical one to the flag
+
+    *b = ADCH;
+}
+...
+```
+See [full code](code/main_adc_poti.c) ↗
+
 ### 6.3 Measuring the Capacitance of a Capacitor with the ADC (14 points)
 Now, we use a simple RC series circuit to measure the capacitance of a capacitor with the ADC. While we want to determine the capacitance, the resistance and the sampling frequency are known.
 Please submit the code you created as specified in the tasks. You can find template files for each task in the folder `hsa_t2s2_ws/src/adc_rcsc/src/applications`. The template files of this section use pre-compiled libraries for the UART and the ADC peripheral blocks. Please use these libraries for implementing the tasks of this section. You can implement all tasks of this section without completing the tasks of the previous sections.
