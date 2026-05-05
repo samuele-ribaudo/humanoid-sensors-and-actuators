@@ -30,7 +30,7 @@ int main (void)
     {
         _delay_ms(10);
 
-        adc_readBlocking(&val,0);
+        adc_readBlocking(&val,2);
         uart_writeByteBlocking(val);
     }
 
