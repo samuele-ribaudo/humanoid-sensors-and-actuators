@@ -543,7 +543,7 @@ The iteration time of the for-loop (32 µs) is limiting the sampling frequency.
 
 **R.6.4 (2 points)** Use your results of T.6.13 and measure the 3τ (τ=RC) value. Remember the capacitance is not known and will be determined using the value.
 ```answer
-First we have to compute τ. Following the formula V(t) = Vmax*(1-e^(-t/τ)) and substituting t = τ we obtain that τ is reached at a tick value of V(τ) = 255*(1-e^-1) = 161.19 ≈ 161. In adc_rcsc.csv we saw that at line 736 it starts from 0 and reaches 161 at line 1070, wich means that it took 335 samples. Considering a sampling speed of 32µs/sample we obtain a value of τ = 10.7 ms, leading to 3τ ≈ 32 ms.
+Following the formula V(t) = Vmax*(1-e^(-t/τ)) and substituting t = 3τ we obtain that 3τ is reached at a tick value of V(τ) = 255*(1-e^-1) = 242.304 ≈ 242. In adc_rcsc.csv we saw that at line 2 it starts from the minimum value and reaches 242 at line 90, wich means that it took 89 samples. Considering a sampling speed of 32µs/sample we obtain a value of 3τ = 2.85 ms.
 ```
 
 **R.6.5 (2 points)** What ADC tick value (range: 0 to 255) did you use for measuring 3τ? Please explain your computations in detail.
@@ -558,7 +558,8 @@ We have to do the DAC conversion: V_analog = Vmax_analog * V_digital / 255 = 4.7
 
 **R.6.7 Bonus (2 points)** Use the τ value you determined in R.6.4 and the given resistance R=1kOhm and calculate the capacitance C of the capacitor.
 ```answer
-Since τ = RC -> C = τ/R = 10.7ms / 1kOhm = 10.7 µF
+Following the formula V(t) = Vmax*(1-e^(-t/τ)) and substituting t = τ we obtain that τ is reached at a tick value of V(τ) = 255*(1-e^-1) = 161.19 ≈ 161. In adc_rcsc.csv we saw that at line 2 it starts from the minimum value and reaches 161 around line 33, wich means that it took 32 samples. Considering a sampling speed of 32µs/sample we obtain a value of τ = 1.0 ms.
+Since τ = RC -> C = τ/R = 1.0ms / 1kOhm = 1.0 µF
 ```
 
 **R.6.8 Bonus (4 points)** We discussed the operation of the ADC in the lecture. Let's assume that the conversion logic uses a digital counter with a DAC to generate a voltage ramp. Considering the Sample&Hold time and the total conversion time of the ADC (see datasheet, R.6.1) with the settings used in T.6.4, what would be the minimal frequency of the clock that drives the digital counter generating that voltage ramp?
