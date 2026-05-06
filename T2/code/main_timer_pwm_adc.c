@@ -1,62 +1,51 @@
 #include <atmega32/io.h>
 #include <avr/interrupt.h>
 
-// Global variable to hold the latest 8-bit ADC reading
-volatile uint8_t adc_duty_cycle = 127;
+volatile uint8_t duty_cycle = 0;
 
-// ADC Conversion Complete ISR
-ISR(ADC_vect)
-{
-    // Read the 8-bit value from the high register (since ADLAR is set)
-    adc_duty_cycle = ADCH; 
+ISR(ADC_vect){
+    duty_cycle = ADCH; // Read the ADC value and store it in duty_cycle
 }
 
-// TIMER0 Overflow ISR (Start of PWM cycle)
-ISR(TIMER0_OVF_vect)
-{
-    PORTC |= (1 << PC0);        // Set PC0 HIGH
-    OCR0 = adc_duty_cycle;      // Safely update the duty cycle for this period
-
-    // Start the next ADC conversion
-    ADCSRA |= (1 << ADSC);
+ISR(TIMER0_OVF_vect){ // This ISR is called when the timer overflows
+    PORTC |= (1 << PC0); // Set the LED
+    OCR0 = duty_cycle; // Safely update the duty cycle for this period
+    ADCSRA |= (1 << ADSC); // Start the next ADC conversion
 }
 
-// TIMER0 Compare Match ISR (End of HIGH time)
-ISR(TIMER0_COMP_vect)
-{
-    PORTC &= ~(1 << PC0);       // Set PC0 LOW
+ISR(TIMER0_COMP_vect){ // This ISR is called when the timer reaches the value in OCR0
+    PORTC &= ~(1 << PC0); // Clear the LED
 }
 
-int main(void)
+void ADC_init(){
+    ADMUX |= (1 << REFS0); // pag. 214 - AVCC with external capacitor at AREF pin
+    ADMUX |= (1 << ADLAR); // pag. 214 and 217 - access conversion in ADCH
+    ADCSRA |= (1 << ADPS0)|(1 << ADPS1)|(1 << ADPS2); // pag. 216 - ADC Prescaler Select Bits
+    ADCSRA |= (1 << ADIE); // pag. 216 - ADC Interrupt Enable
+    ADCSRA |= (1 << ADEN); // pag. 216 - ADC Enable
+}
+
+void T0_init(){
+    TCCR0 &= ~((1 << CS02)|(1 << CS01)|(1 << CS00)); // clear prescaler bits
+    TCCR0 |= (1 << CS02)|(1 << CS00); // table 42 pag 82
+    TIMSK |= (1 << TOIE0)|(1 << OCIE0); // pag 83
+    TCNT0 = 0; // reset the counter
+}
+
+int main (void)
 {        
-    cli();
+    cli(); // disable interrupts
 
-    // Set PC0 as output
-    DDRC |= (1 << PC0);
+    DDRC |= (1 << PC0); // set PC0 as output
+    ADC_init();
+    T0_init();
 
-    // --- TIMER0 SETUP ---
-    // Prescaler 1024
-    TCCR0 |= (1 << CS02) | (1 << CS00);
-    TCCR0 &= ~(1 << CS01);
-    // Enable OVF and COMP interrupts
-    TIMSK |= (1 << TOIE0) | (1 << OCIE0);
+    sei(); // enable interrupts
 
-    // --- ADC SETUP ---
-    // Select AVCC as reference (REFS0=1) and Left Adjust for 8-bit mode (ADLAR=1)
-    // MUX3..0 = 0000 (defaults to ADC0)
-    ADMUX = (1 << REFS0) | (1 << ADLAR);
+    ADCSRA |= (1 << ADSC); // Start the first conversion
 
-    // Enable ADC (ADEN), Enable Interrupt (ADIE), and set Prescaler to 128 (ADPS2..0 = 1)
-    ADCSRA = (1 << ADEN) | (1 << ADIE) | (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
-
-    sei();
-
-    // Kick off the very first ADC conversion to get things started
-    ADCSRA |= (1 << ADSC);
-
-    while(1)
-    {
-    }
+    while(1);
     
+    // Should never be reached    
     return 0;
 }

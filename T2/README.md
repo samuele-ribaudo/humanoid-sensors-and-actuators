@@ -584,12 +584,34 @@ Figure 1: Timing Diagrams of two hypothetical 2-bit timers with values ranging f
 *   Start by including the AVR interrupt library within your code template: `#include <avr/interrupt.h>`
 *   You should then disable the interrupts. This is in general a good practice, which prevents the microcontroller from being interrupted while performing important operations.
 *   In the `TIMER2 Control Register` (TCCR2), initialize the timer clock prescaler to 64.
-*   Set TIMER2 to issue an interrupt when an overflow event is detected. To do so, set the
-"``Overflow Interrupt Enable`" in the `Timer Interrupt Mask Register` (TIMSK).
+*   Set TIMER2 to issue an interrupt when an overflow event is detected. To do so, set the "`Overflow Interrupt Enable`" in the `Timer Interrupt Mask Register` (TIMSK).
 *   Initialize the `TIMER2 Counter Register` (TCNT2) to 0. The value of this register will be automatically incremented by one unit at each tic of the prescaled clock, and will roll back to zero at overflow.
 *   Set C0 as the desired output pin.
 *   You can now re-enable the interrupts by setting the global interrupt enable.
 *   Define a dummy infinite loop in order to maintain your microcontroller active.
+```c
+#include <atmega32/io.h>
+#include <avr/interrupt.h>
+
+void T2_init(){
+    cli(); // disable interrupts
+    TCCR2 &= ~((1 << CS22)|(1 << CS21)|(1 << CS20)); // clear prescaler bits
+    TCCR2 |= (1 << CS22); // table 54 pag 127
+    TIMSK |= (1 << TOIE2); // pag 130
+    TCNT2 = 0; // reset the counter
+    sei(); // enable interrupts
+}
+
+int main (void)
+{        
+    DDRC |= (1 << PC0); // set PC0 as output
+    T2_init();
+
+    while(1);
+...
+```
+See [main_timer_blink.c](code/main_timer_blink.c) ↗
+
 
 **T.7.2 (5 points)** Outside the `main()` function:
 Write an interrupt service routine (ISR) catching the overflow interrupt vector of TIMER2:
@@ -600,7 +622,26 @@ ISR (TIMER2_OVF_vect)
 }
 ```
 
-Use a global variable4 in the ISR, so that the LED state changes after a defined number of counter overflow, corresponding to a blinking frequency of 0.5 Hz. Give this number into your report and justify.
+Use a global variable in the ISR, so that the LED state changes after a defined number of counter overflow, corresponding to a blinking frequency of 0.5 Hz. Give this number into your report and justify.
+
+```answer
+Since the CPU works at 1MHz and we set a prescaler of 1/64, then timer 2 works at a frequency of 1MHz/64 = 15.625kHz.
+The ISR is triggered when the timer overflows. Since it is an 8-bit timer it will overflow every 256 iterations, wich means that we have an overflow every 256/15.625kHz = 0.016384s.
+To toggle the LED every 1s (period of 2s = 0.5Hz) we need a total of 1s/0.016384s = 61.035 overflows, wich can be approximated to the integer 61.
+```
+
+```c
+...
+ISR(TIMER2_OVF_vect){
+    count++;
+    if(count >= 61){ // see explaination in the report
+        PORTC ^= (1 << PC0); // Toggle the LED
+        count = 0;       // Reset the counter
+    }
+}
+...
+```
+See [main_timer_blink.c](code/main_timer_blink.c) ↗
 
 Please submit the following files:
 - `main_timer_blink.c`
@@ -611,11 +652,11 @@ Please submit the following files:
 2. Interrupt service routine
 3. Busy wait state
 ```answer
-Interrupt: A hardware or software signal that temporarily halts the main program to address an immediate event.
+Interrupt: a hardware or software signal that temporarily halts the main program to address an immediate event
 
-Interrupt Service Routine (ISR): A specific function that the processor automatically executes to handle the triggered interrupt.  
+Interrupt service routine: a specific function that the processor automatically executes to handle the triggered interrupt
 
-Busy wait state: A programming loop where the CPU continuously checks a condition, actively wasting processing cycles rather than performing useful tasks.
+Busy wait state: a programming loop where the CPU continuously checks a condition, actively wasting processing cycles rather than performing useful tasks
 ```
 
 **R.7.2 (2 points)** Explain why interrupts are so appealing compared to busy wait states.
@@ -640,7 +681,7 @@ If an ISR takes too long to execute, the system becomes unresponsive to other cr
 
 **R.7.6 Bonus (5 points)** Knowing the clock frequency of the microcontroller and the size of the timer register, propose a new timer clock prescaler value, allowing to get as close as possible to the desired blinking frequency with the previously implemented method. Justify.
 ```answer
-Proposed Prescaler: 1 (No prescaling).Justification: To achieve exactly a 0.5 Hz blink, the LED must toggle every 1 second, which is exactly 1,000,000 CPU cycles at 1 MHz. The previous prescaler of 64 resulted in timer overflows every 16,384 cycles. Counting 61 overflows took 999,424 cycles, leaving a 576 µs error. With a prescaler of 1, the 8-bit timer overflows every 256 CPU cycles. Dividing 1,000,000 by 256 gives 3906.25. If the software counts exactly 3906 overflows, the elapsed time is $3906 \times 256 = 999,936$ CPU cycles. This reduces the timing error to a mere 64 µs per toggle, providing a vastly more accurate 0.5 Hz frequency. 
+Proposed Prescaler: 1 (No prescaling).Justification: To achieve exactly a 0.5Hz blink, the LED must toggle every 1 second, which is exactly 1000000 CPU cycles at 1MHz. The previous prescaler of 64 resulted in timer overflows every 16,384 cycles. Counting 61 overflows took 999424 cycles, leaving a 576us error. With a prescaler of 1, the 8-bit timer overflows every 256 CPU cycles. Dividing 1000000 by 256 gives 3906.25. If the software counts exactly 3906 overflows, the elapsed time is 3906*256 = 999936 CPU cycles. This reduces the timing error to 64 us per toggle, providing a more accurate 0.5 Hz frequency.
 ```
 
 ## 8 Pulse Width Modulation (20 points)
@@ -669,6 +710,30 @@ During this tutorial session, we will explore the first PWM generation mode and 
 *   Define a dummy infinite loop in order to maintain your microcontroller active.
 *   Following the timing diagram of Figure 2, implement a PWM generation routine using the OVF and OCF ISR.
 
+```c
+#include <atmega32/io.h>
+#include <avr/interrupt.h>
+
+void T0_init(){
+    cli(); // disable interrupts
+    TCCR0 &= ~((1 << CS02)|(1 << CS01)|(1 << CS00)); // clear prescaler bits
+    TCCR0 |= (1 << CS02)|(1 << CS00); // table 42 pag 82
+    TIMSK |= (1 << TOIE0)|(1 << OCIE0); // pag 83
+    TCNT0 = 0; // reset the counter
+    OCR0 = 127; // 50% duty cycle of 255
+    sei(); // enable interrupts
+}
+
+ISR(TIMER0_OVF_vect){ // This ISR is called when the timer overflows
+    PORTC |= (1 << PC0); // Set the LED
+}
+
+ISR(TIMER0_COMP_vect){ // This ISR is called when the timer reaches the value in OCR0
+    PORTC &= ~(1 << PC0); // Clear the LED
+}
+...
+```
+See [main_timer_pwm.c](code/main_timer_pwm.c) ↗
 
 **T.8.2 (10 points)** PWM generation with adjustable duty cycle, modify `main_timer_pwm_adc.c`:
 
@@ -682,16 +747,77 @@ Start by setting the ADC with the following settings:
 ```c
 ISR (ADC_vect)
 {
+...
 }
 ```
 Use this ISR to update a global variable with the read ADC value. You can then use this variable to update the value of the OCR register in the OVF ISR.
 
 Light a LED with the obtained signal. What do you observe when you change the duty cycle? What happens when the value of the duty cycle gets close to a minimum or a maximum?
+
+```answer
+type here the answe...
+```
 ***Hint:*** Use an oscilloscope to visualize the signal.
 
 Please submit the following files:
 *   `main_timer_pwm.c`
 *   `main_timer_pwm_adc.c`
+
+```c
+#include <atmega32/io.h>
+#include <avr/interrupt.h>
+
+volatile uint8_t duty_cycle = 0;
+
+ISR(ADC_vect){
+    duty_cycle = ADCH; // Read the ADC value and store it in duty_cycle
+}
+
+ISR(TIMER0_OVF_vect){ // This ISR is called when the timer overflows
+    PORTC |= (1 << PC0); // Set the LED
+    OCR0 = duty_cycle; // Safely update the duty cycle for this period
+    ADCSRA |= (1 << ADSC); // Start the next ADC conversion
+}
+
+ISR(TIMER0_COMP_vect){ // This ISR is called when the timer reaches the value in OCR0
+    PORTC &= ~(1 << PC0); // Clear the LED
+}
+
+void ADC_init(){
+    ADMUX |= (1 << REFS0); // pag. 214 - AVCC with external capacitor at AREF pin
+    ADMUX |= (1 << ADLAR); // pag. 214 and 217 - access conversion in ADCH
+    ADCSRA |= (1 << ADPS0)|(1 << ADPS1)|(1 << ADPS2); // pag. 216 - ADC Prescaler Select Bits
+    ADCSRA |= (1 << ADIE); // pag. 216 - ADC Interrupt Enable
+    ADCSRA |= (1 << ADEN); // pag. 216 - ADC Enable
+}
+
+void T0_init(){
+    TCCR0 &= ~((1 << CS02)|(1 << CS01)|(1 << CS00)); // clear prescaler bits
+    TCCR0 |= (1 << CS02)|(1 << CS00); // table 42 pag 82
+    TIMSK |= (1 << TOIE0)|(1 << OCIE0); // pag 83
+    TCNT0 = 0; // reset the counter
+}
+
+int main (void)
+{        
+    cli(); // disable interrupts
+
+    DDRC |= (1 << PC0); // set PC0 as output
+    ADC_init();
+    T0_init();
+
+    sei(); // enable interrupts
+
+    ADCSRA |= (1 << ADSC); // Start the first conversion
+
+    while(1);
+    
+    // Should never be reached    
+    return 0;
+}
+```
+See [main_timer_pwm_adc.c](code/main_timer_pwm_adc.c) ↗
+
 
 
 ### 8.2 Report (5 points)

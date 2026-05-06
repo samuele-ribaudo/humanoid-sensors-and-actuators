@@ -1,46 +1,31 @@
 #include <atmega32/io.h>
 #include <avr/interrupt.h>
 
-// Interrupt Service Routine for TIMER0 Overflow (Start of the PWM period)
-ISR(TIMER0_OVF_vect)
-{
-    PORTC |= (1 << PC0);  // Set PC0 HIGH
+void T0_init(){
+    cli(); // disable interrupts
+    TCCR0 &= ~((1 << CS02)|(1 << CS01)|(1 << CS00)); // clear prescaler bits
+    TCCR0 |= (1 << CS02)|(1 << CS00); // table 42 pag 82
+    TIMSK |= (1 << TOIE0)|(1 << OCIE0); // pag 83
+    TCNT0 = 0; // reset the counter
+    OCR0 = 127; // 50% duty cycle of 255
+    sei(); // enable interrupts
 }
 
-// Interrupt Service Routine for TIMER0 Compare Match (End of the HIGH time)
-ISR(TIMER0_COMP_vect)
-{
-    PORTC &= ~(1 << PC0); // Set PC0 LOW
+ISR(TIMER0_OVF_vect){ // This ISR is called when the timer overflows
+    PORTC |= (1 << PC0); // Set the LED
 }
 
-int main(void)
-{        
-    // 1. Disable interrupts during setup
-    cli();
+ISR(TIMER0_COMP_vect){ // This ISR is called when the timer reaches the value in OCR0
+    PORTC &= ~(1 << PC0); // Clear the LED
+}
 
-    // 2. Set PC0 as output
-    DDRC |= (1 << PC0);
-    PORTC &= ~(1 << PC0); // Start low
+int main (void)
+{       
+    DDRC |= (1 << PC0); // set PC0 as output
+    T0_init(); 
 
-    // 3. Set TIMER0 clock prescaler to 1024
-    // CS02 = 1, CS01 = 0, CS00 = 1
-    TCCR0 |= (1 << CS02) | (1 << CS00);
-    TCCR0 &= ~(1 << CS01);
+    while(1);
 
-    // 4. Enable Overflow and Compare Match interrupts for TIMER0
-    TIMSK |= (1 << TOIE0) | (1 << OCIE0);
-
-    // 5. Set the Compare Register to a fixed duty cycle 
-    // 127 out of 255 gives approximately a 50% duty cycle
-    OCR0 = 127;
-
-    // 6. Enable global interrupts
-    sei();
-
-    // Dummy infinite loop
-    while(1)
-    {
-    }
-    
+    // Should never be reached    
     return 0;
 }
