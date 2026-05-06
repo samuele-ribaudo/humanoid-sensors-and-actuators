@@ -823,7 +823,7 @@ See [main_timer_pwm_adc.c](code/main_timer_pwm_adc.c) ↗
 ### 8.2 Report (5 points)
 **R.8.1 (2 points)** Which AVR timers can be used for PWM generation? Why? Justify by refering to the relevant datasheet page numbers.
 ```answer
-Type here the answer...
+All three timers  be used for PWM generation because they each include output compare units and support specific waveform generation modes. Timer0 is an 8 bit timer that supports PWM as described on page 71. Timer1 is a 16 bit timer that provides higher resolution PWM as noted on page 89 with its various pulse width modulation modes explained in detail on page 102. Timer2 is another 8 bit timer listed on page 117 which also contains dedicated hardware for PWM generation with the corresponding register settings and modes described on page 123.
 ```
 
 **R.8.2 (3 points)** Propose an explanation to the observations you made in T.8.2 regarding the minimum and maximum values of the duty cycle.
@@ -833,7 +833,7 @@ Type here the answer...
 
 **R.8.3 Bonus (2 points)** Explain in your own words what `Double-Buffering` is (you may take a look at the AVR dataseet).
 ```answer
-Type here the answer...
+Double-buffering is basically a safety step that prevents the PWM signal from glitching. Instead of the timer using a new duty cycle value the exact moment you write it, the value is held in a buffer. The value is moved into the active register when the timer finishes its current cycle. This makes sure the duty cycle only changes at the start of a new pulse, so you don't end up with weirdly short or long pulses mid-cycle.
 ```
 
 ## 9 Servo Motors, ADC, and Flex-Sensors (38 points)
@@ -845,25 +845,122 @@ Please submit the code you created as specified in the tasks. You can find templ
 *   Oscilloscope pictures of three different angle readings (indicate the period and duty cycle) `timer_servo_1.png`, `timer_servo_2.png`, `timer_servo_3.png`
 *   Your code in `main_timer_servo.c`
 
+![servo video](video/timer_servo.gif)
+
+See [video](video/timer_servo.mp4) ↗
+
+```anser
+according to the datasheet found at http://electronics-inf-ua.1gb.ua/P36.files/Hextronik_HXT900.pdf the period should be 20ms, while the duty cycle between 450us and 2450us.
+```
+![timer_servo_1](img/timer_servo_1.png)
+![timer_servo_2](img/timer_servo_2.png)
+![timer_servo_3](img/timer_servo_3.png)
+
+```c
+...
+// 1MHz clock -> 1 tick = 1us
+#define SERVO_MIN    450   // 450us (Full Left)
+#define SERVO_MID    1450  // 1450us (Center)
+#define SERVO_MAX    2450  // 2450us (Full Right)
+
+void T1_init(){
+
+    // Fast PWM Mode 14 - table 47 pag 109
+    TCCR1A |= (1 << WGM11);
+    TCCR1B |= (1 << WGM13)|(1 << WGM12);
+    TCCR1A |= (1 << COM1A1); // Clear OC1A/OC1B on compare match (Setoutput to low level) - table 44 pag 107
+    TCCR1B |= (1 << CS10); // Prescaler = 1
+
+    ICR1 = 20000; // 20ms period -> ICR1 defines the TOP value for Fast PWM mode 14
+    OCR1A = SERVO_MID; // Start at the middle position -> OCR1A defines the duty cycle
+}
+...
+```
+See [main_timer_servo.c](code/main_timer_servo.c) ↗
+
 **T.9.2 (3 points)** Use a multimeter to read the resistance values of a flex sensor when extended and flexed. Describe the behavior between flection/extension and resistance?
 ```answer
-Type here the answer...
+1. measure the sensor ressistance when is flat and when is bent
+2. take the mid resistance and chose a resistor of the same magnitude
+
 ```
 
-**T.9.3 (5 points)** Build a resistor divider with the flex sensor and connect it to the pin ADC0[cite: 1]. Calculate values for the resistor divider to measure the full range of the flex sensor[cite: 1]. Explain your calculations and how you chose the resistor[cite: 1].
+**T.9.3 (5 points)** Build a resistor divider with the flex sensor and connect it to the pin ADC0. Calculate values for the resistor divider to measure the full range of the flex sensor. Explain your calculations and how you chose the resistor.
 ```answer
-Type here the answer...
+connect in series the vlex sensor (vcc) and the resistor (gnd), connect the midpoint to ADC0.
+To calculate the output voltage for the flex sensor divider, you use the standard voltage divider formula which is Vout = Vin * (R_fixed / (R_flex + R_fixed)). With a 5V input and a XXkOhm fixed resistor, the calculation for the flat state where the sensor is YYk ohms is 5 * (XX / (YY + XX)) which equals ???V. When the sensor is fully bent at ZZk ohms, the calculation becomes 5 * (XX / (ZZ + XX)) which equals ???V. This provides a total voltage swing of ???V - ???V = ???V.
 ```
 
 **T.9.4 (10 points)** Read the values of the flex sensor with your ADC and send them over UART. What are the limits? How can you tune the ADC to have the best accuracy and range the microcontroller can offer? Please submit your code in `main_timer_sensor.c`.
 ```answer
-Type here the answer...
+MISSING: WHAT ARE THE LIMITS
+We have to use the full 10 bit of the ADC.
 ```
+
+```c
+#include <atmega32/io.h>
+#include <atmega32/uart.h>
+#include <util/delay.h>
+
+void adc_read10Blocking(uint16_t* b);
+void adc_init();
+
+int main (void)
+{            
+    uart_setBaudrateReg(CALC_BAUD_VAL(62500));
+    uart_setFormat();
+    uart_enable();
+
+    adc_init();
+
+    uint16_t val;
+
+    while(1)
+    {
+        _delay_ms(10);
+
+        adc_read10Blocking(&val);
+        uart_writeByteBlocking((val >> 2) & 0xFF); // Send the upper 8 bits of the 10-bit ADC value
+    }
+
+    return 0;
+}
+
+void adc_init(){
+    ADMUX |= (1 << REFS0); // pag. 214 - AVCC with external capacitor at AREF pin
+    ADCSRA |= (1 << ADPS0)|(1 << ADPS1); // pag. 216 - 8 prescaler
+    ADCSRA |= (1 << ADATE); // pag. 218 - If ADATE is cleared, the ADTS2:0 settings will have no effect. 
+    SFIOR &= ~((1 << ADTS0)|(1 << ADTS1)|(1 << ADTS2)); // pag. 218 - Free Running mode
+    ADMUX &= ~(1 << ADLAR); // pag. 214 and 217 - 10 bit
+    ADCSRA |= (1 << ADEN); // pag. 216 - ADC enable
+    ADCSRA |= (1 << ADSC); // pag. 204 - The first conversion must be started by writing a logical one to the ADSC bit in ADCSRA. 
+    ADMUX &= 0xE0; // pag. 215 - clear MUX4:0 bits to select channel 0 by default
+}
+
+void adc_read10Blocking(uint16_t* b){
+    *b = 0x0000;
+
+    while(!(ADCSRA & (1 << ADIF))); // pag. 216 - wait for conversion to complete
+    ADCSRA |= (1 << ADIF); // pag. 216 - ADIF is cleared by writing a logical one to the flag
+
+    *b = ADC; // Read the 10-bit result from ADC
+}
+```
+
+See [main_timer_sensor.c](code/main_timer_sensor.c) ↗
 
 **T.9.5 (10 points)** Program your microcontroller to move the motor when you flex the sensor. It should go through the whole range of the motor and the flex sensor. Please submit:
 *   Your code in `main_timer_servo_sensor.c`
 *   A video `main_timer_servo_sensor.mp4`
 *   A short explanation how your program works
+
 ```answer
 Type here the answer...
+```
+![servo video](video/main_timer_servo_sensor.gif)
+
+See [video](video/main_timer_servo_sensor.mp4) ↗
+
+```c
+thype here the code
 ```
