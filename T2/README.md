@@ -474,7 +474,7 @@ See [adc_poti.csv](csv/adc_poti.csv) ↗
 Now, we use a simple RC series circuit to measure the capacitance of a capacitor with the ADC. While we want to determine the capacitance, the resistance and the sampling frequency are known.
 Please submit the code you created as specified in the tasks. You can find template files for each task in the folder `hsa_t2s2_ws/src/adc_rcsc/src/applications`. The template files of this section use pre-compiled libraries for the UART and the ADC peripheral blocks. Please use these libraries for implementing the tasks of this section. You can implement all tasks of this section without completing the tasks of the previous sections.
 
-**T.6.9 (2 points)** Use the pin PC1 to charge/discharge a $1 \mu F$ capacitor via a $1k\Omega$ resistor.
+**T.6.9 (2 points)** Use the pin PC1 to charge/discharge a 1uF capacitor via a 1kOhm resistor.
 
 **T.6.10 (4 points)** Visualize in the oscilloscope the charge/discharge process.
 
