@@ -1,12 +1,15 @@
 #include <atmega32/io.h>
 #include <avr/interrupt.h>
 
-#define SERVO_MIN 450   // 450us (Full Left)
-#define SERVO_MAX 2450  // 2450us (Full Right)
+#define USE_FLEX_SENSOR // Comment out this line to use the Potentiometer settings
 
-// update based on measured values from ADC
-#define ADC_MIN 100 
-#define ADC_MAX 900
+#ifdef USE_FLEX_SENSOR
+    #define ADC_MIN 323
+    #define ADC_MAX 788
+#else
+    #define ADC_MIN 0
+    #define ADC_MAX 1023
+#endif
 
 
 void adc_init();
@@ -16,7 +19,7 @@ void T1_init();
 ISR(ADC_vect){ 
     uint16_t adc_val = ADC;
 
-    // linear mapping formula: y = (x - x0)*(y1 - y0)/(x1 - x0) + y0
+    // Mapping formula: (Value - InMin) * (OutMax - OutMin) / (InMax - InMin) + OutMin
     double mapped_val = (double)(adc_val - ADC_MIN) * (SERVO_MAX - SERVO_MIN) / (ADC_MAX - ADC_MIN) + SERVO_MIN;
 
     // Safety Constraints
