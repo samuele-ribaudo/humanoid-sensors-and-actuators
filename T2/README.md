@@ -1018,6 +1018,8 @@ See [video](video/main_timer_servo_sensor.mp4) ↗
     #define ADC_MAX 1023
 #endif
 
+#define SERVO_MIN 450
+#define SERVO_MAX 2450
 
 void adc_init();
 void T1_init();
