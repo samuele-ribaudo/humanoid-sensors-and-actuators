@@ -920,7 +920,10 @@ int main (void)
         _delay_ms(10);
 
         adc_read10Blocking(&val);
-        uart_writeByteBlocking((val >> 2) & 0xFF); // Send the upper 8 bits of the 10-bit ADC value
+        // Send the High Byte first (bits 9 and 8)
+        uart_writeByteBlocking((uint8_t)(val >> 8)); 
+        // Send the Low Byte second (bits 7 through 0)
+        uart_writeByteBlocking((uint8_t)(val & 0xFF));
     }
 
     return 0;
