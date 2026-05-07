@@ -5,7 +5,7 @@
 
 #ifdef USE_FLEX_SENSOR
     #define ADC_MIN 323
-    #define ADC_MAX 788
+    #define ADC_MAX 787
 #else
     #define ADC_MIN 0
     #define ADC_MAX 1023

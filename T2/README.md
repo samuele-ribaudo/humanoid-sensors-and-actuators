@@ -852,9 +852,9 @@ See [video](video/timer_servo.mp4) ↗
 ```anser
 according to the datasheet found at http://electronics-inf-ua.1gb.ua/P36.files/Hextronik_HXT900.pdf the period should be 20ms, while the duty cycle between 450us and 2450us.
 ```
-![timer_servo_1](img/timer_servo_1.png)
-![timer_servo_2](img/timer_servo_2.png)
-![timer_servo_3](img/timer_servo_3.png)
+![timer_servo_1](img/timer_servo_1.png) period 20ms, duty cycle 450us
+![timer_servo_2](img/timer_servo_2.png) period 20ms, duty cycle 1450us
+![timer_servo_3](img/timer_servo_3.png) period 20ms, duty cycle 2450us
 
 ```c
 ...
@@ -880,21 +880,46 @@ See [main_timer_servo.c](code/main_timer_servo.c) ↗
 
 **T.9.2 (3 points)** Use a multimeter to read the resistance values of a flex sensor when extended and flexed. Describe the behavior between flection/extension and resistance?
 ```answer
-1. measure the sensor ressistance when is flat and when is bent
-2. take the mid resistance and chose a resistor of the same magnitude
-
+The flex sensor had a resistance at resto of 39.8kOhm.
+Flexed on one side it went down to 25kOhm, while flexed on the opposite side we reached a peak resistance of 180kOhm.
 ```
 
 **T.9.3 (5 points)** Build a resistor divider with the flex sensor and connect it to the pin ADC0. Calculate values for the resistor divider to measure the full range of the flex sensor. Explain your calculations and how you chose the resistor.
 ```answer
-connect in series the vlex sensor (vcc) and the resistor (gnd), connect the midpoint to ADC0.
-To calculate the output voltage for the flex sensor divider, you use the standard voltage divider formula which is Vout = Vin * (R_fixed / (R_flex + R_fixed)). With a 5V input and a 54kOhm fixed resistor, the calculation for the flat state where the sensor is 25kOhms is 5 * (XX / (40 + XX)) which equals ???V. When the sensor is fully bent at 180kOhms, the calculation becomes 5 * (XX / (100 + XX)) which equals ???V. This provides a total voltage swing of ???V - ???V = ???V.
+We designed a voltage divider using the flex sensor resistance Rf connected to ground and a fixed resistor R connected to VCC.
+
+The output voltage of the divider is given by:
+Vout = VCC * Rf / (R + Rf)
+
+The flex sensor operates in the resistance range [25kOhm, 180kOhm]. Therefore, the minimum and maximum output voltages are:
+Vout_min = VCC * Rf_min / (R + Rf_min)
+Vout_max = VCC * Rf_max / (R + Rf_max)
+
+To maximize the measurable voltage range, we considered the function:
+f(R) = Vout_max - Vout_min = VCC * (Rf_max / (R + Rf_max) - Rf_min / (R + Rf_min))
+
+After deriving and finding the minimum of this function, we obtained an optimal resistor value of about R = 67kOhm.
+
+The closest available value was 54kOhm, obtained by connecting three 18kOhm resistors in series.
+
+With this value, the voltage range becomes:
+Vout_min = 5V * (25kOhm) / (25kOhm + 54kOhm) = 1.58V
+Vout_max = 5V * (180kOhm) / (180kOhm + 54kOhm) = 3.85V
+
+This provides the widest usable voltage range for the flex sensor within the available resistor values.
 ```
 
 **T.9.4 (10 points)** Read the values of the flex sensor with your ADC and send them over UART. What are the limits? How can you tune the ADC to have the best accuracy and range the microcontroller can offer? Please submit your code in `main_timer_sensor.c`.
 ```answer
-MISSING: WHAT ARE THE LIMITS
-We have to use the full 10 bit of the ADC.
+The limits are determined by the voltage range produced by the voltage divider connected to the flex sensor.
+In our case, the output voltage is limited to the range [1.58V, 3.85V], instead of the full [0V, 5V] ADC range.
+
+To achieve the best possible accuracy, we should use the full 10-bit resolution of the ADC. With a 10-bit ADC, the corresponding digital values are:
+
+ADC_min = 1023 * 1.58V / 5V ≈ 323  
+ADC_max = 1023 * 3.85V / 5V ≈ 787
+
+This provides a usable range of about 465 distinct readings. Compared to an 8-bit ADC, which would provide only about 116 distinct values over the same voltage interval, the 10-bit configuration offers significantly better resolution and measurement accuracy.
 ```
 
 ```c
@@ -920,10 +945,8 @@ int main (void)
         _delay_ms(10);
 
         adc_read10Blocking(&val);
-        // Send the High Byte first (bits 9 and 8)
-        uart_writeByteBlocking((uint8_t)(val >> 8)); 
-        // Send the Low Byte second (bits 7 through 0)
-        uart_writeByteBlocking((uint8_t)(val & 0xFF));
+        uart_writeByteBlocking((uint8_t)(val >> 8)); // Send the High Byte first (bits 9 and 8)
+        uart_writeByteBlocking((uint8_t)(val & 0xFF)); // Send the Low Byte second (bits 7 through 0)
     }
 
     return 0;
@@ -957,14 +980,94 @@ See [main_timer_sensor.c](code/main_timer_sensor.c) ↗
 *   A video `main_timer_servo_sensor.mp4`
 *   A short explanation how your program works
 
-```answer
-Type here the answer...
-```
-![servo video](video/main_timer_servo_sensor.gif)
+
+**Explanation:**
+
+To implement this task, we configured Timer1 of the ATmega32 exactly as in T.9.1 to generate the PWM signal required to control the servo motor.
+We then implemented ADC_init() to configure the ADC in 10-bit resolution and Free Running mode, with an interrupt generated after every completed conversion. The ADC continuously samples the flex sensor connected to ADC0.
+The ADC interrupt service routine (ISR) contains the core logic of the program. Each time a new ADC value is available, it is read and linearly mapped to the valid PWM range used to control the servo position:
+mapped_value = (Value - InMin) * (OutMax - OutMin) / (InMax - InMin) + OutMin
+As ADC_min and ADC_max we used the values computed in T.9.4, namely 323 and 787, corresponding to the voltage range generated by the flex sensor.
+The mapped value is then clamped between SERVO_MIN and SERVO_MAX to avoid invalid pulse widths and protect the servo from out-of-range commands.
+Finally, the computed value is written into the OCR1A register. Since Timer1 operates in Fast PWM mode, OCR1A determines the pulse width of the PWM signal, allowing the servo position to follow the bending of the flex sensor across its full range.
+Since the flex sensor was not available during testing, we used a potentiometer instead. Unlike the flex sensor, the potentiometer can generate the full ADC range [0, 1023]. Because the program is calibrated for the reduced range [323, 787], it can be observed in the video that the servo does not move for very low and very high potentiometer values, as those values are clamped to the minimum and maximum servo positions.
+
+
+![servo video](video/gif/main_timer_servo_sensor.gif)
 
 See [video](video/main_timer_servo_sensor.mp4) ↗
 
 ```c
-thype here the code
+#include <atmega32/io.h>
+#include <avr/interrupt.h>
+
+#define USE_FLEX_SENSOR // Comment out this line to use the Potentiometer settings
+
+#ifdef USE_FLEX_SENSOR
+    #define ADC_MIN 323
+    #define ADC_MAX 787
+#else
+    #define ADC_MIN 0
+    #define ADC_MAX 1023
+#endif
+
+
+void adc_init();
+void T1_init();
+
+
+ISR(ADC_vect){ 
+    uint16_t adc_val = ADC;
+
+    // Mapping formula: (Value - InMin) * (OutMax - OutMin) / (InMax - InMin) + OutMin
+    double mapped_val = (double)(adc_val - ADC_MIN) * (SERVO_MAX - SERVO_MIN) / (ADC_MAX - ADC_MIN) + SERVO_MIN;
+
+    // Safety Constraints
+    if (mapped_val < SERVO_MIN) mapped_val = SERVO_MIN;
+    if (mapped_val > SERVO_MAX) mapped_val = SERVO_MAX;
+
+    OCR1A = (uint16_t) mapped_val;
+}
+
+
+int main (void)
+{            
+    cli(); // disable interrupts during setup
+
+    DDRD |= (1 << PD5); // OC1A output
+    T1_init();
+    adc_init();
+
+    sei(); // enable interrupts after setup
+
+    while(1);
+
+    return 0;
+}
+
+
+void adc_init(){
+    ADMUX |= (1 << REFS0); // pag. 214 - AVCC with external capacitor at AREF pin
+    ADCSRA |= (1 << ADPS0)|(1 << ADPS1); // pag. 216 - 8 prescaler
+    ADCSRA |= (1 << ADATE); // pag. 218 - If ADATE is cleared, the ADTS2:0 settings will have no effect.
+    ADCSRA |= (1 << ADIE); // pag. 216 - Enable ADC interrupt
+    SFIOR &= ~((1 << ADTS0)|(1 << ADTS1)|(1 << ADTS2)); // pag. 218 - Free Running mode
+    ADMUX &= ~(1 << ADLAR); // pag. 214 and 217 - 10 bit
+    ADCSRA |= (1 << ADEN); // pag. 216 - ADC enable
+    ADCSRA |= (1 << ADSC); // pag. 204 - The first conversion must be started by writing a logical one to the ADSC bit in ADCSRA. 
+    ADMUX &= 0xE0; // pag. 215 - clear MUX4:0 bits to select channel 0 by default
+}
+
+
+void T1_init(){
+    // Fast PWM Mode 14 - table 47 pag 109
+    TCCR1A |= (1 << WGM11);
+    TCCR1B |= (1 << WGM13)|(1 << WGM12);
+    TCCR1A |= (1 << COM1A1); // Clear OC1A/OC1B on compare match (Setoutput to low level) - table 44 pag 107
+    TCCR1B |= (1 << CS10); // Prescaler = 1
+
+    ICR1 = 20000; // 20ms period -> ICR1 defines the TOP value for Fast PWM mode 14
+    OCR1A = SERVO_MIN; // Start at min position
+}
 ```
 See [main_timer_servo_sensor.c](code/main_timer_servo_sensor.c) ↗
