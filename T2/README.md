@@ -888,7 +888,7 @@ See [main_timer_servo.c](code/main_timer_servo.c) ↗
 **T.9.3 (5 points)** Build a resistor divider with the flex sensor and connect it to the pin ADC0. Calculate values for the resistor divider to measure the full range of the flex sensor. Explain your calculations and how you chose the resistor.
 ```answer
 connect in series the vlex sensor (vcc) and the resistor (gnd), connect the midpoint to ADC0.
-To calculate the output voltage for the flex sensor divider, you use the standard voltage divider formula which is Vout = Vin * (R_fixed / (R_flex + R_fixed)). With a 5V input and a XXkOhm fixed resistor, the calculation for the flat state where the sensor is YYk ohms is 5 * (XX / (YY + XX)) which equals ???V. When the sensor is fully bent at ZZk ohms, the calculation becomes 5 * (XX / (ZZ + XX)) which equals ???V. This provides a total voltage swing of ???V - ???V = ???V.
+To calculate the output voltage for the flex sensor divider, you use the standard voltage divider formula which is Vout = Vin * (R_fixed / (R_flex + R_fixed)). With a 5V input and a 54kOhm fixed resistor, the calculation for the flat state where the sensor is 25kOhms is 5 * (XX / (40 + XX)) which equals ???V. When the sensor is fully bent at 180kOhms, the calculation becomes 5 * (XX / (100 + XX)) which equals ???V. This provides a total voltage swing of ???V - ???V = ???V.
 ```
 
 **T.9.4 (10 points)** Read the values of the flex sensor with your ADC and send them over UART. What are the limits? How can you tune the ADC to have the best accuracy and range the microcontroller can offer? Please submit your code in `main_timer_sensor.c`.
