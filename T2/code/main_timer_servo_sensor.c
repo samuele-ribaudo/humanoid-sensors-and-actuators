@@ -16,8 +16,8 @@ void T1_init();
 ISR(ADC_vect){ 
     uint16_t adc_val = ADC;
 
-    // Mapping formula: (Value - InMin) * (OutMax - OutMin) / (InMax - InMin) + OutMin
-    int mapped_val = (int)(adc_val - ADC_MIN) * (SERVO_MAX - SERVO_MIN) / (ADC_MAX - ADC_MIN) + SERVO_MIN;
+    // linear mapping formula: y = (x - x0)*(y1 - y0)/(x1 - x0) + y0
+    double mapped_val = (double)(adc_val - ADC_MIN) * (SERVO_MAX - SERVO_MIN) / (ADC_MAX - ADC_MIN) + SERVO_MIN;
 
     // Safety Constraints
     if (mapped_val < SERVO_MIN) mapped_val = SERVO_MIN;
