@@ -845,7 +845,7 @@ Please submit the code you created as specified in the tasks. You can find templ
 *   Oscilloscope pictures of three different angle readings (indicate the period and duty cycle) `timer_servo_1.png`, `timer_servo_2.png`, `timer_servo_3.png`
 *   Your code in `main_timer_servo.c`
 
-![servo video](video/timer_servo.gif)
+![servo video](video/gif/timer_servo.gif)
 
 See [video](video/timer_servo.mp4) ↗
 
