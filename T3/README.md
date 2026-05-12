@@ -123,6 +123,8 @@ Air is then injected in 10 mL intervals, and after each interval, the updated me
 The measured linear displacement over the injected volume of air follows a linear trend -> More Air leads to longer actuator.
 When in vacuum, all areas of the paper lie normal to the length. When vacuum is applied to the actuator, the paper segments begin to tilt. As the vacuum increases, this alignment also does, thereby contributing to the overall length transformation of the actuator. 
 ```
+![Displacement video](img/displacement.gif)
+
 
 * **(7 points)** Based on your measurements, discuss possible improvements to the design of the origami-inspired vacuum actuator to enhance its performance, for example by increasing its linear displacement or force output.
 ```text
