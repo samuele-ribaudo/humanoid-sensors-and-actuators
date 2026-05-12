@@ -142,7 +142,9 @@ Discuss the following points in your group:
 **Questions**
 * **(5 points)** Are there any other actuation mechanisms (e.g. in pneumatic) that could be combined with the origami structure to improve the actuator performance?
 ```text
-type here the answer...
+To improve the design we can add shape memory alloys (SMA) along the creases and add a resistance wire inside the chamber to control its temperature. When heat is applied, the SMA contracts, folding the origami. This would be an improvement to the setup because we can control the actuator by running a current through it, instead of using the bulky vacuum pump setup.
+
+Another idea is switching to a waterproof material and replacing air with an incompressible fluid like water. This would enhance the actuator's performance by providing much higher stiffness and more precise displacement control, as hydraulic systems do not suffer from the pressure fluctuations typical of compressible gases.
 ```
 
 * **(10 points)** How could bending and twisting deformation be achieved using the origami structure?
