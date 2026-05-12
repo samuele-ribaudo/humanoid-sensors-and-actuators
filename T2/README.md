@@ -830,7 +830,10 @@ All three timers  be used for PWM generation because they each include output co
 
 **R.8.2 (3 points)** Propose an explanation to the observations you made in T.8.2 regarding the minimum and maximum values of the duty cycle.
 ```answer
-Type here the answer...
+At the minimum duty cycle (0%), the PWM output stays LOW during the whole period, so the LED is always off.  
+At the maximum duty cycle (100%), the PWM output stays HIGH all the time, so the LED is always on.
+
+Since the timer period is about 2 seconds, the blinking is slow enough to be visible to the human eye. For intermediate duty cycles, the LED stays ON for part of the 2-second period and OFF for the rest. When the duty cycle increases, the LED remains ON longer and OFF for a shorter time; when the duty cycle decreases, the opposite happens.
 ```
 
 **R.8.3 Bonus (2 points)** Explain in your own words what `Double-Buffering` is (you may take a look at the AVR dataseet).
