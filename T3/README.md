@@ -125,10 +125,12 @@ When in vacuum, all areas of the paper lie normal to the length. When vacuum is 
 
 * **(7 points)** Based on your measurements, discuss possible improvements to the design of the origami-inspired vacuum actuator to enhance its performance, for example by increasing its linear displacement or force output.
 ```text
-- Make the air chamber smaller
-- Find a better origami pattern
-- Get a compressor with more power and volume
+- Optimize the size of the air chamber
+- Find a better origami pattern that increases/decreases more in length
+- Connect directly to a compressor with less air injection loss
 - Achieve better sealing of the chamber
+- Stiffer or more durable folding material
+- Increase the number of origami units
 ```
 
 ## 4 Design Review
