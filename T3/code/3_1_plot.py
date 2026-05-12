@@ -1,8 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-air_volume_ml = np.array([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
-length_transformation_mm = np.array([0, 0.3, 0.6, 1.0, 1.3, 1.7, 1.9, 2.2, 2.4, 2.6, 2.9])
+air_volume_ml = np.array([100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0])
+#length_transformation_mm = np.array([29, 26, 24 ,22, 19, 17, 13, 10, 6, 3, 0])
+length_transformation_mm = np.array([0, -3, -5 ,-7, -10, -12, -16, -19, -23, -26, -29])
 
 # Linearer Fit: y = m*x + b
 coefficients = np.polyfit(air_volume_ml, length_transformation_mm, deg=1)
@@ -31,8 +32,8 @@ plt.xlabel("Injected air volume (mL)")
 plt.ylabel("Length transformation (mm)")
 plt.title("Actuator Length Transformation vs Injected Air Volume")
 
-plt.xlim(0, 100)
-plt.ylim(bottom=0)
+plt.xlim(100, 0)
+plt.ylim(-30, 5)
 
 plt.grid(True)
 plt.legend()

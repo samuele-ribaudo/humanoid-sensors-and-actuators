@@ -112,8 +112,10 @@ In this part, you will measure the linear displacement of the fabricated origami
 
 * **(3 points)** Describe the measurement setup you used to evaluate the actuator deformation, including how you applied the vacuum and how you measured the linear displacement.
 ```text
-We used an even undergound for both the measuring ruler and the structure in the airbag. At the beginning, the front end of the actuator is ending at 10cm. To ease the reading process, we taped a piece of paper flat to the tip of the actuator. Since the paper is very thin, it gives a precise reading of the ruler.
-Air is then injected in 10 mL intervals, and after each interval, the updated measurement is then taken and substracted by the starting 10cm. This results in the total increase for each step.
+We used an even underground for both the measuring ruler and the structure in the airbag. At the beginning, after 100 mL of air was injected into the actuator, the front end of the actuator was ending at 10 cm. To ease the reading process, we taped a piece of paper flat to the tip of the actuator. Since the paper is very thin, it gives a precise reading of the ruler.
+
+The air was then pulled back out in 10 mL intervals, and after each interval, the updated measurement was taken and subtracted by the starting 10 cm. This results in the total decrease for each step.
+
 ```
 
 * **(5 points)** Plot the relationship between the volume of air removed from the bag and the linear displacement of the actuator. What trend do you observe, and how does it relate to the design of the origami structure?
