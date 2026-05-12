@@ -109,20 +109,25 @@ In this part, you will measure the linear displacement of the fabricated origami
 
 * **(3 points)** Describe the measurement setup you used to evaluate the actuator deformation, including how you applied the vacuum and how you measured the linear displacement.
 ```text
-type here the answer...
+We used an even undergound for both the measuring ruler and the structure in the airbag. At the beginning, the front end of the actuator is ending at 10cm. To ease the reading process, we taped a piece of paper flat to the tip of the actuator. Since the paper is very thin, it gives a precise reading of the ruler.
+Air is then injected in 10 mL intervals, and after each interval, the updated measurement is then taken and substracted by the starting 10cm. This results in the total increase for each step.
 ```
 
 * **(5 points)** Plot the relationship between the volume of air removed from the bag and the linear displacement of the actuator. What trend do you observe, and how does it relate to the design of the origami structure?
 
-![actuator video](img/acutator_video.gif)
+![Actuator Length Transformation vs Injected Air Volume](img/3_plot.png)
 
 ```text
-type here the answer...
+The measured linear displacement over the injected volume of air follows a linear trend -> More Air leads to longer actuator.
+When in vacuum, all areas of the paper lie normal to the length. When vacuum is applied to the actuator, the paper segments begin to tilt. As the vacuum increases, this alignment also does, thereby contributing to the overall length transformation of the actuator. 
 ```
 
 * **(7 points)** Based on your measurements, discuss possible improvements to the design of the origami-inspired vacuum actuator to enhance its performance, for example by increasing its linear displacement or force output.
 ```text
-type here the answer...
+- Make the air chamber smaller
+- Find a better origami pattern
+- Get a compressor with more power and volume
+- Achieve better sealing of the chamber
 ```
 
 ## 4 Design Review

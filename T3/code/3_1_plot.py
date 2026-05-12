@@ -1,14 +1,15 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.interpolate import PchipInterpolator
 
 air_volume_ml = np.array([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
 length_transformation_mm = np.array([0, 0.3, 0.6, 1.0, 1.3, 1.7, 1.9, 2.2, 2.4, 2.6, 2.9])
 
-interpolator = PchipInterpolator(air_volume_ml, length_transformation_mm)
+# Linearer Fit: y = m*x + b
+coefficients = np.polyfit(air_volume_ml, length_transformation_mm, deg=1)
+fit_function = np.poly1d(coefficients)
 
 air_smooth = np.linspace(0, 100, 500)
-length_smooth = interpolator(air_smooth)
+length_fit = fit_function(air_smooth)
 
 plt.figure(figsize=(8, 5))
 
@@ -21,8 +22,9 @@ plt.scatter(
 
 plt.plot(
     air_smooth,
-    length_smooth,
-    label="Interpolated curve"
+    length_fit,
+    label="Linear fit",
+    linewidth=2
 )
 
 plt.xlabel("Injected air volume (mL)")
@@ -36,3 +38,5 @@ plt.grid(True)
 plt.legend()
 plt.tight_layout()
 plt.show()
+
+print(f"Fit equation: y = {coefficients[0]:.4f}x + {coefficients[1]:.4f}")
