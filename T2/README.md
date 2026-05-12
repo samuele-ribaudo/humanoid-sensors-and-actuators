@@ -757,7 +757,7 @@ Use this ISR to update a global variable with the read ADC value. You can then u
 Light a LED with the obtained signal. What do you observe when you change the duty cycle? What happens when the value of the duty cycle gets close to a minimum or a maximum?
 
 ```answer
-type here the answe...
+The frequency of the blinking of the LED is changing. If we increase the duty cycle, the blinking gets faster and vice versa. At the minimum we observed that the LED is constantly off, and at the maximum it is constantly on.
 ```
 ***Hint:*** Use an oscilloscope to visualize the signal.
 
