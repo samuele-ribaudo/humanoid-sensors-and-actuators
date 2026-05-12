@@ -7,14 +7,23 @@ ISR(ADC_vect){
     duty_cycle = ADCH; // Read the ADC value and store it in duty_cycle
 }
 
-ISR(TIMER0_OVF_vect){ // This ISR is called when the timer overflows
-    PORTC |= (1 << PC0); // Set the LED
+ISR(TIMER0_OVF_vect){ 
+    // Only turn the LED ON if the duty cycle is not 0
+    if (duty_cycle > 3) {
+        PORTC |= (1 << PC0); 
+    } else {
+        PORTC &= ~(1 << PC0); // Force it OFF just in case
+    }
+    
     OCR0 = duty_cycle; // Safely update the duty cycle for this period
     ADCSRA |= (1 << ADSC); // Start the next ADC conversion
 }
 
-ISR(TIMER0_COMP_vect){ // This ISR is called when the timer reaches the value in OCR0
-    PORTC &= ~(1 << PC0); // Clear the LED
+ISR(TIMER0_COMP_vect){ 
+    // Only turn the LED OFF if the duty cycle is not at absolute maximum
+    if (OCR0 < 252) {
+        PORTC &= ~(1 << PC0); 
+    }
 }
 
 void ADC_init(){
