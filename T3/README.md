@@ -149,7 +149,9 @@ Another idea is switching to a waterproof material and replacing air with an inc
 
 * **(10 points)** How could bending and twisting deformation be achieved using the origami structure?
 ```text
-type here the answer...
+Bending and twisting deformation can be achieved by introducing asymmetry into the origami structure or the actuation method.
+For bending, one side of the origami actuator can be made to contract more than the opposite side. This can be done by applying different vacuum pressures to separate chambers, changing the fold stiffness on one side, or modifying the crease geometry. As one side shortens more, the structure curves toward that side, producing controlled bending motion similar to a soft robotic arm.
+For twisting, the folds can be arranged in a helical or angled configuration so that contraction generates rotational motion. Twisting can also be produced by activating chambers diagonally or unevenly around the structure, causing one side to rotate relative to the other. The amount of twist depends on the fold orientation, material stiffness, and pressure distribution.
 ```
 
 * **(10 points)** What other origami fold patterns could be applied to the design of soft actuators?
