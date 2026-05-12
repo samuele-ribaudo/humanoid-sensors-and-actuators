@@ -566,7 +566,7 @@ Since τ = RC -> C = τ/R = 1.0ms / 1kOhm = 1.0 µF
 
 **R.6.8 Bonus (4 points)** We discussed the operation of the ADC in the lecture. Let's assume that the conversion logic uses a digital counter with a DAC to generate a voltage ramp. Considering the Sample&Hold time and the total conversion time of the ADC (see datasheet, R.6.1) with the settings used in T.6.4, what would be the minimal frequency of the clock that drives the digital counter generating that voltage ramp?
 ```answer
-Type here the answer...
+Based on the ATmega32 datasheet and the calculations in R.6.1, a standard ADC conversion requires 13 ADC clock cycles. With a CPU frequency of 1MHz and a prescaler of 2, the total time for one conversion is 26us. If the internal logic were replaced by a digital counter generating a voltage ramp, the counter would need to cycle through all 2^10 = 1024 possible steps within that 26us window to complete a 10-bit conversion. Dividing 1024 steps by the 26us duration results in a required minimal clock frequency of approximately 39.38MHz for the counter to keep pace with the existing conversion timing.
 ```
 
 ## 7 AVR Timers/Counters (25 points)
