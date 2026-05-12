@@ -95,7 +95,7 @@ The bag was inflating, but the paper was not moving. Therefore we used some tape
 ```
 * **(5 points)** Assuming that the paper sheet is sufficiently stiff to be treated as a rigid plate, how many degrees of freedom does the Tachi-Miura Polyhedron (TMP) fold have? Explain your reasoning.
 ```text
-type here the answer...
+The Tachi-Miura Polyhedron fold has 1 degree of freedom. Once one fold angle is chosen, all other folds are determined by the geometric constraints, so the entire structure moves with a single independent motion.
 ```
 * **(5 points)** Describe the advantages of using origami-inspired designs in engineering
 applications such as satellite structures and soft actuators.
