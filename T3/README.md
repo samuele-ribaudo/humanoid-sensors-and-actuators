@@ -83,13 +83,15 @@ e) Connect the other end of the tube to a syringe for vacuum generation.
 
 * **(2 points)** Take a picture (`acturator.png`) of your fabricated origami-inspired vacuum actuator and explain the folding process you followed.
 ```text
-type here the answer...
+We followed the Tachi-Miura Polyhedron (TMP) fold pattern. First the folded the paper in a spring-like shape along the vertical folds and then we folded the diagolan creases to obtain the desierd shape.
 ```
 ![Actuator](img/actuator.png)
 
 * **(3 points)** What challenges did you encounter during the fabrication process, and how did you overcome them?
 ```text
-type here the answer...
+A paper ripped, so we have to take a new one.
+It was hard to fold along the diagonal lines. We pre-creased the paper alog the blue and red diagonal lines and then we started to follow the mountain and valley folds pattern.
+The bag was inflating, but the paper was not moving. Therefore we used some tape to connect the ends of the orgigmai structure to the bag.
 ```
 * **(5 points)** Assuming that the paper sheet is sufficiently stiff to be treated as a rigid plate, how many degrees of freedom does the Tachi-Miura Polyhedron (TMP) fold have? Explain your reasoning.
 ```text
