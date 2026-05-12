@@ -101,6 +101,7 @@ The Tachi-Miura Polyhedron fold has 1 degree of freedom. Once one fold angle is 
 applications such as satellite structures and soft actuators.
 ```text
 They allow structures to be compact and deployable, which is useful for satellite solar panels and space structures that must fit into small launch volumes and then expand in space. They also provide lightweight and efficient designs while maintaining strength and flexibility. In soft actuators and robotics, origami patterns enable controlled motion, flexibility, and adaptability, allowing devices to bend, fold, and change shape easily without complex mechanisms.```
+```
 
 ## 3 Testing the actuator deformation
 
