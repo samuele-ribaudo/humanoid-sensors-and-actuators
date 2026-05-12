@@ -59,21 +59,22 @@ You will receive an A6-size paper sheet with a printed crease pattern for the Ta
 ***Figure 2*** Tachi-Miura Polyhedron (TMP) fold pattern. The red lines and blue lines indicate mountain folds and valley folds, respectively.
 
 Please follow the folding procedure shown in Figure 3.
-a) Fold all straight creases in a zigzag pattern.
-b) Make all diagonal creases mountain folds, then reverse them into valley folds. After that, flatten the sheet once.
-c) Starting from the top, fold the Miura-fold unit cells along one edge.
-d) Fold the other side in the same way to complete one sheet.
-e) Make two sheets and glue them together with paper glue to form a 3D structure.
+1. Fold all straight creases in a zigzag pattern.
+2. Make all diagonal creases mountain folds, then reverse them into valley folds. After that, flatten the sheet once.
+3. Starting from the top, fold the Miura-fold unit cells along one edge.
+4. Fold the other side in the same way to complete one sheet.
+5. Make two sheets and glue them together with paper glue to form a 3D structure.
 
 ### 2.2 Plastic bag covering and tube connection
 To make the origami structure airtight so that it can function as a vacuum actuator, it must be covered with a plastic bag.
 
 Please follow the steps below:
-a) Place the origami structure inside the plastic bag.
-b) Seal the plastic bag tightly to ensure airtightness.
-c) Make a small hole in the plastic bag and insert an air tube.
-d) Use cable ties to secure the tube in place and prevent air leakage.
-e) Connect the other end of the tube to a syringe for vacuum generation.
+
+1. Place the origami structure inside the plastic bag.
+2. Seal the plastic bag tightly to ensure airtightness.
+3. Make a small hole in the plastic bag and insert an air tube.
+4. Use cable ties to secure the tube in place and prevent air leakage.
+5. Connect the other end of the tube to a syringe for vacuum generation.
 
 ![Figure 3](img/figure_3.png)
 
