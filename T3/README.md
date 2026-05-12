@@ -156,7 +156,15 @@ For twisting, the folds can be arranged in a helical or angled configuration so 
 
 * **(10 points)** What other origami fold patterns could be applied to the design of soft actuators?
 ```text
-type here the answer...
+Miura-ori Pattern: A 2D sheet pattern that expands and contracts uniformly in two directions at once. It is used in deployable space structures, and in soft robotics, it's great for flat, expanding artificial muscles.
+
+Kresling Pattern: A cylindrical tower pattern that inherently twists as it is compressed. This is perfect for designing soft actuators that need a rotational just by applying a vacuum.
+
+Yoshimura Pattern: A cylindrical pattern, and it collapses perfectly straight down without any twisting. It is great for pure, stable linear actuation and shock absorption.
+
+Waterbomb Base Pattern: This pattern folds inward and outward radially from a center point. It is highly useful for creating spherical soft grippers that can wrap around and grasp objects.
+
+Flasher Pattern: This pattern allows a large surface to fold concentrically around a central hub. It is ideal for deployable "umbrella-like" mechanisms that deploy outward to encompass an irregularly shaped object.
 ```
 
 You may also try fabricating and testing actuators with different origami fold patterns in Tutorial T3.2, and compare their results with those of the Tachi-Miura Polyhedron fold.
