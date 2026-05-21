@@ -193,14 +193,7 @@ Before fabricating the final actuator, we recommend that you first test your fol
 **(5 points)** Describe the deformation that you expect when a vacuum is applied to your new actuator.
 
 ```text
-Sure — here is a cleaner version that keeps your style and explanation, but makes it more precise and easier to follow:
-
----
-
 While in the resting position, the baseplates of the pyramids are all aligned, which results in a straight actuator shape. When air is pulled out of the plastic chamber, the pyramids are pulled closer together. This breaks the initial straight alignment and reduces the angle between each pair of neighboring pyramid sides. The smaller this angle becomes, the more the actuator bends toward the direction of the pyramid tips. This curvature will increase until all pyramids sides align and the actuator becomes circular-shaped.
-
----
-
 ```
 
 **(5 points)** Which geometric parameters define the deformation of your actuator?
