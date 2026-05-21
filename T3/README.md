@@ -211,7 +211,11 @@ If all six angles are fully closed, the accumulated bending over the whole actua
 **(5 points)** Describe the design of your new actuator, including its folding pattern, geometric configuration, and expected deformation mode. How does this design differ from the actuator fabricated in T3.1?
 
 ```text
-Type the answer here...
+Our actuator consists of 6 seperate modular chain units that are arranged next to each other inside of the air chamber. Each unit is built by a 60mm x 60mm paper square that is then cut, folded and taped together as in the pictures below.
+
+This design mainly differs from the one in T3.1 in two ways:
+- The new actuator does bend. The old one was a linear actuator only, meaning that it only allowed changes in 1 dimension. The bending allows for a more complex deformation.
+- The old one was made out of one piece of paper while the new one consists of seperate modular blocks that have to be combined to form the actuator. The modularity also makes it possible to have different configurations of the same actuator type while the old configuration was fixed.
 ```
 
 <div style="display: flex; gap: 10px;">
@@ -248,7 +252,9 @@ If your actuator produces bending or twisting motion, you may need to design a s
 **(5 points)** Describe the measurement setup used to evaluate the force or torque output. What challenges did you encounter during the measurement, and how did you overcome them?
 
 ```text
-Type the answer here...
+The newtonmeter was secured to the table with tape, and its hook was attached to the actuator’s end effector. The connection between the plastic bag containing the origami structure and the pipe connected to the syringe was also fixed to the table with tape. Air was removed from the actuator to achieve maximum contraction, and the resulting force was measured using the newtonmeter.
+
+The main challenge was keeping the setup stable during contraction, since small movements of the taped connections could influence the force reading. We reduced this issue by fixing the newtonmeter and tubing connection firmly to the table. We also made sure to remove as much air as possible and only recorded the force once the reading had stabilized.
 ```
 
 **(5 points)** Plot the relationship between an input parameter and the force or torque output of the actuator. In addition, describe the reason that you chose the input parameter for this analysis.
