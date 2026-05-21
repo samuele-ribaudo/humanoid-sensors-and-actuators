@@ -178,3 +178,83 @@ You may also try fabricating and testing actuators with different origami fold p
 
 ## References
 [1] “Origami techniques applied to space development | december 2021 | highlighting japan.” (), [Online]. Available: https://www.gov-online.go.jp/eng/publicity/book/hlj/html/202112/202112_05_en.html (visited on 05/12/2026).
+
+
+# Tutorial 3 - Part 2
+
+## 5 Redesign and Fabrication of a Vacuum Actuator
+
+Based on the design review in T3.1, you will now redesign and fabricate a novel origami-inspired vacuum actuator in your group. You may use the same materials as in T3.1; however, you are encouraged to explore different folding patterns, geometries, and configurations in order to achieve different deformation modes and improved performance.
+
+Before fabricating the final actuator, we recommend that you first test your folding pattern using regular paper. After confirming the basic deformation mechanism, you can fabricate the actuator using stiffer paper or other available materials.
+
+### Questions
+
+**(5 points)** Describe the deformation that you expect when a vacuum is applied to your new actuator.
+
+```text
+Type the answer here...
+```
+
+**(5 points)** Which geometric parameters define the deformation of your actuator?
+
+```text
+Type the answer here...
+```
+
+**(5 points)** Describe the design of your new actuator, including its folding pattern, geometric configuration, and expected deformation mode. How does this design differ from the actuator fabricated in T3.1?
+
+```text
+Type the answer here...
+```
+
+**(5 points)** Describe the fabrication process of your new actuator. What challenges did you encounter during fabrication, and how did you overcome them?
+
+```text
+Type the answer here...
+```
+
+## 6 Evaluation of the Actuator
+
+In addition to the deformation measurement performed in T3.1 (see Section 3), you will evaluate the force output of your actuator using a spring scale. Please note that a spring scale measures force along a single axis and extends when a tensile force is applied.
+
+If your actuator produces bending or twisting motion, you may need to design a simple mechanism that converts this motion into a linear displacement or tensile force measurable by the spring scale. For example, in the case of a twisting actuator, you can attach a string to the end of the actuator and connect it to the spring scale. When the actuator twists, it pulls the string and extends the spring scale, allowing you to estimate the force output. If torque is evaluated, clearly explain how the measured force is converted into torque, including the moment arm used in the calculation.
+
+### Questions
+
+**(5 points)** Plot the relationship between the removed air volume and the deformation of the your original actuator.
+
+![Deformation vs Removed Air Volume](img/6A_plot.png)
+
+**(5 points)** Describe the measurement setup used to evaluate the force or torque output. What challenges did you encounter during the measurement, and how did you overcome them?
+
+```text
+Type the answer here...
+```
+
+**(5 points)** Plot the relationship between an input parameter and the force or torque output of the actuator. In addition, describe the reason that you chose the input parameter for this analysis.
+
+![Input Parameter vs Force](img/6B_plot.png)
+
+```text
+Type the answer here...
+```
+
+## 7 Summary
+
+In this tutorial, you designed and fabricated an origami-inspired vacuum actuator using paper and plastic bags. You then evaluated the deformation and force output of your actuator by applying a vacuum and measuring its displacement and force output. Through this process, you learned about the design and fabrication of soft actuators, as well as the practical challenges involved in their experimental evaluation. You also explored how actuator geometry, folding patterns, material properties, and measurement methods influence actuator performance.
+
+### Questions
+
+**(5 points)** If you could replace one of the materials used in this tutorial with a commer cial product, what would be worth purchasing? Describe the product and explain how it could improve the actuator performance or the evaluation process.
+*Hint: E-commerce platforms such as RS, Conrad and Amazon*
+
+```text
+Type the answer here...
+```
+
+**(5 points)** Reflecting on the design, fabrication, and evaluation process, what did you find most challenging? How did you overcome these challenges, and what would you do differently if you repeated this tutorial?
+
+```text
+Type the answer here...
+```
