@@ -255,12 +255,16 @@ Type the answer here...
 
 ![Input Parameter vs Force](img/video_2.gif)
 
-![Input Parameter vs Force](img/6B_plot.png)
+![Input Parameter vs Force](img/6b_plot.png)
 
 ```text
-Type the answer here...
-```
+We chose the volume of extracted air as input parameter because vacuum deflation is the driving mechanism of our soft actuator. The contraction and resulting actuation force are directly caused by the negative pressure generated as volume is removed.
 
+To evaluate the actuator performances we also evaluated its maximum grip strenght.
+by making it grip a tissue attached to a newton meter and then we started pulling to measure the maximum value we obtained.
+The experimental setup involved having the actuator hold a tissue connected to a newton meter.
+We then applied a pulling force until the grip failed, recording the peak force value of 0.75 Newtons.
+```
 
 ![Input Parameter vs Force](img/video_3.gif)
 
@@ -274,7 +278,8 @@ In this tutorial, you designed and fabricated an origami-inspired vacuum actuato
 *Hint: E-commerce platforms such as RS, Conrad and Amazon*
 
 ![alt text](img/vacuum_pump_12v.png)
-```Link: https://eu.mouser.com/ProductDetail/SparkFun/ROB-10398?qs=WyAARYrbSnaW%252B0ieELD1FQ%3D%3D```
+
+Link: https://eu.mouser.com/ProductDetail/SparkFun/ROB-10398?qs=WyAARYrbSnaW%252B0ieELD1FQ%3D%3D
 ```text
 Use a small vacuum pump that can produce a stronger and more controlled vacuum for more reliable actuator movement.
 How it works: When 12V are applied to the pump, an internal motor starts moving a flexible membrane back and forth. Through this movement, air is sucked in from the chamber and pushed out through the other side of the pump. This creates a negative pressure inside the actuator chamber. By controlling the electrical signal, for example by switching the pump on and off or by using PWM, the vacuum could be adjusted much more precisely.
