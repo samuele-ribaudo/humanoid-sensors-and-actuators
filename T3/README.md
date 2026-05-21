@@ -214,6 +214,13 @@ If all six angles are fully closed, the accumulated bending over the whole actua
 Type the answer here...
 ```
 
+<div style="display: flex; gap: 10px;">
+  <img src="img/pic_1.png" width="200">
+  <img src="img/pic_2.png" width="200">
+  <img src="img/pic_3.png" width="200">
+  <img src="img/pic_4.png" width="200">
+</div>
+
 **(5 points)** Describe the fabrication process of your new actuator. What challenges did you encounter during fabrication, and how did you overcome them?
 
 ```text
@@ -234,7 +241,9 @@ If your actuator produces bending or twisting motion, you may need to design a s
 
 **(5 points)** Plot the relationship between the removed air volume and the deformation of the your original actuator.
 
-![Deformation vs Removed Air Volume](img/6A_plot.png)
+![Deformation vs Removed Air Volume](img/video_1.gif)
+
+![Deformation vs Removed Air Volume](img/6a_plot.png)
 
 **(5 points)** Describe the measurement setup used to evaluate the force or torque output. What challenges did you encounter during the measurement, and how did you overcome them?
 
@@ -244,11 +253,16 @@ Type the answer here...
 
 **(5 points)** Plot the relationship between an input parameter and the force or torque output of the actuator. In addition, describe the reason that you chose the input parameter for this analysis.
 
+![Input Parameter vs Force](img/video_2.gif)
+
 ![Input Parameter vs Force](img/6B_plot.png)
 
 ```text
 Type the answer here...
 ```
+
+
+![Input Parameter vs Force](img/video_3.gif)
 
 ## 7 Summary
 
