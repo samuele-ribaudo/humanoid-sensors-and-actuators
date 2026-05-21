@@ -193,13 +193,26 @@ Before fabricating the final actuator, we recommend that you first test your fol
 **(5 points)** Describe the deformation that you expect when a vacuum is applied to your new actuator.
 
 ```text
-Type the answer here...
+Sure — here is a cleaner version that keeps your style and explanation, but makes it more precise and easier to follow:
+
+---
+
+While in the resting position, the baseplates of the pyramids are all aligned, which results in a straight actuator shape. When air is pulled out of the plastic chamber, the pyramids are pulled closer together. This breaks the initial straight alignment and reduces the angle between each pair of neighboring pyramid sides. The smaller this angle becomes, the more the actuator bends toward the direction of the pyramid tips. This curvature will increase until all pyramids sides align and the actuator becomes circular-shaped.
+
+---
+
 ```
 
 **(5 points)** Which geometric parameters define the deformation of your actuator?
 
 ```text
-Type the answer here...
+In our design, each pyramid has a base width of 2 cm and a slanted side height of 2 cm. This means that, in a cross-section, we get a right triangle with a 1 cm cathetus and a 2 cm hypotenuse. From this geometry, the angle of one pyramid side is 30°, and therefore the angle between two neighboring pyramids at rest is also 60°.
+
+Since we use a total of 6 pyramids, and each neighboring pair has an angle of 60° at rest, the total angle adds up to:
+
+6 x 60° = 360°
+
+If all six angles are fully closed, the accumulated bending over the whole actuator equals 360°, which corresponds to one complete rotation. Geometrically, this means that the actuator can close into a full circle, because a circle also represents a total angle of 360°.
 ```
 
 **(5 points)** Describe the design of your new actuator, including its folding pattern, geometric configuration, and expected deformation mode. How does this design differ from the actuator fabricated in T3.1?
@@ -211,7 +224,11 @@ Type the answer here...
 **(5 points)** Describe the fabrication process of your new actuator. What challenges did you encounter during fabrication, and how did you overcome them?
 
 ```text
-Type the answer here...
+The fabrication process was rather straight forward, since it builds upon the idea of having modular chain elements that together then form the actuator. Therefore we only built the single pyramids and used a simple taped connection to fit them together.
+
+One of the inital problems were pyramids with full origami styles, that were quite complicated to fabricate and resulted in a way larger slanted side height relative to the baseplate. This would lead to a rather big actuator with a lot of chain elements to get to the full circle. An improved design was used that has fitting overall dimensions (see 5.2).
+
+The initial gripper actuator only had a total of 4 chain elements, but this resulted in a shortage of the circular shape and therefore we could not pick and hold things at all. We incrementally increased pieces until we ended up with a total of 6 elements.
 ```
 
 ## 6 Evaluation of the Actuator
@@ -246,15 +263,20 @@ In this tutorial, you designed and fabricated an origami-inspired vacuum actuato
 
 ### Questions
 
-**(5 points)** If you could replace one of the materials used in this tutorial with a commer cial product, what would be worth purchasing? Describe the product and explain how it could improve the actuator performance or the evaluation process.
+**(5 points)** If you could replace one of the materials used in this tutorial with a commercial product, what would be worth purchasing? Describe the product and explain how it could improve the actuator performance or the evaluation process.
 *Hint: E-commerce platforms such as RS, Conrad and Amazon*
 
+![alt text](img/vacuum_pump_12v.png)
+```Link: https://eu.mouser.com/ProductDetail/SparkFun/ROB-10398?qs=WyAARYrbSnaW%252B0ieELD1FQ%3D%3D```
 ```text
-Type the answer here...
+Use a small vacuum pump that can produce a stronger and more controlled vacuum for more reliable actuator movement.
+How it works: When 12V are applied to the pump, an internal motor starts moving a flexible membrane back and forth. Through this movement, air is sucked in from the chamber and pushed out through the other side of the pump. This creates a negative pressure inside the actuator chamber. By controlling the electrical signal, for example by switching the pump on and off or by using PWM, the vacuum could be adjusted much more precisely.
 ```
 
 **(5 points)** Reflecting on the design, fabrication, and evaluation process, what did you find most challenging? How did you overcome these challenges, and what would you do differently if you repeated this tutorial?
 
 ```text
-Type the answer here...
+It was hard to understand the attributes of the origami structure that make up for a good and effective actuator. Because even if the materials are better but the design is very bad, the actuator will not work well. However, the material and general quality of the actuator also contribute to the effectiveness.
+
+If we had to redo the tutorial, we would try to understand the different possible structures more deeply first and thinking what usecase they are good for and if it aligns with what we plan to do.
 ```
