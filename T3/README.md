@@ -253,6 +253,8 @@ Since our new actuator exhibits a non-linear 2D actuation, we chose to measure t
 Geometrically, any three distinct points uniquely define a single circle. By tracking the coordinates of the base, midpoint, and tip, we calculated the intersection of their perpendicular bisectors to find the shifting center of rotation and its corresponding radius. 
 ```
 
+[See code ↗](code/3_6a_plot.py)
+
 ![Deformation vs Removed Air Volume](img/6a_plot.png)
 
 **(5 points)** Describe the measurement setup used to evaluate the force or torque output. What challenges did you encounter during the measurement, and how did you overcome them?
