@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# 1. Define your experimental data vectors (Replace with your actual coordinates)
+# 1. Define your experimental data vectors
 # Index corresponds to: [0ml, 10ml, 20ml, 30ml]
 k = np.array([0, 5, 10, 15, 20, 25, 30])  # Removed air volume in mL
 
