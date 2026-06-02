@@ -23,8 +23,8 @@ In this tutorial we work with the data taken from a Sparkfun 9DOF Razor IMU. Thi
 In this tutorial we will learn:
 - How to calibrate 3D sensors (accelerometer, gyroscope, magnetometer)
 
-<div style="text-align: center;">
-<img src="img/figure_1.png" alt="figure 1" style="max-width: 30%; height: auto;">
+<div align="center">
+  <img src="img/figure_1.png" width="300">
 </div>
 
 Figure 1: IMU with the axes of the base coordinate system 0. We will use the homogeneous transformations $^{acc}_0\mathbf{T}$, $^{gyro}_0\mathbf{T}$, and $^{mag}_0\mathbf{T}$ to transform the measurements of the sensors to this common coordinate frame.
@@ -63,10 +63,10 @@ These measurements are stored in the following Matlab data files:
 
 and can be found in the project folder `data`. For example, in `accXn.mat` we aligned the negative $x$-axis along the gravitational acceleration, see Figure 2.
 
-<div style="text-align: center;">
-<img src="img/figure_2.png" alt="figure 2" style="max-width: 20%; height: auto;">
-
-Figure 2: The axes of the base frame for measurement `accXn.mat`.
+<div align="center">
+  <img src="img/figure_2.png" width="200">
+  
+  Figure 2: The axes of the base frame for measurement `accXn.mat`.
 </div>
 
 Open the Matlab script `main_acc_directions.m`. Find the sections that have been marked and require your inputs. This script loads all the measurements of the experiments `accXn.mat` etc. and prints out the matrix $^{acc}_0\mathbf{T}$ and the gravitational accelerations for all the experiments.
