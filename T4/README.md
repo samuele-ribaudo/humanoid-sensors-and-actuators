@@ -338,12 +338,56 @@ You can start/stop the execution of your tutorial implementation by typing `tut 
 **T.2.1 (10 points)** Implement the color feedback with the real e-skin. Open the file `tutorial/led_color_feedback_tut.py` and scroll down to the function `__update()`. Implement the color feedback algorithm by following the instructions in this file. Try different thresholds and change the LED color according to the instructions.
 
 ```python
-# paste here the function __update()
+ def __update(self):
+        sc_data_list = self.__data_pub.sc_data()    
+
+        for sc_data in sc_data_list:
+            d = data_tuple_to_data1200(sc_data)
+            sc_id = d["sc_id"]
+            prox = d["prox"]
+            force = d["force"]
+            acc = d["acc"]
+            temp = d["temp"]
+
+            color = COLOR_VAL_MAP.get("white")
+
+            # ??????????????????????????????????????????????????????????????????
+            #   Change the led color according to touch events
+            #       green   = no contact
+            #       red     = proximity event
+            #       blue    = force event (overrides proximity event)
+            # 
+            #   If you want you can implement also visual feedback for
+            #       vibrational or acceleration events.
+            # ??????????????????????????????????????????????????????????????????
+            # Threshold constants
+            PROX_THRESHOLD = 0.5
+            FORCE_THRESHOLD = 0.005
+
+            # Extract forces from (FC1, FC2, FC3)
+            has_proximity = prox > PROX_THRESHOLD
+            has_force = any(f > FORCE_THRESHOLD for f in force)
+
+            # Determine the color based on priority hierarchy
+            if has_force:
+                color = COLOR_VAL_MAP.get("blue")       # Force event overrides proximity
+            elif has_proximity:
+                color = COLOR_VAL_MAP.get("red")        # Proximity event
+            else:
+                color = COLOR_VAL_MAP.get("green")      # No contact default
+
+            # ??????????????????????????????????????????????????????????????????
+
+            self.__led_ctrl.set_led_color_val(color,sc_id)
+
+
 ```
 [See led_color_feedback_tut.py ↗](code/led_color_feedback_tut.py)
 
 **R.2.1 (2 points)** Why is providing feedback to the user important, especially in interaction tasks?
 
 ```text
-Type here the answer...
+Providing feedback is important because it lets the user understand how the system perceives their actions and whether the interaction was successful. In interaction tasks, this closes the loop between user action and system response: for example, with the e-skin LEDs, the user can immediately see whether proximity or touch was detected and how strong the contact is.
+
+Without feedback, the user may be unsure if the sensor detected anything, if they used the system correctly, or if something failed. Real-time feedback makes the interaction more intuitive, reduces uncertainty, and helps the user adapt their behavior during the task.
 ```
