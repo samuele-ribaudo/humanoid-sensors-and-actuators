@@ -213,13 +213,9 @@ This project has been extensively tested with `Matlab2020b` and should work out 
 
 The *Procrustes* problem is a matrix approximation problem where we want to find an orthogonal matrix $\mathbf{R}$ which maps a matrix $\mathbf{A}$ to a matrix $\mathbf{B}$. We can use the solution of the *Procrustes* problem to determine a rotation matrix $\mathbf{R}$ between two sets of vectors in the matrices $\mathbf{A}$ and $\mathbf{B}$. To get a rotation matrix, the mapping between $\mathbf{A}$ and $\mathbf{B}$ needs to be constrained to rotation matrices. This can be enforced by forcing the determinant of $\mathbf{R}$ to one. We can calculate the rotation matrix in the following way:
 
-$$\mathbf{A} = \begin{bmatrix} \mathbf{a}_1 & \dots & \mathbf{a}_n \end{bmatrix} \in \mathbb{R}^{3 \times n} \qquad \mathbf{B} = \begin{bmatrix} \mathbf{b}_1 & \dots & \mathbf{b}_n \end{bmatrix} \in \mathbb{R}^{3 \times n} $$
-
-$$\mathbf{M} = \mathbf{B}\mathbf{A}^\top \in \mathbb{R}^{3 \times 3} \qquad \mathbf{M} = \mathbf{U}\mathbf{\Sigma}\mathbf{V}^\top $$
-
-$$\mathbf{\hat{\Sigma}} = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & \text{sign}(\text{det}(\mathbf{U}\mathbf{V}^\top)) \end{pmatrix} $$
-
-$$\mathbf{R} = \mathbf{U}\mathbf{\hat{\Sigma}}\mathbf{V}^\top $$
+<div align="center">
+  <img src="img/equations.png" width="700">
+</div>
 
 Open the Matlab script `main_patch.m`. This script loads all the required data, calls the `calcposes.m` function that implements a brute force 3D reconstruction algorithm, and visualizes the skin cell map, the reference skin patch and the skin patch resulting from `calcposes.m`. You will find sections that have been marked and require your inputs in the functions `calcposes.m` and `estRot.m`.
 
