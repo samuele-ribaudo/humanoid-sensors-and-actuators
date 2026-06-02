@@ -260,13 +260,22 @@ Please submit `calcposes.m` and `estRot.m` containing your modifications for **T
 **R.1.1 (4 points)** How many poses are needed to reliably determine the rotation matrix? Elaborate and explain.
 
 ```text
-type here the answer...
+To uniquely determine the rotation matrix in 3D space, a minimum of two linearly independent poses are required. A single pose only fixes two rotational degrees of freedom, leaving the rotation around the vector itself mathematically undefined. Two independent vectors span a plane, thereby fixing the third degree of freedom and yielding a unique geometric solution.
+However, to reliably determine the rotation matrix in a real-world scenario with noisy MEMS accelerometer data, three or more poses are necessary. Additional poses create an overdetermined system. In this state, solving the Orthogonal Procrustes problem via SVD acts as a least-squares estimator. It minimizes the effect of stochastic sensor noise across all measurements, resulting in a robust and reliable estimation of the true rotation matrix.
 ```
 
 **R.1.2 (4 points)** How do the singular values relate to an under defined, partially defined, fully defined, and over defined solution for the rotation matrix? Elaborate and explain. Just copying the results of a paper is NOT enough. Also describing the general meaning of the singular values is not sufficient. Please specifically explain how the singular values impact the reconstruction result.
 
 ```text
-type here the answer...
+The singular values (sigma_1 >= sigma_2 >= sigma_3 >= 0) obtained from the SVD of the cross-covariance matrix M = B * A^T indicate the spatial distribution of the measurement vectors and directly define the state of the system:
+
+* Under defined (sigma_1 = sigma_2 = sigma_3 = 0): The rank of the matrix is 0, meaning no valid measurement data is present (zero matrices). The spatial relationship is entirely undefined, and any arbitrary rotation matrix is mathematically equally valid.
+
+* Partially defined (sigma_1 > 0, sigma_2 = sigma_3 = 0): The rank is 1. All measured vectors are collinear, which corresponds to capturing only a single pose. While the measured axes can be aligned, the rotation around this specific axis remains completely undefined (1D null space).
+
+* Fully defined (sigma_1 >= sigma_2 > 0, sigma_3 = 0): The rank is 2. The measurements perfectly span a 2D plane, corresponding to exactly two linearly independent poses without any noise. The normal to this plane is implicitly fixed, resulting in exactly one unique rotation matrix that aligns the systems perfectly with an error of zero.
+
+* Over defined (sigma_1 >= sigma_2 >= sigma_3 > 0): The rank is 3. The measurements span a full 3D volume, which occurs when three or more poses are recorded with inherent sensor noise. Due to the noise, no single rotation matrix can perfectly align all vectors simultaneously. However, the SVD calculates the optimal least-squares solution, distributing the error evenly to compute the most robust rotation matrix possible.
 ```
 
 # Tutorial 4 - Part 3
