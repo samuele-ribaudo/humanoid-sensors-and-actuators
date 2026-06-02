@@ -19,7 +19,6 @@ Summer Semester 2026
 
 ## Inertial Measurement Unit (IMU) (41 points)
 In this tutorial we work with the data taken from a Sparkfun 9DOF Razor IMU. This IMU integrates a 3D accelerometer, a 3D gyroscope and a 3D magnetometer. The accelerometer measures the linear, centripetal, Coriolis, and the earth gravitational acceleration, the gyroscope measures angular velocities around the coordinate axes, and the magnetometer measures the magnetic flux of the earth magnetic field.
-
 In this tutorial we will learn:
 - How to calibrate 3D sensors (accelerometer, gyroscope, magnetometer)
 
@@ -272,4 +271,83 @@ type here the answer...
 
 ```text
 type here the answer...
+```
+
+# Tutorial 4 - Part 3
+
+This tutorial is centered around the e-skin we develop at ICS. In part 3 we will work with the real e-skin and focus on user feedback.
+In this tutorial we will learn:
+* How to use the real e-skin.
+* How to use process data from the e-skin.
+* How to provide real-time user feedback.
+
+## Preparation – Downloading the tutorial project
+
+All Python libraries and scripts we need for this tutorial can be found in one common project. You can download this project from Moodle:
+
+```bash
+"https://www.moodle.tum.de/mod/resource/view.php?id=3833905"
+```
+
+This project has been tested with `Python 3.12.3` and should work out of the box on Linux, Mac, and Windows. The sections in the Python code that you will modify during this tutorial are marked with a line of question marks `???...???`. To ensure that you are not accidentally modifying code that should not be touched and to avoid breaking your whole project please only modify code between the two lines of these question marks. The marked section additionally contains instructions and implementation hints. Please read them carefully. They will help you to save time when you implement the tasks.
+
+## 2 Real-Time User Feedback (12 points)
+
+We will use the real e-skin to measure proximity and forces and we will use the integrated RGB LED of the real skin cells to give the user feedback about different touch events.
+
+### Preparation and Introduction
+
+**Hardware**
+
+1. Connect the skin patch to the WIFI interface.
+2. When you later want to disconnect the skin patch from the interface, do not pull on one single wire. Grab all four wires together and pull carefully.
+3. Connect a USB cable to the WIFI interface.
+4. You can connect the WIFI interface to any USB power source. The USB is only used for powering the WIFI interface.
+5. The WIFI interface is labeled. The label tells you the name of the WIFI network it will create. The name is in the format `hsa0XX`.
+6. On your PC, search for the WIFI network your WIFI interface creates.
+7. Connect to the WIFI network. The password is `hsa%2026`.
+
+**Software**
+
+1. Unzip the package you downloaded.
+2. Enter the folder you unzipped `skin_tut`.
+3. The `skin_tut` folder contains two more folders (`scn` and `tutorial`) and a Python script `main_tut.py`.
+   * (a) The folder `scn` contains all Python libraries for interacting with the skin cell network.
+   * (b) The folder `tutorial` contains Python modules you will modify during the tutorial.
+   * (c) The Python script `main_tut.py` is the script you need to run. It provides a command line interface (CLI) for interacting with the e-skin.
+4. Run the Python script `main_tut.py`. It should start without errors.
+5. Connect to the e-skin:
+   * (a) Type `c` and then press *Enter*.
+   * (b) The e-skin should start, i.e. the LEDs of the skin cells will change colors several times until they stop with the color green.
+   * (c) The e-skin is now started.
+6. Type `h` and then press *Enter*. The script will list all available commands.
+7. Let's change the color of all skin cells. Type `white` and then press *Enter*. All LEDs should turn white.
+8. You can also change only the color of a specific skin cell. E.g. Type `blue 1` and then press *Enter*. The LED of the skin cell with the ID 1 should turn blue.
+9. When you start the skin cell network, the skin cells will not automatically start streaming data to the PC or even sample the sensors.
+10. To start sampling and streaming sensor data, type `udr 63` and then press *Enter*. The e-skin will now start sampling with 62.5 Hz and stream the samples to the PC.
+11. We can now start the integrated color feedback of the skin cells. Type `cf on` and then press *Enter*. Touch the skin cells and observe how the LED color changes.
+12. NOTE: When the integrated color feedback is activated it will overwrite all LED color commands you send to the skin cells. Make sure to deactivate the color feedback when you work on the tutorial tasks. You can turn the color feedback off by typing `cf off` and then pressing *Enter*.
+13. To stop and disconnect from the e-skin, type `d` and then press *Enter*.
+14. You can exit the Python script by typing `q` and then pressing *Enter*.
+
+### Implementation
+
+Before starting with the tutorial make sure:
+
+* To deactivate the integrated color feedback. You can turn the color feedback off by typing `cf off` and then pressing *Enter*.
+* To start the sampling and streaming of sensor data in the network of skin cells. Type `udr 63` and then press *Enter*. The e-skin will now start sampling with 62.5 Hz and stream the samples to the PC.
+
+You can start/stop the execution of your tutorial implementation by typing `tut on` and then pressing *Enter*. Or respectively, by typing `tut off` and then pressing *Enter*.
+
+**T.2.1 (10 points)** Implement the color feedback with the real e-skin. Open the file `tutorial/led_color_feedback_tut.py` and scroll down to the function `__update()`. Implement the color feedback algorithm by following the instructions in this file. Try different thresholds and change the LED color according to the instructions.
+
+```python
+# paste here the function __update()
+```
+[See led_color_feedback_tut.py ↗](code/led_color_feedback_tut.py)
+
+**R.2.1 (2 points)** Why is providing feedback to the user important, especially in interaction tasks?
+
+```text
+Type here the answer...
 ```
