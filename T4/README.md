@@ -187,3 +187,89 @@ type here the answer...
 ```text
 type here the answer...
 ```
+
+
+# Tutorial 4 - Part 2 (Bonus)
+
+## E-Skin (26 points)
+
+This tutorial is centered around the e-skin we develop at ICS. We will exploit its accelerometers and neighbor information to reconstruct the 3D surface a skin patch covers.
+
+In this tutorial we will learn:
+
+* How to estimate rotations between skin cells solving the Procrustes Problem.
+* How to compute the poses of the skin cells with respect to a common reference frame.
+
+## Preparation – Cloning the tutorial project
+
+All the measurements and Matlab scripts for this tutorial can be found in one common project. You can download this project by cloning:
+
+```bash
+git clone "https://gitlab.lrz.de/hsa/students/matlab-hsa-skin-tut.git"
+```
+
+This project has been extensively tested with `Matlab2020b` and should work out of the box. To source the libraries of the project, run once the script `setup.m`. The sections in the Matlab code that you will modify during this tutorial are marked with a line of question marks `???...???`. To ensure that you are not accidentally modifying code that should not be touched and to avoid breaking your whole project please only modify code between two lines of these question marks. The marked section additionally contains instructions and implementation hints. Please read them carefully. They will help you to save time in your implementations.
+
+## 1 3D Surface Reconstruction (18 points)
+
+The *Procrustes* problem is a matrix approximation problem where we want to find an orthogonal matrix $\mathbf{R}$ which maps a matrix $\mathbf{A}$ to a matrix $\mathbf{B}$. We can use the solution of the *Procrustes* problem to determine a rotation matrix $\mathbf{R}$ between two sets of vectors in the matrices $\mathbf{A}$ and $\mathbf{B}$. To get a rotation matrix, the mapping between $\mathbf{A}$ and $\mathbf{B}$ needs to be constrained to rotation matrices. This can be enforced by forcing the determinant of $\mathbf{R}$ to one. We can calculate the rotation matrix in the following way:
+
+$$\mathbf{A} = \begin{bmatrix} \mathbf{a}_1 & \dots & \mathbf{a}_n \end{bmatrix} \in \mathbb{R}^{3 \times n} \qquad \mathbf{B} = \begin{bmatrix} \mathbf{b}_1 & \dots & \mathbf{b}_n \end{bmatrix} \in \mathbb{R}^{3 \times n} $$
+
+$$\mathbf{M} = \mathbf{B}\mathbf{A}^\top \in \mathbb{R}^{3 \times 3} \qquad \mathbf{M} = \mathbf{U}\mathbf{\Sigma}\mathbf{V}^\top $$
+
+$$\mathbf{\hat{\Sigma}} = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & \text{sign}(\text{det}(\mathbf{U}\mathbf{V}^\top)) \end{pmatrix} $$
+
+$$\mathbf{R} = \mathbf{U}\mathbf{\hat{\Sigma}}\mathbf{V}^\top $$
+
+Open the Matlab script `main_patch.m`. This script loads all the required data, calls the `calcposes.m` function that implements a brute force 3D reconstruction algorithm, and visualizes the skin cell map, the reference skin patch and the skin patch resulting from `calcposes.m`. You will find sections that have been marked and require your inputs in the functions `calcposes.m` and `estRot.m`.
+
+**T.1.1 (8 points)** Implement the solution to the *Procrustes* problem in the marked section of `estRot.m`. Please add comments where necessary.
+
+```matlab
+paste here the matlab implementation of estRot.m
+```
+
+**T.1.2 (2 points)** Compute the calibrated accelerations measured in different poses for the root cell of the patch in the marked section of `calcposes.m`. Use the provided homogeneous calibration matrix that compensates gain and offset errors.
+
+```matlab
+paste here this part of the matlab implementation of calcposes.m
+```
+
+**T.1.3 (2 points)** Compute the calibrated accelerations measured in different poses for the currently evaluated neighbor cell in the marked section of `calcposes.m`. Use the provided homogeneous calibration matrix that compensates gain and offset errors.
+
+```matlab
+paste here this part of the matlab implementation of calcposes.m
+```
+
+**T.1.4 (2 points)** Feed the function implemented in **T.1.1** with the correct accelerations and acquire the rotation of the currently evaluated neighbor cell with respect to the root cell in the marked section of `calcposes.m`.
+
+```matlab
+paste here this part of the matlab implementation of calcposes.m
+```
+
+**T.1.5 (4 points)** Use the pose of the root cell, the rotation of the currently evaluated neighbor cell, and the port vectors of both cells to compute the position of the neighbor cell wrt. the common reference frame in the marked section of `calcposes.m`. Validate your results. The visualization of both patches should look identical.
+
+```matlab
+paste here this part of the matlab implementation of calcposes.m
+```
+
+Please submit `calcposes.m` and `estRot.m` containing your modifications for **T.1.1** to **T.1.5**.
+
+[See estRot.m ↗](code/estRot.m)
+[See calcposes.m ↗](code/calcposes.m)
+
+
+### 1.1 Report (8 points)
+
+**R.1.1 (4 points)** How many poses are needed to reliably determine the rotation matrix? Elaborate and explain.
+
+```text
+type here the answer...
+```
+
+**R.1.2 (4 points)** How do the singular values relate to an under defined, partially defined, fully defined, and over defined solution for the rotation matrix? Elaborate and explain. Just copying the results of a paper is NOT enough. Also describing the general meaning of the singular values is not sufficient. Please specifically explain how the singular values impact the reconstruction result.
+
+```text
+type here the answer...
+```
