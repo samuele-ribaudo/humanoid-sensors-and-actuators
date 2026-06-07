@@ -257,31 +257,36 @@ Please submit `main_acc_calib.m` and `accCalib.m` containing your modifications 
 **R.1.1 (2 points)** How many different poses do we need at least to get a good set of parameters for the implemented calibration algorithm?
 
 ```text
-type here the answer...
+For a good set of parameters we need at least six different poses, because all accelerometers axes have to be measured in positive and negative direction. Like this, every axis (+x, -x, +y, -y, +z, -z) is present in the data and the offset and gain parameters can be estimated.
+Since the calibration is done with LS, more than six poses are better: More samples make the fitting more stable and less influenced by measurement noise.
 ```
 
 **R.1.2 (2 points)** Why should linear accelerations be minimized while capturing data for the calibration? Explain and elaborate.
 
 ```text
-type here the answer...
+Because the calibration assumes that the accelerometer mainly measures gravity. When the IMU is not moving, the length of the acc. vector should be approximately constant.
+If we move the IMU during the measurements, the sensor also measures the acceleration from this movement. Then the measured points do not only describe gravity alone anymore and the fitted ellipsoid becomes wrong. This would lead to wrong offset and gain values.
 ```
 
 **R.1.3 (1 points)** How do you minimize linear accelerations?
 
 ```text
-type here the answer...
+By keeping the IMU still during the measurements, so no fast movements, shaking or touching while recording the data. Only move the IMU between taking the measurements.
 ```
 
 **R.1.4 (1 points)** How do you minimize the influence of linear accelerations during calibration?
 
 ```text
-type here the answer...
+We can record multiple samples for every pose and build an average over it. By doing this the effect of the noise disturbances is reduced because of the use of the least squares method.
 ```
 
 **R.1.5 (4 points)** Describe and explain the mathematical trick we use to get the model matrix $\mathbf{M}$ from a properly scaled ellipsoid matrix $\mathbf{A}_{fit}$. Explain! Copying the formulas from the lecture script is NOT enough.
 
 ```text
-type here the answer...
+The trick is that we do not directly search for the calibration Matrix M. Instead, we first fit an ellipsoid to the raw accelerometer data. The raw measurements should lie on an ellipsoid because the sensor has offsets and different gains on its axes. We can also simplify the ellipsoids, because they are all orthogonal to each other (because that is how the sensor is physically built), so we can eliminate mixed terms.
+After fitting this, we rewrite the equation so we have the ellipsoid form its cener plus its offset w. Then, the size of the ellipsoid in each axis gives us the gain factors. These are then put into the diagonal gain matrix, so the model matrix becomes:
+M = G*R
+Afterwards, the calibration is applied by first substracting the offset and then scaling the result. This leads to the ellipsoidical raw measurements are transformed to be in a unit sphere.
 ```
 
 
