@@ -77,7 +77,37 @@ Open the Matlab script `main_acc_directions.m`. Find the sections that have been
 Please submit `main_acc_directions.m` containing your modifications for **T.1.1** and **T.1.2**.
 
 ```matlab
-paste here the matlab implementation of main_acc_directions.m
+...
+%??????????????????????????????????????????????????????????????????????????
+%   Define the transformation between the coordinate frame of the
+%   accelerometer and the base frame 0.
+%
+%   Use the print outs of this script to get the represenatation of the x,
+%   y, and z axes of the accelerometer wrt the coordinates of the base
+%   frame.
+%
+%   NOTE: You only need to dermine the rotation, the translation is assumed
+%   to be zero. All rotations are devidable by 90 degrees.
+%
+T_acc_0(1:3,1) = [0 -1 0];
+T_acc_0(1:3,2) = [-1 0 0];
+T_acc_0(1:3,3) = [0 0 1];
+%??????????????????????????????????????????????????????????????????????????
+...
+%??????????????????????????????????????????????????????????????????????
+%   Use T_acc_0 to transform the measurements acc_raw wrt the 
+%   coordinate frame of the accelerometer to the base frame 0.
+%
+%
+% Expand acc_raw to homogeneous coordinates such that 
+%   isequal(size(acc_raw),[4 1]) == true
+acc_raw_hom = [acc_raw; 1];
+
+% Transform acc_raw to a_0
+a_0_hom = T_acc_0 * acc_raw_hom;
+a_0 = a_0_hom(1:3);
+%??????????????????????????????????????????????????????????????????????
+
 ```
 
 [See main_acc_directions.m ↗](code/main_acc_directions.m)
@@ -110,43 +140,110 @@ type here the answer...
 **T.1.5 (8 points)** Implement the calibration algorithm discussed in the previous lecture **L4** in `accCalib.m`. Please add comments where necessary.
 
 ```matlab
-paste here the matlab implementation of accCalib.m
+...
+%??????????????????????????????????????????????????????????????????????????
+%   Implement the ellipsoid fitting algorthm which finally delivers w, R,
+%   and G.
+
+%   M is the model matrix and describes the transformation of the
+%   uncalibrated acceleration measurement to the unit sphere. The
+%   cooridnate system of the elliposid is not necessarily aligned to the
+%   coordinate system of the accelerometer, i.e. R is usually not an
+%   identiy matrix. R can later be used to transform the calibrated
+%   measurements back to the coordinate system of the accelerometer.
+
+% Transpose vectors to Nx1 column vectors for matrix operations
+x = ax(:);
+y = ay(:);
+z = az(:);
+N = length(x);
+
+% Formulate the design matrix D and target vector O
+D = [x.^2, y.^2, z.^2, x, y, z];
+O = ones(N, 1);
+
+% Solve the linear least-squares problem
+v = D \ O;
+
+% Extract algebraic coefficients
+A_coeff = v(1);
+B_coeff = v(2);
+C_coeff = v(3);
+G_coeff = v(4);
+H_coeff = v(5);
+I_coeff = v(6);
+
+% Compute the offset Vector
+w = [
+    -G_coeff / (2 * A_coeff);
+    -H_coeff / (2 * B_coeff);
+    -I_coeff / (2 * C_coeff)
+];
+
+% Compute the scaling factor
+kappa = 1 + (G_coeff^2 / (4 * A_coeff)) + (H_coeff^2 / (4 * B_coeff)) + (I_coeff^2 / (4 * C_coeff));
+
+% Compute the diagonal gain matrix
+G = diag([
+    sqrt(kappa / A_coeff);
+    sqrt(kappa / B_coeff);
+    sqrt(kappa / C_coeff)
+]);
+
+
+% Rotation matrix
+R = eye(3);
+%??????????????????????????????????????????????????????????????????????????
+...
 ```
 
 **T.1.6 (2 points)** Use the results of **T.1.5** and compose the transformation $^{e}_{0}\mathbf{T}$ using $\mathbf{R}$ and $\mathbf{w}$ in the marked section of `main_acc_calib.m`. $^{e}_{0}\mathbf{T}$ represents the coordinate system of the ellipsoid wrt. the base frame 0.
 
 ```matlab
-paste here this part of the matlab implementation of main_acc_calib.m
+T_e_0(1:3,1:3) = R;
+T_e_0(1:3,4)   = w;
 ```
 
 **T.1.7 (4 points)** Use the results of **T.1.5** and compose the homogeneous model matrix $\mathbf{T}_m$ using $\mathbf{R}$ and $\mathbf{G}$ in the marked section of `main_acc_calib.m`. $\mathbf{T}_m$ only contains the gains of the calibration and does not rotate the coordinate axes. Thus $\mathbf{T}_m$ is approximately diagonal. Note that it is in general not sufficient to just paste $\mathbf{G}$ into $\mathbf{T}_m$.
 
 ```matlab
-paste here this part of the matlab implementation of main_acc_calib.m
+Tm = eye(4);
+Tm(1:3,1:3) = inv(G);
 ```
 
 **T.1.8 (2 points)** Use the results of **T.1.5** and compose the homogeneous offset matrix $\mathbf{T}_w$ using $\mathbf{w}$ in the marked section of `main_acc_calib.m`. $\mathbf{T}_w$ only contains a translation.
 
 ```matlab
-paste here this part of the matlab implementation of main_acc_calib.m
+Tw = eye(4);
+Tw(1:3,4) = -w;
 ```
 
 **T.1.9 (2 points)** Use the results of **T.1.7** and **T.1.8** and compute $^{raw}_{acc}\mathbf{T}$ by concatenating $\mathbf{T}_m$ and $\mathbf{T}_w$ in the marked section of `main_acc_calib.m`. First apply the translation, then the scaling.
 
 ```matlab
-paste here this part of the matlab implementation of main_acc_calib.m
+T_raw_acc = Tm * Tw;
 ```
 
 **T.1.10 (2 points)** Implement Equation 1 in the marked section of `main_acc_calib.m`. Check in the print out how much your calibration improves. This gives you some feedback if your calibration is correct.
 
 ```matlab
-paste here this part of the matlab implementation of main_acc_calib.m
+N = size(acc_raw, 2);
+acc_raw_hom = [acc_raw; ones(1, N)];
+
+% Calibration transformation
+acc_calib_hom = T_raw_acc * acc_raw_hom;
+acc_calib = acc_calib_hom(1:3, :);
 ```
 
 **T.1.11 (2 point)** Finally, use $^{raw}_{acc}\mathbf{T}$ and $^{acc}_{0}\mathbf{T}$ to calibrate and transform the raw measurements to the base frame 0 in the marked section of `main_acc_calib.m`. The script loads the measurements of the gravitational accelerations aligned to the different coordinate axes. You can verify if the print outs match your expectations.
 
 ```matlab
-paste here this part of the matlab implementation of main_acc_calib.m
+% Expand the 3x1 mean vector to 4x1 homogeneous coordinates
+acc_raw_mean_hom = [acc_raw_mean; 1];
+
+% First calibrate, then transform to the base frame 0
+a_0_hom = T_acc_0 * (T_raw_acc * acc_raw_mean_hom);
+a_0 = a_0_hom(1:3);
 ```
 
 Please submit `main_acc_calib.m` and `accCalib.m` containing your modifications for **T.1.3** to **T.1.11**.
@@ -222,31 +319,53 @@ Open the Matlab script `main_patch.m`. This script loads all the required data, 
 **T.1.1 (8 points)** Implement the solution to the *Procrustes* problem in the marked section of `estRot.m`. Please add comments where necessary.
 
 ```matlab
-paste here the matlab implementation of estRot.m
+% Compute matrix M = B * A' 
+M = B * A';
+
+% Compute singular value decomposition of M
+[U, S, V] = svd(M);
+
+% Create the correction matrix Sigma_hat
+Sigma_hat = diag([1, 1, sign(det(U * V'))]);
+
+% Calculate the final rotation matrix R
+R_a_b = U * Sigma_hat * V';
 ```
 
 **T.1.2 (2 points)** Compute the calibrated accelerations measured in different poses for the root cell of the patch in the marked section of `calcposes.m`. Use the provided homogeneous calibration matrix that compensates gain and offset errors.
 
 ```matlab
-paste here this part of the matlab implementation of calcposes.m
+sc = scs(ind);
+acc_raw = sc.acc.mean;
+T = sc.acc.T;
+
+acc_raw_hom = [acc_raw; ones(1, size(acc_raw, 2))];
+acc_0_hom = T * acc_raw_hom;
+acc_0 = acc_0_hom(1:3, :);
 ```
 
 **T.1.3 (2 points)** Compute the calibrated accelerations measured in different poses for the currently evaluated neighbor cell in the marked section of `calcposes.m`. Use the provided homogeneous calibration matrix that compensates gain and offset errors.
 
 ```matlab
-paste here this part of the matlab implementation of calcposes.m
+acc_raw = scn.acc.mean;
+T = scn.acc.T;
+
+acc_raw_hom_n = [acc_raw; ones(1, size(acc_raw, 2))];
+acc_n_hom = T * acc_raw_hom_n;
+acc_n = acc_n_hom(1:3, :);
 ```
 
 **T.1.4 (2 points)** Feed the function implemented in **T.1.1** with the correct accelerations and acquire the rotation of the currently evaluated neighbor cell with respect to the root cell in the marked section of `calcposes.m`.
 
 ```matlab
-paste here this part of the matlab implementation of calcposes.m
+R_n_0 = estRot(acc_n, acc_0);
+Rn = R_n_0;
 ```
 
 **T.1.5 (4 points)** Use the pose of the root cell, the rotation of the currently evaluated neighbor cell, and the port vectors of both cells to compute the position of the neighbor cell wrt. the common reference frame in the marked section of `calcposes.m`. Validate your results. The visualization of both patches should look identical.
 
 ```matlab
-paste here this part of the matlab implementation of calcposes.m
+pn = p0 + R0 * pP0 - Rn * pPn;
 ```
 
 Please submit `calcposes.m` and `estRot.m` containing your modifications for **T.1.1** to **T.1.5**.
