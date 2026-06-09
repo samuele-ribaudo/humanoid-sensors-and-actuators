@@ -29,27 +29,27 @@ In this tutorial we will refresh some basics of signal processing including corr
 
 **R.1.1 (3 points)** Find the expression to determine the azimuth angle of a sound source for a system with two microphones. Derive the equations shown in the slides of Lecture 3 step by step.
 
-1. Calculate the path length difference using the speed of sound $c$ and the time delay $\Delta t$[cite: 2]:
+1. Calculate the path length difference using the speed of sound $c$ and the time delay $\Delta t$:
 $$\text{Distance}=c\Delta t$$
 
-2. Determine the geometric extra distance the sound travels to the further microphone using trigonometry[cite: 2]:
+2. Determine the geometric extra distance the sound travels to the further microphone using trigonometry:
 $$\text{Distance}=l\sin\theta$$
 
-3. Equate the two expressions representing the same distance[cite: 2]:
+3. Equate the two expressions representing the same distance:
 $$l\sin\theta=c\Delta t$$
 
-4. Divide both sides by $l$ to isolate the angle expression[cite: 2]:
+4. Divide both sides by $l$ to isolate the angle expression:
 $$\sin\theta=\frac{c\Delta t}{l}$$
 
 **R.1.2 (3 points)** Find the expression to determine the velocity of a target from the pulse duration difference of a radar sensor. Derive the equations shown in the slides of Lecture 3 step by step.
 
-1. Start with the base formula for the Doppler frequency shift $\Delta f$ given the emitted frequency $f_0$[cite: 2]:
+1. Start with the base formula for the Doppler frequency shift $\Delta f$ given the emitted frequency $f_0$:
 $$\Delta f=\frac{2\Delta v}{c}f_0$$
 
-2. Multiply both sides by the wave propagation speed $c$[cite: 2]:
+2. Multiply both sides by the wave propagation speed $c$:
 $$c\Delta f=2\Delta vf_0$$
 
-3. Divide both sides by $2f_0$ to isolate the velocity variable $\Delta v$[cite: 2]:
+3. Divide both sides by $2f_0$ to isolate the velocity variable $\Delta v$:
 $$\Delta v=\frac{c\Delta f}{2f_0}$$
 
 **R.1.3 (1 point)** How can we measure the distance to a target?
