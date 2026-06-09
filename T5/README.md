@@ -30,7 +30,7 @@ In this tutorial we will refresh some basics of signal processing including corr
 **R.1.1 (3 points)** Find the expression to determine the azimuth angle of a sound source for a system with two microphones. Derive the equations shown in the slides of Lecture 3 step by step.
 
 1. Calculate the path length difference using the speed of sound $c$ and the time delay $\Delta t$:
-$$ \Large \text{Distance}=c\Delta t$$
+$$ \Large \text{Distance}=c\Delta t $$
 
 2. Determine the geometric extra distance the sound travels to the further microphone using trigonometry:
 $$\text{Distance}=l\sin\theta$$
