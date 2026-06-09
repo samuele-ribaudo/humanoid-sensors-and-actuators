@@ -30,25 +30,42 @@ In this tutorial we will refresh some basics of signal processing including corr
 **R.1.1 (3 points)** Find the expression to determine the azimuth angle of a sound source for a system with two microphones. Derive the equations shown in the slides of Lecture 3 step by step.
 
 ```text
-Type here the answer...
+1. Calculate the path length difference using the speed of sound $c$ and the time delay $\Delta t$[cite: 2]:
+$$\text{Distance}=c\Delta t$$
+
+2. Determine the geometric extra distance the sound travels to the further microphone using trigonometry[cite: 2]:
+$$\text{Distance}=l\sin\theta$$
+
+3. Equate the two expressions representing the same distance[cite: 2]:
+$$l\sin\theta=c\Delta t$$
+
+4. Divide both sides by $l$ to isolate the angle expression[cite: 2]:
+$$\sin\theta=\frac{c\Delta t}{l}$$
 ```
 
 **R.1.2 (3 points)** Find the expression to determine the velocity of a target from the pulse duration difference of a radar sensor. Derive the equations shown in the slides of Lecture 3 step by step.
 
 ```text
-Type here the answer...
+1. Start with the base formula for the Doppler frequency shift $\Delta f$ given the emitted frequency $f_0$[cite: 2]:
+$$\Delta f=\frac{2\Delta v}{c}f_0$$
+
+2. Multiply both sides by the wave propagation speed $c$[cite: 2]:
+$$c\Delta f=2\Delta vf_0$$
+
+3. Divide both sides by $2f_0$ to isolate the velocity variable $\Delta v$[cite: 2]:
+$$\Delta v=\frac{c\Delta f}{2f_0}$$
 ```
 
 **R.1.3 (1 point)** How can we measure the distance to a target?
 
 ```text
-Type here the answer...
+We can measure distance using the time-of-flight principle by calculating the time delay between an emitted signal and its returning echo
 ```
 
 **R.1.4 (1 point)** How can we measure the speed of a moving target?
 
 ```text
-Type here the answer...
+We can measure the speed of a moving target by using the Doppler effect to analyze the frequency shift between an emitted wave and its returning echo.
 ```
 
 ## 2 Fast Fourier Transform (8 points)
