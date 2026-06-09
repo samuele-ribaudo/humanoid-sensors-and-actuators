@@ -128,13 +128,14 @@ Open the Matlab script `main_acc_calib.m`. Find the sections that have been mark
 **T.1.3 (2 points)** We assume that $\mathbf{R}$ is constrained to rotations that are dividable by 90 degrees, i.e. the axes of the ellipsoid are aligned to the coordinate axes of the accelerometer but could be flipped or mapped differently. E.g. the $x$-axis of the ellipsoid could be mapped to the negative $z$-axis of the accelerometer. This constraint simplifies $\mathbf{A}_{fit}$. Then, how many parameters do you need for $\mathbf{A}_{fit}$? Please explain.
 
 ```text
-type here the answer...
+Since the rotation is constrained to multiples of 90 degrees, the ellipsoid axes stay aligned with the accelerometer axes. They can only be swapped or flipped, not tilted by an arbitrary angle. Therefore, Afit can be assumed to be diagonal, so only its three diagonal entries have to be estimated. The off-diagonal entries, which would describe cross-terms caused by arbitrary rotations, are not needed. Thus, Afit needs 3 parameters.
 ```
 
 **T.1.4 (2 points)** What parameters (A, B, ..., K) of the approximated ellipsoid matrix A_tilde become zero? Please explain.
 
 ```text
-type here the answer...
+The parameters D, E, and F become zero.
+These parameters are the off-diagonal entries of the ellipsoid matrix A_tilde and create the cross-terms x1x2, x1x3, and x2x3. Since the ellipsoid axes are aligned with the accelerometer axes under the 90-degree rotation constraint, no cross-terms are needed. Therefore, D = E = F = 0.
 ```
 
 **T.1.5 (8 points)** Implement the calibration algorithm discussed in the previous lecture **L4** in `accCalib.m`. Please add comments where necessary.
