@@ -117,7 +117,28 @@ Type here the answer...
 - If you have speakers/headphones: try to output the audio signal.
 
 ```python
-# type here the code...
+### IMPORT THE AUDIO FILE ###
+from scipy.io import wavfile
+
+# Load the audio file
+sample_rate, data = wavfile.read('../audio/chimes.wav')
+
+# Isolate one channel
+if len(data.shape) > 1:
+    signal = data[:, 0] # Left channel
+else:
+    signal = data       # Already mono
+
+### PLOT THE AUDIO SIGNAL ###
+time = np.arange(len(signal)) / sample_rate
+
+plt.plot(time, signal, color='b')
+plt.title('Chimes Audio Signal')
+plt.xlabel('Time [s]')
+plt.ylabel('Amplitude')
+plt.grid(True)
+plt.xlim(0, time[-1])  # Limits the x-axis to the exact length of the audio
+plt.show()
 ```
 
 ![Figure](img/T3_1.png)
@@ -125,7 +146,26 @@ Type here the answer...
 **T.3.2** Run an FFT on the audio signal from T.3.1 and plot it.
 
 ```python
-# type here the code...
+### RUN THE FFT ###
+n = len(signal)
+
+fft_output = np.fft.fft(signal)
+
+frequencies = np.fft.fftfreq(n, 1 / sample_rate) # Calculate the frequencies corresponding to the FFT points
+magnitude = np.abs(fft_output) # Take the absolute value to get the magnitude spectrum
+magnitude_normalized = magnitude / np.max(magnitude) # Normalize the output to 1
+# Filter out only the positive frequencies
+positive_frequencies = frequencies[:n // 2]
+positive_magnitude = magnitude_normalized[:n // 2]
+
+### PLOT THE FFT SPECTRUM ###
+plt.plot(positive_frequencies, positive_magnitude, color='r')
+plt.title('Normalized FFT Spectrum')
+plt.xlabel('Frequency [Hz]')
+plt.ylabel('Normalized Magnitude')
+plt.grid(True)
+plt.xlim(0, 5000)  # Zoomed into 0-5kHz where most audio frequencies lie
+plt.show()
 ```
 
 ![Figure](img/T3_2.png)
@@ -133,13 +173,32 @@ Type here the answer...
 **T.3.3** Generate a left and a right channel from the signal of T.3.1 and add a delay and scaling factor to one of them. Make the delay and scaling factors variable.
 
 ```python
-# type here the code...
+delay = 0.0005  # seconds
+scaling_factor = 0.7
+
+# Convert the time delay into the number of discrete samples
+delay_samples = int(delay * sample_rate)
+
+# Left channel: Pad with zeros at the end
+left_channel = np.pad(signal, (0, delay_samples), mode='constant')
+# Right channel: Pad with zeros at the start
+right_channel = np.pad(signal, (delay_samples, 0), mode='constant') * scaling_factor
 ```
 
 **T.3.4** Plot the two signals in the same figure.
 
 ```python
-# type here the code...
+time_padded = np.arange(len(left_channel)) / sample_rate
+
+# Plot both signals together
+plt.plot(time_padded, left_channel, label='Left Channel', color='b')
+plt.plot(time_padded, right_channel, label='Right Channel', color='r')
+
+plt.title('Left and Right Channels')
+plt.xlabel('Time [s]')
+plt.ylabel('Amplitude')
+plt.grid(True)
+plt.show()
 ```
 
 ![Figure](img/T3_4.png)
@@ -147,13 +206,39 @@ Type here the answer...
 **T.3.5** If you have speakers/headphones: listen to the signals and find parameters at which stereo localization works for you.
 
 ```python
-# type here the code...
+# Stack channels vertically to create a stereo layout (2, N) and transpose to (N, 2)
+stereo_signal = np.vstack((left_channel, right_channel)).T
+
+# Ensure the data type is correct for audio playback (16-bit PCM integer)
+if stereo_signal.dtype != np.int16:
+    stereo_signal = (stereo_signal / np.max(np.abs(stereo_signal)) * 32767).astype(np.int16)
+
+# Save the file into the audio directory with the delay value in the name
+filename = f'../audio/chimes_stereo_{delay}.wav'
+wavfile.write(filename, sample_rate, stereo_signal)
 ```
 
 **T.3.6** Run cross-correlation on both signals and plot the correlation against delay.
 
 ```python
-# type here the code...
+cross_corr = np.correlate(right_channel, left_channel, mode='full')
+
+num_lags = len(cross_corr)
+lags_samples = np.arange(-num_lags // 2 + 1, num_lags // 2 + 1)
+
+lags_seconds = lags_samples / sample_rate # Convert sample lags into time delays (seconds)
+
+plt.plot(lags_seconds, cross_corr, color='b')
+plt.title('Cross-correlation vs. Time delay')
+plt.xlabel('Delay [s]')
+plt.ylabel('Correlation magnitude')
+plt.grid(True)
+plt.show()
+
+# Find and print the peak location
+estimated_delay = lags_seconds[np.argmax(cross_corr)]
+print(f"True physical delay configured: {delay} seconds")
+print(f"Delay estimated by cross-correlation peak: {estimated_delay} seconds")
 ```
 
 ![Figure](img/T3_6.png)
@@ -161,13 +246,36 @@ Type here the answer...
 **T.3.7** Add noise with a normal distribution to both channels.
 
 ```python
-# type here the code...
+noise_level = 100.0  
+
+left_noise = np.random.normal(0, noise_level, size=left_channel.shape)
+right_noise = np.random.normal(0, noise_level, size=right_channel.shape)
+
+left_channel_noisy = left_channel + left_noise
+right_channel_noisy = right_channel + right_noise
 ```
 
 **T.3.8** Run cross-correlation on the noisy signals and plot.
 
 ```python
-# type here the code...
+cross_corr_noisy = np.correlate(right_channel_noisy, left_channel_noisy, mode='full')
+
+num_lags_noisy = len(cross_corr_noisy)
+lags_samples_noisy = np.arange(-num_lags_noisy // 2 + 1, num_lags_noisy // 2 + 1)
+
+lags_seconds_noisy = lags_samples_noisy / sample_rate # Convert sample lags into time delays (seconds)
+
+plt.plot(lags_seconds_noisy, cross_corr_noisy, color='b')
+plt.title('Cross-correlation vs. Time delay for noisy signals')
+plt.xlabel('Delay [s]')
+plt.ylabel('Correlation magnitude')
+plt.grid(True)
+plt.show()
+
+# Find and print the peak location
+estimated_delay_noisy = lags_seconds_noisy[np.argmax(cross_corr_noisy)]
+print(f"True physical delay configured: {delay} seconds")
+print(f"Delay estimated by noisy cross-correlation peak: {estimated_delay_noisy} seconds")
 ```
 
 ![Figure](img/T3_8.png)
