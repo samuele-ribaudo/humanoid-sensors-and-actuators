@@ -103,9 +103,7 @@ Type here the answer...
 
 **R2.3 (2 points)** Deliver the code used to generate the signals and plots?
 
-```python
-# type here the code...
-```
+[See code ↗](code/Tutorial_5.ipynb)
 
 ## 3 Audio Correlation (8 points)
 
@@ -246,7 +244,7 @@ print(f"Delay estimated by cross-correlation peak: {estimated_delay} seconds")
 **T.3.7** Add noise with a normal distribution to both channels.
 
 ```python
-noise_level = 100.0  
+noise_level = 1000.0  
 
 left_noise = np.random.normal(0, noise_level, size=left_channel.shape)
 right_noise = np.random.normal(0, noise_level, size=right_channel.shape)
@@ -285,20 +283,18 @@ print(f"Delay estimated by noisy cross-correlation peak: {estimated_delay_noisy}
 **R.3.1 (2 point)** Is it possible to implement the cross-correlation to an online data streaming? Why?
 
 ```text
-Type here the answer...
+No. An online data stream runs forever. If we try to run a standard cross-correlation on it continuously, the size of our data arrays grows infinitely, becoming a computationally challenging problem.
 ```
 
 **R.3.2 (2 point)** If you answered “no” to R.3.1, how would you work around to use it to identify the interaural time delay?
 
 ```text
-Type here the answer...
+A work around would be to use a sliding window approach: first we divide the continuous incoming audio stream into small buffers of fixed size, then we run the cross correlation only on these slices of data.
 ```
 
 **R.3.3 (4 points)** Deliver the code to generate the signals and the plots (T.3.1 - T.3.8).
 
-```python
-# type here the code...
-```
+[See code ↗](code/Tutorial_5.ipynb)
 
 ## 4 Signal Filtering (33 points)
 
@@ -472,6 +468,4 @@ Type here the answer...
 
 **R.4.14 (6 points)** Deliver the code to generate the signals and the plots (T.4.1 - T.4.12).
 
-```python
-# type here the code...
-```
+[See code ↗](code/Tutorial_5.ipynb)
