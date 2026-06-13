@@ -172,6 +172,12 @@ python3 fusion.py
 
 **Grading (10 points).** Full credit requires a clean submission that respects the template boundaries and runs the benchmark. Points are reduced for changing public APIs, modifying the benchmark data, leaving TODOs in the EKF path, or omitting benchmark evidence.
 
+```text
+Paste here the benchmark data...
+```
+
+See [imu_common.py](template/imu_common.py) ↗ and [imu_kalman.py](template/imu_kalman.py) ↗
+
 
 ### T.1 EKF-1: Gyro Prediction in `predictOrientation` (10 points)
 
@@ -192,6 +198,10 @@ Then update the orientation in time order with `q_hat = q_hat * delta_q`.
 
 **Grading (10 points).** Full credit requires correct bias removal, time integration, quaternion conversion, composition order, and sign normalization. Partial credit is given when the prediction is conceptually correct but has a minor broadcasting, time-step, or quaternion-order issue.
 
+```python
+# Paste here the implementation code...
+```
+
 
 ### T.2 EKF-2: Predicted Gravity Direction (6 points)
 
@@ -200,6 +210,10 @@ Then update the orientation in time order with `q_hat = q_hat * delta_q`.
 **Implementation.** In `rotmat2gravity`, implement the projection directly from the rotation matrix. Select the gravity axis from `R[:, ref.GravityIndex]`, apply `ref.GravityAxisSign`, and scale by $g = 9.81 \text{ m/s}^2$. No quaternion conversion is needed in this helper.
 
 **Grading (6 points).** Full credit requires the correct axis, sign, and gravity magnitude. Partial credit is given for a correct structure with a single convention mistake.
+
+```python
+# Paste here the implementation code...
+```
 
 
 ### T.3 EKF-3: Quaternion to Rotation Matrix (4 points)
@@ -215,6 +229,9 @@ R_q_hat_minus = quaternion.as_rotation_matrix(obj.q_hat_minus)
 
 **Grading (4 points).** Full credit requires using the helper correctly and producing a valid $3 \times 3$ rotation matrix. Partial credit is limited for hand-coded or non-normalized conversions.
 
+```python
+# Paste here the implementation code...
+```
 
 ### T.4 EKF-4: Accelerometer Residual (8 points)
 
@@ -223,6 +240,10 @@ R_q_hat_minus = quaternion.as_rotation_matrix(obj.q_hat_minus)
 **Implementation.** Use $\hat{a}_{\text{lin},k}^- = c_a \hat{a}_{\text{lin},k-1}^+$, form `z_a` with the template's sign convention, and compute $r_a = z_a - \hat{z}_a^-$ as `z_a - z_a_hat_minus`.
 
 **Grading (8 points).** Full credit requires the decayed linear acceleration, correct sign convention, and correctly shaped residual. Partial credit is given for a correct residual idea with a minor sign or shape error.
+
+```python
+# Paste here the implementation code...
+```
 
 ### T.5 EKF-5: Magnetometer Residual (8 points)
 
@@ -240,6 +261,10 @@ Then compute $r_m = m_{m,k} - \hat{m}_s^-$ with a shape compatible with $r_a$.
 
 **Grading (8 points).** Full credit requires normalization, correct magnetic prediction, and a correctly shaped residual. Partial credit is given for a correct comparison that misses normalization or shape consistency.
 
+```python
+# Paste here the implementation code...
+```
+
 ### T.6 EKF-6: Observation Matrix $H_k$ (16 points)
 
 **Principle.** $H_k$ linearizes how small errors in orientation, gyro bias, and linear acceleration change the predicted sensor residuals. The accelerometer observes orientation and linear acceleration; the magnetometer mainly observes orientation.
@@ -252,6 +277,10 @@ where $h_g = -[\hat{g}_s^-]_{\times}$ and $h_m = -[\hat{m}_s^-]_{\times}$ are pr
 
 **Grading (16 points).** Full credit requires correct accelerometer and magnetometer blocks, correct bias coupling, and a final $6 \times 9$ stacked matrix. Partial credit is given for a mostly correct linearization with one block, sign, or stacking mistake.
 
+```python
+# Paste here the implementation code...
+```
+
 ### T.7 EKF-7: Innovation Vector and Measurement Covariance (8 points)
 
 **Principle.** The Kalman update uses one innovation vector and one measurement covariance. Stacking both sensors lets the filter choose one correction that balances accelerometer and magnetometer trust.
@@ -259,6 +288,10 @@ where $h_g = -[\hat{g}_s^-]_{\times}$ and $h_m = -[\hat{m}_s^-]_{\times}$ are pr
 **Implementation.** Stack $r_k = [r_a^T, r_m^T]^T$ as a $6 \times 1$ vector. Build $R_k = \text{blockdiag}(R_a, R_m)$, using `obj.R_a` for the accelerometer block and `obj.MagnetometerNoise` times $I_3$ for the magnetometer block.
 
 **Grading (8 points).** Full credit requires correct residual stacking and block-diagonal covariance. Partial credit is given for correct ingredients with an incorrect shape or block order.
+
+```python
+# Paste here the implementation code...
+```
 
 ### T.8 EKF-8: Kalman Gain and Error-State Update (12 points)
 
@@ -271,6 +304,10 @@ $$S_k = H_k P_k^- H_k^T + R_k, \quad K_k = P_k^- H_k^T S_k^{-1}, \quad \delta\ha
 Store the error-state estimate as `delta_x_hat`.
 
 **Grading (12 points).** Full credit requires correct innovation covariance, gain, and error-state update. Partial credit is given for a correct formula sequence with a matrix-order or inverse-placement mistake.
+
+```python
+# Paste here the implementation code...
+```
 
 ### T.9 EKF-9: Orientation Error Injection (8 points)
 
@@ -286,6 +323,10 @@ obj.q_hat_plus = obj.q_hat_minus * delta_q
 
 **Grading (8 points).** Full credit requires correct conversion, injection order, and normalization. Partial credit is given for a correct small-angle correction with a sign or multiplication error.
 
+```python
+# Paste here the implementation code...
+```
+
 ### T.10 EKF-10: Bias and Linear Acceleration Correction (6 points)
 
 **Principle.** After the filter estimates the error state, the nominal bias and linear acceleration estimates must absorb those errors. This is the “injection” step for the vector parts of the nominal state.
@@ -293,6 +334,10 @@ obj.q_hat_plus = obj.q_hat_minus * delta_q
 **Implementation.** Correct $\hat{b}_{g,k}$ and $\hat{a}_{\text{lin},k}$ by subtracting the estimated vector errors $\delta\hat{b}_g$ and $\delta\hat{a}_{\text{lin}}$, following the template residual convention.
 
 **Grading (6 points).** Full credit requires both vector corrections with the correct sign and shape. Partial credit is given if one correction is correct or if the idea is right but one sign is reversed.
+
+```python
+# Paste here the implementation code...
+```
 
 ### T.11 EKF-11: Posterior Error Covariance (4 points)
 
@@ -305,6 +350,10 @@ $$P_k^+ = P_k^- - K_k H_k P_k^-$$
 is sufficient.
 
 **Grading (4 points).** Full credit requires the correct posterior covariance expression with compatible matrix dimensions. Partial credit is given for using the right matrices in an incomplete covariance update.
+
+```python
+# Paste here the implementation code...
+```
 
 ## 4 Validation Checklist
 
