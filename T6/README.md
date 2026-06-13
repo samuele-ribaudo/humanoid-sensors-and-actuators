@@ -8,7 +8,7 @@
 | Niklas Peter | 03812287 | n.peter@tum.de |
 | Emile Gebrael | 03812968 | emile.gebrael@tum.de |
 
-We recomend viewing this report [here con GitHub ↗](https://github.com/samuele-ribaudo/humanoid-sensors-and-actuators/tree/main/T6), or with a markdown viewer.
+We recomend viewing this report in VS Code by pressing `cmd + shift + v`, or [here con GitHub ↗](https://github.com/samuele-ribaudo/humanoid-sensors-and-actuators/tree/main/T6).
 
 # Tutorial 6 - 9-Axis IMU Error-State Kalman Filter
 
