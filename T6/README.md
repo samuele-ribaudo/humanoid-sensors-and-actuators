@@ -226,15 +226,15 @@ g = R[:, ref.GravityIndex] * ref.GravityAxisSign * gravity
 **Implementation.** Complete `R_q_hat_minus` with the quaternion helper:
 
 ```python
-R_q_hat_minus = quaternion.as_rotation_matrix(obj.q_hat_minus)
 
-z_a_hat_minus = obj.rotmat2gravity(R_q_hat_minus).T
 ```
 
 **Grading (4 points).** Full credit requires using the helper correctly and producing a valid $3 \times 3$ rotation matrix. Partial credit is limited for hand-coded or non-normalized conversions.
 
 ```python
-# Paste here the implementation code...
+R_q_hat_minus = quaternion.as_rotation_matrix(obj.q_hat_minus)
+
+z_a_hat_minus = obj.rotmat2gravity(R_q_hat_minus).T
 ```
 
 ### T.4 EKF-4: Accelerometer Residual (8 points)
