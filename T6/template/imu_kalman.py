@@ -56,7 +56,7 @@ def stepImpl(obj, accelIn, gyroIn, magIn):
         # TODO EKF-3:
         # Use quaternion.as_rotation_matrix(obj.q_hat_minus) for this
         # conversion.
-        R_q_hat_minus = _todo("TODO EKF-3: convert obj.q_hat_minus to a rotation matrix")
+        R_q_hat_minus = quaternion.as_rotation_matrix(obj.q_hat_minus)
 
         z_a_hat_minus = obj.rotmat2gravity(R_q_hat_minus).T
 
@@ -80,18 +80,23 @@ def stepImpl(obj, accelIn, gyroIn, magIn):
         # Assemble the 6x9 observation matrix. The first three rows come from
         # gravity; the last three rows come from the magnetic field. Use
         # obj.buildHPart(...) for the -[v]_x blocks.
-        H_a_theta = _todo("TODO EKF-6: gravity orientation-error block")
-        H_a_bias = _todo("TODO EKF-6: gravity gyro-bias block")
-        H_a = _todo("TODO EKF-6: concatenate accelerometer H blocks")
-        H_m_theta = _todo("TODO EKF-6: magnetic orientation-error block")
-        H_m_bias = _todo("TODO EKF-6: magnetic gyro-bias block")
-        H_m = _todo("TODO EKF-6: concatenate magnetometer H blocks")
-        H_k = _todo("TODO EKF-6: stack accelerometer and magnetometer H")
+        H_a_theta = obj.buildHPart(z_a_hat_minus)
+        H_a_bias = -H_a_theta * obj.dt
+        H_a = np.hstack((H_a_theta, H_a_bias, np.eye(3)))
+        
+        H_m_theta = obj.buildHPart(m_s_hat_minus)
+        H_m_bias = -H_m_theta * obj.dt
+        H_m = np.hstack((H_m_theta, H_m_bias, np.zeros((3, 3))))
+        
+        H_k = np.vstack((H_a, H_m))
 
         # TODO EKF-7:
         # Stack the residual vector and build the 6x6 measurement covariance.
-        r_k = _todo("TODO EKF-7: stack accelerometer and magnetometer residuals")
-        R_k = _todo("TODO EKF-7: block-diagonal accel and magnetometer noise")
+        r_k = np.vstack((r_a.reshape(3, 1), r_m.reshape(3, 1)))
+        R_k = np.block([
+            [obj.R_a, np.zeros((3, 3))], 
+            [np.zeros((3, 3)), obj.MagnetometerNoise * np.eye(3)]
+        ])
         P_minus = obj.P_minus
 
         # TODO EKF-8:
