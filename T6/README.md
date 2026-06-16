@@ -173,8 +173,17 @@ python3 fusion.py
 **Grading (10 points).** Full credit requires a clean submission that respects the template boundaries and runs the benchmark. Points are reduced for changing public APIs, modifying the benchmark data, leaving TODOs in the EKF path, or omitting benchmark evidence.
 
 ```text
-Paste here the benchmark data...
+9-axis fusion RMSE: 0.144 deg
+9-axis fusion max error: 0.450 deg
+Dead reckoning RMSE: 4.385 deg
+Dead reckoning max error: 6.143 deg
+Saved plot to orientation_comparison.png
+Saved plot to error_comparison.png
 ```
+
+![img1](template/error_comparison.png)
+
+![img2](template/orientation_comparison.png)
 
 See [imu_common.py](template/imu_common.py) ↗ and [imu_kalman.py](template/imu_kalman.py) ↗
 
@@ -284,7 +293,15 @@ where $h_g = -[\hat{g}_s^-]_{\times}$ and $h_m = -[\hat{m}_s^-]_{\times}$ are pr
 **Grading (16 points).** Full credit requires correct accelerometer and magnetometer blocks, correct bias coupling, and a final $6 \times 9$ stacked matrix. Partial credit is given for a mostly correct linearization with one block, sign, or stacking mistake.
 
 ```python
-# Paste here the implementation code...
+H_a_theta = obj.buildHPart(z_a_hat_minus)
+H_a_bias = -H_a_theta * obj.dt
+H_a = np.hstack((H_a_theta, H_a_bias, np.eye(3)))
+
+H_m_theta = obj.buildHPart(m_s_hat_minus)
+H_m_bias = -H_m_theta * obj.dt
+H_m = np.hstack((H_m_theta, H_m_bias, np.zeros((3, 3))))
+
+H_k = np.vstack((H_a, H_m))
 ```
 
 ### T.7 EKF-7: Innovation Vector and Measurement Covariance (8 points)
@@ -296,7 +313,12 @@ where $h_g = -[\hat{g}_s^-]_{\times}$ and $h_m = -[\hat{m}_s^-]_{\times}$ are pr
 **Grading (8 points).** Full credit requires correct residual stacking and block-diagonal covariance. Partial credit is given for correct ingredients with an incorrect shape or block order.
 
 ```python
-# Paste here the implementation code...
+r_k = np.vstack((r_a.reshape(3, 1), r_m.reshape(3, 1)))
+R_k = np.block([
+    [obj.R_a, np.zeros((3, 3))], 
+    [np.zeros((3, 3)), obj.MagnetometerNoise * np.eye(3)]
+])
+P_minus = obj.P_minus
 ```
 
 ### T.8 EKF-8: Kalman Gain and Error-State Update (12 points)
@@ -312,7 +334,23 @@ Store the error-state estimate as `delta_x_hat`.
 **Grading (12 points).** Full credit requires correct innovation covariance, gain, and error-state update. Partial credit is given for a correct formula sequence with a matrix-order or inverse-placement mistake.
 
 ```python
-# Paste here the implementation code...
+# -> R_k tells us how the errors from the sensors combined are (in sensor space!)
+# -> P_minus is kind of a probability, it tells us how likely the 9D error-state is
+# -> H_k is a remapping of P_minus in the sensor space
+# ---> S_k tells us the uncertainty
+S_k = H_k @ P_minus @ H_k.T + R_k
+
+# ---> K_k tells how strong the residuals should be corrected
+K_k = P_minus @ H_k.T @ np.linalg.inv(S_k)
+
+# ---> delta_x holds the vector (9 elements) that are needed for the correction
+# (0-3 for theta, 3-6 gyro bias, 6-9 accelerations)
+delta_x_hat = K_k @ r_k
+
+# Corrected error estimates
+delta_theta_hat = limit_vector_norm(delta_x_hat[0:3, 0], obj.MaxOrientationCorrection)
+delta_b_g_hat = limit_vector_norm(delta_x_hat[3:6, 0], obj.MaxGyroOffsetCorrection).reshape(1, 3)
+delta_a_lin_hat = delta_x_hat[6:, 0].reshape(1, 3)
 ```
 
 ### T.9 EKF-9: Orientation Error Injection (8 points)
