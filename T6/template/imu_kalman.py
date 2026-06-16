@@ -65,6 +65,7 @@ def stepImpl(obj, accelIn, gyroIn, magIn):
         # TODO EKF-4:
         # Build the accelerometer residual:
         # measured gravity estimate - gyro-predicted gravity estimate.
+        # r_a = _todo("TODO EKF-4: compute accelerometer residual")
         r_a = z_a - z_a_hat_minus
 
         # TODO EKF-5:
@@ -101,8 +102,18 @@ def stepImpl(obj, accelIn, gyroIn, magIn):
         # TODO EKF-8:
         # Compute innovation covariance S, Kalman gain K, and posterior
         # error-state estimate delta_x_hat.
+        
+        # -> R_k tells us how the errors from the sensors combined are (in sensor space!)
+        # -> P_minus is kind of a probability, it tells us how likely the 9D error-state is
+        # -> H_k is a remapping of P_minus in the sensor space
+        # ---> S_k tells us the uncertainty
         S_k = H_k @ P_minus @ H_k.T + R_k
+
+        # ---> K_k tells how strong the residuals should be corrected
         K_k = P_minus @ H_k.T @ np.linalg.inv(S_k)
+
+        # ---> delta_x holds the vector (9 elements) that are needed for the correction
+        # (0-3 for theta, 3-6 gyro bias, 6-9 accelerations)
         delta_x_hat = K_k @ r_k
         
         # Corrected error estimates
@@ -132,7 +143,7 @@ def stepImpl(obj, accelIn, gyroIn, magIn):
         # Under this residual convention, subtract the estimated vector errors
         # from the nominal gyro bias and linear acceleration.
         obj.b_g_hat = obj.b_g_hat - delta_b_g_hat
-        obj.a_lin_hat_plus = obj.a_lin_hat_minus - delta_a_lin_hat
+        obj.a_lin_hat_plus = obj.a_lin_hat_plus - delta_a_lin_hat
 
         # TODO EKF-11:
         # Compute posterior error covariance.

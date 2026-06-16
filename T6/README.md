@@ -246,7 +246,7 @@ z_a_hat_minus = obj.rotmat2gravity(R_q_hat_minus).T
 **Grading (8 points).** Full credit requires the decayed linear acceleration, correct sign convention, and correctly shaped residual. Partial credit is given for a correct residual idea with a minor sign or shape error.
 
 ```python
-# Paste here the implementation code...
+r_a = z_a - z_a_hat_minus
 ```
 
 ### T.5 EKF-5: Magnetometer Residual (8 points)
@@ -266,7 +266,9 @@ Then compute $r_m = m_{m,k} - \hat{m}_s^-$ with a shape compatible with $r_a$.
 **Grading (8 points).** Full credit requires normalization, correct magnetic prediction, and a correctly shaped residual. Partial credit is given for a correct comparison that misses normalization or shape consistency.
 
 ```python
-# Paste here the implementation code...
+m_m_norm = m_m / np.linalg.norm(m_m, axis=1, keepdims=True)
+m_s_hat_minus = obj.rotmat2magnetic(R_q_hat_minus).reshape(1, 3)
+r_m = m_m_norm - m_s_hat_minus
 ```
 
 ### T.6 EKF-6: Observation Matrix $H_k$ (16 points)
@@ -328,7 +330,9 @@ obj.q_hat_plus = obj.q_hat_minus * delta_q
 **Grading (8 points).** Full credit requires correct conversion, injection order, and normalization. Partial credit is given for a correct small-angle correction with a sign or multiplication error.
 
 ```python
-# Paste here the implementation code...
+delta_q = quaternion.from_rotation_vector(-delta_theta_hat)
+obj.q_hat_plus = obj.q_hat_minus * delta_q
+obj.q_hat_plus /= np.linalg.norm(quaternion.as_float_array(obj.q_hat_plus))
 ```
 
 ### T.10 EKF-10: Bias and Linear Acceleration Correction (6 points)
@@ -340,7 +344,8 @@ obj.q_hat_plus = obj.q_hat_minus * delta_q
 **Grading (6 points).** Full credit requires both vector corrections with the correct sign and shape. Partial credit is given if one correction is correct or if the idea is right but one sign is reversed.
 
 ```python
-# Paste here the implementation code...
+obj.b_g_hat = obj.b_g_hat - delta_b_g_hat
+obj.a_lin_hat_plus = obj.a_lin_hat_plus - delta_a_lin_hat
 ```
 
 ### T.11 EKF-11: Posterior Error Covariance (4 points)
@@ -356,7 +361,7 @@ is sufficient.
 **Grading (4 points).** Full credit requires the correct posterior covariance expression with compatible matrix dimensions. Partial credit is given for using the right matrices in an incomplete covariance update.
 
 ```python
-# Paste here the implementation code...
+P_plus = P_minus - K_k @ H_k @ P_minus
 ```
 
 ## 4 Validation Checklist
