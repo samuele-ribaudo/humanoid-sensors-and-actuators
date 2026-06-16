@@ -199,7 +199,10 @@ Then update the orientation in time order with `q_hat = q_hat * delta_q`.
 **Grading (10 points).** Full credit requires correct bias removal, time integration, quaternion conversion, composition order, and sign normalization. Partial credit is given when the prediction is conceptually correct but has a minor broadcasting, time-step, or quaternion-order issue.
 
 ```python
-# Paste here the implementation code...
+delta_theta = (omega_m - b_g_hat) * self.dt_sensor
+        for ii in range(delta_theta.shape[0]):
+            delta_q = quaternion.from_rotation_vector(delta_theta[ii])
+            q_hat = q_hat * delta_q
 ```
 
 
@@ -212,7 +215,7 @@ Then update the orientation in time order with `q_hat = q_hat * delta_q`.
 **Grading (6 points).** Full credit requires the correct axis, sign, and gravity magnitude. Partial credit is given for a correct structure with a single convention mistake.
 
 ```python
-# Paste here the implementation code...
+g = R[:, ref.GravityIndex] * ref.GravityAxisSign * gravity
 ```
 
 
@@ -225,6 +228,7 @@ Then update the orientation in time order with `q_hat = q_hat * delta_q`.
 ```python
 R_q_hat_minus = quaternion.as_rotation_matrix(obj.q_hat_minus)
 
+z_a_hat_minus = obj.rotmat2gravity(R_q_hat_minus).T
 ```
 
 **Grading (4 points).** Full credit requires using the helper correctly and producing a valid $3 \times 3$ rotation matrix. Partial credit is limited for hand-coded or non-normalized conversions.
