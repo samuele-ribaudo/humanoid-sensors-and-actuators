@@ -122,7 +122,7 @@ class IMUFusionCommon:
         # Implement this directly from the rotation matrix: select
         # R[:, ref.GravityIndex], apply ref.GravityAxisSign, and scale by
         # gravity. No quaternion conversion is needed here.
-        g = _todo("TODO EKF-2: project gravity from the rotation matrix")
+        g = R[:, ref.GravityIndex] * ref.GravityAxisSign * gravity
         return g
 
     def rotmat2magnetic(self, R):
@@ -150,10 +150,10 @@ class IMUFusionCommon:
         # Remove the estimated gyro bias, integrate angular velocity over one
         # sensor period, call quaternion.from_rotation_vector(delta_theta[ii])
         # for each delta angle, and update the orientation as q_hat * delta_q.
-        delta_theta = _todo("TODO EKF-1: compute gyro delta angles")
+        delta_theta = (omega_m - b_g_hat) * self.dt_sensor
         for ii in range(delta_theta.shape[0]):
-            delta_q = _todo("TODO EKF-1: convert one delta angle to a quaternion")
-            q_hat = _todo("TODO EKF-1: compose the orientation update")
+            delta_q = quaternion.from_rotation_vector(delta_theta[ii])
+            q_hat = q_hat * delta_q
         if np.all(quaternion.as_float_array(q_hat)<0):
             q_hat = -q_hat
         return q_hat
