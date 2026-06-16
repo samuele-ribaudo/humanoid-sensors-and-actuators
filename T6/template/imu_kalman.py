@@ -65,15 +65,16 @@ def stepImpl(obj, accelIn, gyroIn, magIn):
         # TODO EKF-4:
         # Build the accelerometer residual:
         # measured gravity estimate - gyro-predicted gravity estimate.
-        r_a = _todo("TODO EKF-4: compute accelerometer residual")
+        # r_a = _todo("TODO EKF-4: compute accelerometer residual")
+        r_a = z_a - z_a_hat_minus
 
         # TODO EKF-5:
         # Normalize m_m row-wise, predict the magnetic direction with
         # obj.rotmat2magnetic(R_q_hat_minus).reshape(1, 3), and subtract the
         # prediction from the normalized measurement.
-        m_m_norm = _todo("TODO EKF-5: normalize the magnetometer measurement")
-        m_s_hat_minus = _todo("TODO EKF-5: predict magnetic direction from R_q_hat_minus")
-        r_m = _todo("TODO EKF-5: compute magnetometer residual")
+        m_m_norm = m_m / np.linalg.norm(m_m, axis=1, keepdims=True)
+        m_s_hat_minus = obj.rotmat2magnetic(R_q_hat_minus).reshape(1, 3)
+        r_m = m_m_norm - m_s_hat_minus
 
         # TODO EKF-6:
         # Assemble the 6x9 observation matrix. The first three rows come from
@@ -109,8 +110,8 @@ def stepImpl(obj, accelIn, gyroIn, magIn):
         # Call quaternion.from_rotation_vector(-delta_theta_hat) to convert
         # orientation error into a correction quaternion, then right-multiply
         # it onto obj.q_hat_minus and normalize.
-        delta_q = _todo("TODO EKF-9: convert orientation error to correction quaternion")
-        obj.q_hat_plus = _todo("TODO EKF-9: apply orientation correction")
+        delta_q = quaternion.from_rotation_vector(-delta_theta_hat)
+        obj.q_hat_plus = obj.q_hat_minus * delta_q
         obj.q_hat_plus /= np.linalg.norm(quaternion.as_float_array(obj.q_hat_plus))
 
         q_meas = ecompass(a_m, m_m)
@@ -126,12 +127,12 @@ def stepImpl(obj, accelIn, gyroIn, magIn):
         # TODO EKF-10:
         # Under this residual convention, subtract the estimated vector errors
         # from the nominal gyro bias and linear acceleration.
-        obj.b_g_hat = _todo("TODO EKF-10: correct gyro bias")
-        obj.a_lin_hat_plus = _todo("TODO EKF-10: correct linear acceleration")
+        obj.b_g_hat = obj.b_g_hat - delta_b_g_hat
+        obj.a_lin_hat_plus = obj.a_lin_hat_plus - delta_a_lin_hat
 
         # TODO EKF-11:
         # Compute posterior error covariance.
-        P_plus = _todo("TODO EKF-11: compute posterior error covariance")
+        P_plus = P_minus - K_k @ H_k @ P_minus
         P_minus_next = np.zeros((9, 9))
 
         diags_1_to_3 = np.arange(3)
