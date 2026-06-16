@@ -143,7 +143,7 @@ def stepImpl(obj, accelIn, gyroIn, magIn):
         # Under this residual convention, subtract the estimated vector errors
         # from the nominal gyro bias and linear acceleration.
         obj.b_g_hat = obj.b_g_hat - delta_b_g_hat
-        obj.a_lin_hat_plus = obj.a_lin_hat_plus - delta_a_lin_hat
+        obj.a_lin_hat_plus = obj.a_lin_hat_minus - delta_a_lin_hat
 
         # TODO EKF-11:
         # Compute posterior error covariance.
